@@ -1,229 +1,164 @@
 @extends('admin.layout.app')
 
 @section('content')
-<div class="page-heading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>All Products</h3>
-                <p class="text-subtitle text-muted">A list of all products in the store.</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 margin-tb d-flex justify-content-between align-items-center">
+            <div>
+                <h2>Products</h2>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All Products</li>
-                    </ol>
-                </nav>
+            <div>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">
+                    Create New Product
+                </button>
             </div>
         </div>
     </div>
-    <section class="section">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Products</h4>
-                <div class="mt-3">
-                    <div class="d-flex justify-content-between">
-                        <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search for products..." name="search">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
-                                Add New
-                            </button>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-light-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Filter
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Brand</a></li>
-                                    <li><a class="dropdown-item" href="#">Type</a></li>
-                                    <li><a class="dropdown-item" href="#">Status</a></li>
-                                </ul>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-light-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Bulk Actions
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Delete Selected</a></li>
-                                    <li><a class="dropdown-item" href="#">Change Status</a></li>
-                                </ul>
-                            </div>
-                        </div>
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success mt-3">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
+    {{-- Filter Section --}}
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5 class="mb-0">Filter & Search</h5>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex flex-wrap align-items-end">
+                <div class="me-2 mb-2 flex-grow-1">
+                    <label for="filter_search" class="sr-only">Search</label>
+                    <div class="input-group">
+                        <input type="text" name="search" id="filter_search" class="form-control"
+                               placeholder="Search products..." value="{{ $currentSearch }}">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <table class="table table-striped" id="table1">
-                    <thead>
-                        <tr>
-                            <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
-                            <th><a href="#">Name <i class="ti ti-arrows-sort"></i></a></th>
-                            <th><a href="#">Brand <i class="ti ti-arrows-sort"></i></a></th>
-                            <th><a href="#">Price <i class="ti ti-arrows-sort"></i></a></th>
-                            <th><a href="#">Stock <i class="ti ti-arrows-sort"></i></a></th>
-                            <th><a href="#">Status <i class="ti ti-arrows-sort"></i></a></th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Rolex Submariner</td>
-                            <td>Rolex</td>
-                            <td>$15,000</td>
-                            <td>10</td>
-                            <td>
-                                <span class="badge bg-success">Active</span>
-                            </td>
-                            <td>
-                                <a href="#"><i class="ti ti-pencil"></i></a>
-                                <a href="#"><i class="ti ti-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Omega Speedmaster</td>
-                            <td>Omega</td>
-                            <td>$7,000</td>
-                            <td>25</td>
-                            <td>
-                                <span class="badge bg-success">Active</span>
-                            </td>
-                            <td>
-                                <a href="#"><i class="ti ti-pencil"></i></a>
-                                <a href="#"><i class="ti ti-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Apple Watch Series 9</td>
-                            <td>Apple</td>
-                            <td>$399</td>
-                            <td>150</td>
-                            <td>
-                                <span class="badge bg-success">Active</span>
-                            </td>
-                            <td>
-                                <a href="#"><i class="ti ti-pencil"></i></a>
-                                <a href="#"><i class="ti ti-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Casio G-Shock</td>
-                            <td>Casio</td>
-                            <td>$99</td>
-                            <td>250</td>
-                            <td>
-                                <span class="badge bg-danger">Inactive</span>
-                            </td>
-                            <td>
-                                <a href="#"><i class="ti ti-pencil"></i></a>
-                                <a href="#"><i class="ti ti-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination pagination-primary">
-                        <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </section>
-</div>
 
-<!-- Add Product Modal -->
-<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" id="name" class="form-control" placeholder="Product Name" name="name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="brand">Brand</label>
-                                    <select id="brand" class="form-select">
-                                        <option value="">Select Brand</option>
-                                        <option value="1">Rolex</option>
-                                        <option value="2">Omega</option>
-                                        <option value="3">Apple</option>
-                                        <option value="4">Casio</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="model">Model</label>
-                                    <input type="text" id="model" class="form-control" placeholder="Product Model" name="model">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="type">Type</label>
-                                    <select id="type" class="form-select">
-                                        <option value="">Select Type</option>
-                                        <option value="analog">Analog</option>
-                                        <option value="digital">Digital</option>
-                                        <option value="smartwatch">Smartwatch</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="price">Price</label>
-                                    <input type="number" id="price" class="form-control" placeholder="Price" name="price">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="stock">Stock</label>
-                                    <input type="number" id="stock" class="form-control" placeholder="Stock" name="stock">
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea id="description" class="form-control" rows="5" placeholder="Description"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="image">Image</label>
-                                    <input class="form-control" type="file" id="image">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                <div class="me-2 mb-2" style="min-width: 150px;">
+                    <label for="filter_brand_id">Brand</label>
+                    <select name="brand_id" id="filter_brand_id" class="form-control">
+                        <option value="">All Brands</option>
+                        @foreach ($brands as $brand)
+                            <option value="{{ $brand->id }}" {{ $currentBrandId == $brand->id ? 'selected' : '' }}>
+                                {{ $brand->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="me-2 mb-2" style="min-width: 150px;">
+                    <label for="filter_type">Type</label>
+                    <select name="type" id="filter_type" class="form-control">
+                        <option value="">All Types</option>
+                        <option value="analog" {{ $currentType == 'analog' ? 'selected' : '' }}>Analog</option>
+                        <option value="digital" {{ $currentType == 'digital' ? 'selected' : '' }}>Digital</option>
+                        <option value="smartwatch" {{ $currentType == 'smartwatch' ? 'selected' : '' }}>Smartwatch</option>
+                    </select>
+                </div>
+
+                <div class="me-2 mb-2">
+                    <button type="submit" class="btn btn-primary">Apply</button>
+                </div>
+                <div class="mb-2">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Clear</a>
+                </div>
+            </form>
         </div>
     </div>
+
+    {{-- Active Filters --}}
+    @if ($currentSearch || $currentBrandId || $currentType)
+        <div class="alert alert-info mt-3">
+            <strong>Active Filters:</strong>
+            @if ($currentSearch) Search: "{{ $currentSearch }}" @endif
+            @if ($currentBrandId) Brand: {{ $brands->firstWhere('id', $currentBrandId)->name ?? 'N/A' }} @endif
+            @if ($currentType) Type: {{ ucfirst($currentType) }} @endif
+            <a href="{{ route('admin.products.index') }}" class="alert-link ms-2">Clear All</a>
+        </div>
+    @endif
+
+    {{-- Product Table --}}
+    <table class="table table-bordered table-striped mt-3 align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>No</th>
+                <th>Image</th>
+                <th>Brand</th>
+                <th>Name</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Stock</th>
+                <th width="220px">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>{{ ++$i }}</td>
+                    <td><img src="/image/{{ $product->image_url }}" width="80"></td>
+                    <td>{{ $product->brand->name }}</td>
+                    <td>{{ $product->name }}</td>
+                    <td>{{ $product->model }}</td>
+                    <td>{{ ucfirst($product->type) }}</td>
+                    <td>{{ $product->price }}</td>
+                    <td>{{ Str::limit($product->description, 50) }}</td>
+                    <td>{{ $product->stock }}</td>
+                    <td>
+                        <form action="{{ route('admin.products.destroy',$product->id) }}" method="POST" class="d-inline">
+                            <a class="btn btn-info btn-sm" href="{{ route('admin.products.show',$product->id) }}">Show</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('admin.products.edit',$product->id) }}">Edit</a>
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    {!! $products->links() !!}
 </div>
+
+{{-- Create Modal --}}
+@include('admin.products.partials.create')
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
+
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.delete-btn').on('click', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const form = $(this).closest('form'); // Get the parent form
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won\'t be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); // Submit the form if confirmed
+                }
+            });
+        });
+    });
+</script>
+@endpush

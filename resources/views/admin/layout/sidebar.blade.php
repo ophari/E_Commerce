@@ -48,9 +48,7 @@
                             <a href="{{ route('admin.products.index') }}" class="submenu-link">All Products</a>
                         </li>
 
-                        <li class="submenu-item {{ request()->routeIs('admin.products.brands') ? 'active' : '' }}">
-                            <a href="{{ route('admin.products.brands') }}" class="submenu-link">Brands</a>
-                        </li>
+
                     </ul>
                 </li>
                 <li class="sidebar-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }} ">

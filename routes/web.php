@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
@@ -11,11 +10,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.dashboard.main');
     })->name('dashboard');
 
-    Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('index');
-
-        Route::get('brands', [ProductController::class, 'brands'])->name('brands');
-    });
+    Route::resource('products', ProductController::class);
 
     Route::prefix('orders')->name('orders.')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
