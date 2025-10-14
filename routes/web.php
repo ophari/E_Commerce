@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// ==== AUTH & USER ====
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -10,28 +12,62 @@ use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\ProductController;
 
+// ==== ADMIN Yusuf ====
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+
+
+// ======================================
+// ROUTE AWAL / LOGIN
+// ======================================
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// ==== AUTH ====
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// ADMIN
-Route::middleware(['auth', 'admin', 'no-cache'])->group(function () {
-    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+// ======================================
+// ADMIN ROUTES
+// ======================================
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Products
+    Route::resource('products', AdminProductController::class);
+
+    // Orders
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [AdminOrderController::class, 'index'])->name('index');
+    });
+
+    // Customers
+    Route::prefix('customers')->name('customers.')->group(function () {
+        Route::get('/', [CustomerController::class, 'index'])->name('index');
+        Route::get('{customer}', [CustomerController::class, 'show'])->name('show');
+    });
+
+    // Reviews
+    Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::get('/', [AdminReviewController::class, 'index'])->name('index');
+    });
 });
 
-// USER
+
+// ======================================
+// USER ROUTES
+// ======================================
 Route::middleware(['auth', 'user', 'no-cache'])->group(function () {
     Route::get('/user/home', [HomeController::class, 'index'])->name('user.home');
 });
 
-
-// Semua route untuk user
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/', fn() => view('user.pages.home'))->name('home');
 
