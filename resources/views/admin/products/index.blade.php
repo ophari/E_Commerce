@@ -2,163 +2,140 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12 margin-tb d-flex justify-content-between align-items-center">
-            <div>
-                <h2>Products</h2>
-            </div>
-            <div>
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createProductModal">
-                    Create New Product
-                </button>
-            </div>
-        </div>
+
+    <!-- Page Title and Create Button -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Products</h1>
+        <button type="button" class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            <i class="ti ti-plus me-2"></i>Create New Product
+        </button>
     </div>
 
     @if ($message = Session::get('success'))
-        <div class="alert alert-success mt-3">
-            <p>{{ $message }}</p>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-    {{-- Filter Section --}}
-    <div class="card mt-3">
-        <div class="card-header">
-            <h5 class="mb-0">Filter & Search</h5>
+    <!-- Filter and Search Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Filter & Search</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.products.index') }}" method="GET" class="d-flex flex-wrap align-items-end">
-                <div class="me-2 mb-2 flex-grow-1">
-                    <label for="filter_search" class="sr-only">Search</label>
-                    <div class="input-group">
+            <form action="{{ route('admin.products.index') }}" method="GET">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="filter_search" class="form-label">Search</label>
                         <input type="text" name="search" id="filter_search" class="form-control"
-                               placeholder="Search products..." value="{{ $currentSearch }}">
-                        <button class="btn btn-outline-secondary" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
+                               placeholder="Search by name, model..." value="{{ $currentSearch }}">
                     </div>
-                </div>
-
-                <div class="me-2 mb-2" style="min-width: 150px;">
-                    <label for="filter_brand_id">Brand</label>
-                    <select name="brand_id" id="filter_brand_id" class="form-control">
-                        <option value="">All Brands</option>
-                        @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}" {{ $currentBrandId == $brand->id ? 'selected' : '' }}>
-                                {{ $brand->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="me-2 mb-2" style="min-width: 150px;">
-                    <label for="filter_type">Type</label>
-                    <select name="type" id="filter_type" class="form-control">
-                        <option value="">All Types</option>
-                        <option value="analog" {{ $currentType == 'analog' ? 'selected' : '' }}>Analog</option>
-                        <option value="digital" {{ $currentType == 'digital' ? 'selected' : '' }}>Digital</option>
-                        <option value="smartwatch" {{ $currentType == 'smartwatch' ? 'selected' : '' }}>Smartwatch</option>
-                    </select>
-                </div>
-
-                <div class="me-2 mb-2">
-                    <button type="submit" class="btn btn-primary">Apply</button>
-                </div>
-                <div class="mb-2">
-                    <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Clear</a>
+                    <div class="col-md-3">
+                        <label for="filter_brand_id" class="form-label">Brand</label>
+                        <select name="brand_id" id="filter_brand_id" class="form-select">
+                            <option value="">All Brands</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}" {{ $currentBrandId == $brand->id ? 'selected' : '' }}>
+                                    {{ $brand->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="filter_type" class="form-label">Type</label>
+                        <select name="type" id="filter_type" class="form-select">
+                            <option value="">All Types</option>
+                            <option value="analog" {{ $currentType == 'analog' ? 'selected' : '' }}>Analog</option>
+                            <option value="digital" {{ $currentType == 'digital' ? 'selected' : '' }}>Digital</option>
+                            <option value="smartwatch" {{ $currentType == 'smartwatch' ? 'selected' : '' }}>Smartwatch</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex">
+                        <button type="submit" class="btn btn-primary me-2">Apply</button>
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">Clear</a>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 
-    {{-- Active Filters --}}
+    <!-- Active Filters Display -->
     @if ($currentSearch || $currentBrandId || $currentType)
-        <div class="alert alert-info mt-3">
-            <strong>Active Filters:</strong>
-            @if ($currentSearch) Search: "{{ $currentSearch }}" @endif
-            @if ($currentBrandId) Brand: {{ $brands->firstWhere('id', $currentBrandId)->name ?? 'N/A' }} @endif
-            @if ($currentType) Type: {{ ucfirst($currentType) }} @endif
-            <a href="{{ route('admin.products.index') }}" class="alert-link ms-2">Clear All</a>
+    <div class="alert alert-light d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <small class="text-muted me-2">Active Filters:</small>
+            @if ($currentSearch) <span class="badge bg-primary me-1">Search: '{{ $currentSearch }}'</span> @endif
+            @if ($currentBrandId) <span class="badge bg-info me-1">Brand: {{ $brands->firstWhere('id', $currentBrandId)->name ?? 'N/A' }}</span> @endif
+            @if ($currentType) <span class="badge bg-warning me-1">Type: {{ ucfirst($currentType) }}</span> @endif
         </div>
+        <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-outline-danger">Clear All</a>
+    </div>
     @endif
 
-    {{-- Product Table --}}
-    <table class="table table-bordered table-striped mt-3 align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>No</th>
-                <th>Image</th>
-                <th>Brand</th>
-                <th>Name</th>
-                <th>Model</th>
-                <th>Type</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Stock</th>
-                <th width="220px">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($products as $product)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td><img src="/image/{{ $product->image_url }}" width="80"></td>
-                    <td>{{ $product->brand->name }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->model }}</td>
-                    <td>{{ ucfirst($product->type) }}</td>
-                    <td>{{ $product->price }}</td>
-                    <td>{{ Str::limit($product->description, 50) }}</td>
-                    <td>{{ $product->stock }}</td>
-                    <td>
-                        <form action="{{ route('admin.products.destroy',$product->id) }}" method="POST" class="d-inline">
-                            <a class="btn btn-info btn-sm" href="{{ route('admin.products.show',$product->id) }}">Show</a>
-                            <a class="btn btn-primary btn-sm" href="{{ route('admin.products.edit',$product->id) }}">Edit</a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm delete-btn">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {!! $products->links() !!}
+    <!-- Products Table -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($products as $product)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td><img src="/image/{{ $product->image_url }}" width="60" class="rounded"></td>
+                                <td>
+                                    <div class="fw-bold">{{ $product->name }}</div>
+                                    <small class="text-muted">{{ $product->model }}</small>
+                                </td>
+                                <td>{{ $product->brand->name }}</td>
+                                <td><span class="badge bg-secondary">{{ ucfirst($product->type) }}</span></td>
+                                <td>${{ number_format($product->price, 2) }}</td>
+                                <td>{{ $product->stock }}</td>
+                                <td class="text-center">
+                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline">
+                                        <a class="btn btn-icon btn-sm btn-outline-info" href="{{ route('admin.products.show', $product->id) }}" title="Show"><i class="ti ti-eye"></i></a>
+                                        <a class="btn btn-icon btn-sm btn-outline-primary" href="{{ route('admin.products.edit', $product->id) }}" title="Edit"><i class="ti ti-pencil"></i></a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-icon btn-sm btn-outline-danger delete-btn" title="Delete"><i class="ti ti-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    <p class="mb-0">No products found.</p>
+                                    <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-info mt-2">Clear Filters</a>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            {!! $products->links() !!}
+        </div>
+    </div>
 </div>
 
 {{-- Create Modal --}}
 @include('admin.products.partials.create')
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
-
-
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('.delete-btn').on('click', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const form = $(this).closest('form'); // Get the parent form
-
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won\'t be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit(); // Submit the form if confirmed
-                }
-            });
-        });
-    });
-</script>
+@include('admin.products.partials.delete')
 @endpush
