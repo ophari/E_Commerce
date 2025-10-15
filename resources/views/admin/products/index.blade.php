@@ -62,14 +62,14 @@
 
     <!-- Active Filters Display -->
     @if ($currentSearch || $currentBrandId || $currentType)
-    <div class="alert alert-light d-flex align-items-center justify-content-between mb-4">
+    <div class="alert  d-flex align-items-center justify-content-between mb-4">
         <div>
             <small class="text-muted me-2">Active Filters:</small>
             @if ($currentSearch) <span class="badge bg-primary me-1">Search: '{{ $currentSearch }}'</span> @endif
             @if ($currentBrandId) <span class="badge bg-info me-1">Brand: {{ $brands->firstWhere('id', $currentBrandId)->name ?? 'N/A' }}</span> @endif
             @if ($currentType) <span class="badge bg-warning me-1">Type: {{ ucfirst($currentType) }}</span> @endif
         </div>
-        <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-outline-danger">Clear All</a>
+        <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-danger">Clear All</a>
     </div>
     @endif
 

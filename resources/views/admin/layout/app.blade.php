@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" crossorigin href="{{ asset('assets/compiled/css/app.css') }}">
     <link rel="stylesheet" crossorigin href="{{ asset('assets/compiled/css/app-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/custom-fixes.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
 </head>
