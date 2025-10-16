@@ -8,22 +8,19 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $query = Product::with('brand');
+
+        if (request('brand')) {
+            $query->where('brand_id', request('brand'));
+        }
+
+        $products = $query->get();
         return view('user.pages.product-list', compact('products'));
     }
 
     public function show($id)
     {
-        $model = Product::findOrFail($id);
-        $product = [
-            'id' => $model->id,
-            'name' => $model->name,
-            'brand' => $model->brand,
-            'type' => $model->type ?? 'Unknown',
-            'price' => $model->price,
-            'stock' => $model->stock ?? 0,
-            'image' => $model->image_url,
-        ];
+        $product = Product::with('brand')->findOrFail($id);
         $related = Product::where('id', '!=', $id)->limit(4)->get()->map(function($p) {
             return [
                 'image' => $p->image_url,

@@ -68,8 +68,8 @@ Route::middleware(['auth', 'user', 'no-cache'])->group(function () {
     Route::get('/user/home', [HomeController::class, 'index'])->name('user.home');
 });
 
-Route::prefix('user')->name('user.')->group(function () {
-    Route::get('/', fn() => view('user.pages.home'))->name('home');
+Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Produk
     Route::get('/products', [ProductController::class, 'index'])->name('products');
