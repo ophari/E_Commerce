@@ -64,7 +64,8 @@
 
             <div class="mb-3">
               <label class="form-label">Price</label>
-              <input type="number" name="price" class="form-control" value="{{ old('price') }}" required>
+              <input type="text" id="price_display" class="form-control" value="{{ old('price') }}" required>
+              <input type="hidden" name="price" id="price_hidden" value="{{ old('price') }}">
               @error('price')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
 
@@ -171,6 +172,21 @@
 
         // Initial display
         showStep(currentStep);
+
+        // Format price input
+        const priceDisplay = document.getElementById('price_display');
+        const priceHidden = document.getElementById('price_hidden');
+
+        priceDisplay.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d]/g, '');
+            priceHidden.value = value;
+            if (value) {
+                e.target.value = 'Rp. ' + new Intl.NumberFormat('id-ID').format(value);
+            }
+            else {
+                e.target.value = '';
+            }
+        });
 
         // Reset form on modal close
         $('#createProductModal').on('hidden.bs.modal', function() {
