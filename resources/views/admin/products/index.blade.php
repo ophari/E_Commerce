@@ -74,12 +74,19 @@
     @endif
 
     <!-- Products Table -->
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
+    <form action="{{ route('admin.products.bulkDestroy') }}" method="POST" id="bulk-delete-form">
+        @csrf
+        @method('DELETE')
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div id="bulk-actions" class="mb-3" style="display: none;">
+                    <button type="submit" class="btn btn-danger">Delete Selected</button>
+                </div>
+                <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
+                            <th><input type="checkbox" id="select-all"></th>
                             <th>#</th>
                             <th>Image</th>
                             <th>Name</th>
@@ -93,6 +100,7 @@
                     <tbody>
                         @forelse ($products as $product)
                             <tr>
+                                <td><input type="checkbox" name="selected_products[]" class="product-checkbox" value="{{ $product->id }}" data-product-name="{{ $product->name }}"></td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td><img src="/image/{{ $product->image_url }}" width="60" class="rounded"></td>
                                 <td>
@@ -101,7 +109,7 @@
                                 </td>
                                 <td>{{ $product->brand->name }}</td>
                                 <td><span class="badge bg-secondary">{{ ucfirst($product->type) }}</span></td>
-                                <td>${{ number_format($product->price, 2) }}</td>
+                                <td>{{ 'Rp. ' . number_format($product->price, 0, ',', '.') }}</td>
                                 <td>{{ $product->stock }}</td>
                                 <td class="text-center">
                                     <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline">
@@ -115,7 +123,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     <p class="mb-0">No products found.</p>
                                     <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-info mt-2">Clear Filters</a>
                                 </td>
@@ -124,6 +132,7 @@
                     </tbody>
                 </table>
             </div>
+        </form>
         </div>
         <div class="card-footer">
             {!! $products->links() !!}
@@ -137,5 +146,60 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        const selectAll = $('#select-all');
+        const checkboxes = $('.product-checkbox');
+        const bulkActions = $('#bulk-actions');
+        const bulkDeleteForm = $('#bulk-delete-form');
+
+        selectAll.on('change', function() {
+            checkboxes.prop('checked', $(this).prop('checked'));
+            toggleBulkActions();
+        });
+
+        checkboxes.on('change', function() {
+            if (!$(this).prop('checked')) {
+                selectAll.prop('checked', false);
+            }
+            toggleBulkActions();
+        });
+
+        function toggleBulkActions() {
+            if (checkboxes.filter(':checked').length > 0) {
+                bulkActions.show();
+            } else {
+                bulkActions.hide();
+            }
+        }
+
+        bulkDeleteForm.on('submit', function(e) {
+            e.preventDefault();
+            const selectedCheckboxes = checkboxes.filter(':checked');
+            const selectedCount = selectedCheckboxes.length;
+
+            if (selectedCount > 0) {
+                let productNames = [];
+                selectedCheckboxes.each(function() {
+                    productNames.push($(this).data('product-name'));
+                });
+
+                Swal.fire({
+                    title: `Are you sure you want to delete ${selectedCount} products?`,
+                    html: `You are about to delete the following products:<br/><ul class="list-unstyled text-start">${productNames.map(name => `<li>- ${name}</li>`).join('')}</ul>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete them!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                });
+            }
+        });
+    });
+</script>
 @include('admin.products.partials.delete')
 @endpush
