@@ -12,12 +12,12 @@ use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\ProductController;
 
-// ==== ADMIN Yusuf ====
+// ==== ADMIN ====
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
-
+use App\Http\Controllers\Admin\BrandController;
 
 // ======================================
 // ROUTE AWAL / LOGIN
@@ -33,7 +33,6 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
 // ======================================
 // ADMIN ROUTES
 // ======================================
@@ -42,6 +41,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
 
     // Products
     Route::resource('products', AdminProductController::class);
+    Route::delete('products', [AdminProductController::class, 'bulkDestroy'])->name('products.bulkDestroy');
+
+    // Brand
+    Route::resource('brand', BrandController::class);
 
     // Orders
     Route::prefix('orders')->name('orders.')->group(function () {
@@ -60,14 +63,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     });
 });
 
-
 // ======================================
 // USER ROUTES
 // ======================================
-Route::middleware(['auth', 'user', 'no-cache'])->group(function () {
-    Route::get('/user/home', [HomeController::class, 'index'])->name('user.home');
-});
-
 Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
