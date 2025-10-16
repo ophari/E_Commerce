@@ -20,9 +20,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            BrandSeeder::class,
+            ProductSeeder::class,
+        ]);
+
         User::factory(10)->create();
-        Brand::factory(5)->create();
-        Product::factory(20)->create();
         Cart::factory(3)->has(CartItem::factory()->count(3))->create();
         Order::factory(5)->has(OrderItem::factory()->count(3))->create();
         Review::factory(15)->create();

@@ -53,6 +53,10 @@
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
 
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
                 <button class="btn btn-success w-100 py-2">Register</button>
 
                 <div class="text-center mt-3">
