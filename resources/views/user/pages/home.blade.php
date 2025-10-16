@@ -7,8 +7,8 @@
   <div class="row align-items-center">
     <div class="col-md-6">
       <h1 class="display-5 fw-bold">Koleksi Jam Tangan Elegan</h1>
-      <p class="lead text-muted">Jam tangan premium untuk gaya sehari-hari & acara spesial.</p>
-      <a href="{{ route('user.products') }}" class="btn btn-dark btn-lg">Belanja Sekarang</a>
+      <p class="lead">Jam tangan premium untuk gaya sehari-hari & acara spesial.</p>
+      <a href="{{ route('user.products') }}" class="btn btn-lg">Belanja Sekarang</a>
     </div>
     <div class="col-md-6 text-center">
       <img src="https://images.unsplash.com/photo-1518552987719-86fbcd8e9fd3?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded shadow" alt="hero">
@@ -30,7 +30,7 @@
               <p class="text-muted mb-2">{{ $p['brand'] }}</p>
               <div class="mt-auto">
                 <div class="fw-bold">Rp{{ number_format($p['price'],0,',','.') }}</div>
-                <a href="{{ route('user.product.show', $p['id']) }}" class="btn btn-outline-dark btn-sm mt-2">Lihat</a>
+                <a href="{{ route('user.product.show', ['id' => $p['id']]) }}" class="btn btn-outline-dark btn-sm mt-2">Lihat</a>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@
             <div class="mt-auto">
               <div class="fw-bold">Rp{{ number_format($product['price'],0,',','.') }}</div>
               <div class="d-flex gap-2 mt-2">
-                <a href="{{ route('user.product.show', $product['id']) }}" class="btn btn-outline-dark btn-sm flex-fill">Lihat</a>
+                <a href="{{ route('user.product.show', ['id' => $product['id']]) }}" class="btn btn-outline-dark btn-sm flex-fill">Lihat</a>
                 <form action="{{ route('user.cart.add') }}" method="POST" class="flex-fill">
                   @csrf
                   <input type="hidden" name="id" value="{{ $product['id'] }}">
@@ -102,29 +102,3 @@
 @endsection
 
 @section('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const carousel = document.getElementById('productsCarousel');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const slideWidth = 284; // 280px + 4px margin
-
-  prevBtn.addEventListener('click', () => {
-    carousel.scrollBy({ left: -slideWidth, behavior: 'smooth' });
-  });
-
-  nextBtn.addEventListener('click', () => {
-    carousel.scrollBy({ left: slideWidth, behavior: 'smooth' });
-  });
-
-  // Optional: Auto-scroll every 5 seconds
-  setInterval(() => {
-    if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
-      carousel.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      carousel.scrollBy({ left: slideWidth, behavior: 'smooth' });
-    }
-  }, 5000);
-});
-</script>
-@endsection

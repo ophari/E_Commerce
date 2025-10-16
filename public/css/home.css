@@ -1,0 +1,102 @@
+/* ====== GLOBAL ====== */
+body {
+  background-color: #FFFFFF;
+  color: #f3f3f3;
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h3, h5, h6 {
+  font-weight: 600;
+}
+
+.btn {
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/* ====== BUTTONS ====== */
+.btn.btn-lg {
+  background-color: #1A3C63;
+  color: #fff;
+  border: none;
+}
+
+.btn.btn-lg:hover {
+  background-color: #122945;
+}
+
+.btn-outline-dark {
+  border-color: #1A3C63;
+  color: #1A3C63;
+}
+
+.btn-outline-dark:hover {
+  background-color: #1A3C63;
+  color: #fff;
+}
+
+/* ====== HERO ====== */
+.hero {
+  background: linear-gradient(135deg, #F8F9FB 0%, #E5E5E5 100%);
+  border-radius: 16px;
+  padding: 60px 40px;
+  margin-bottom: 60px;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+}
+
+.hero img {
+  max-width: 90%;
+  border-radius: 12px;
+}
+
+/* ====== PRODUCTS ====== */
+.card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-body {
+  padding: 1.2rem;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+  color: #555555 !important;
+}
+
+/* ====== CAROUSEL BUTTONS ====== */
+#prevBtn, #nextBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #1A3C63;
+  color: #fff;
+  border: none;
+  font-size: 1.4rem;
+}
+
+#prevBtn:hover, #nextBtn:hover {
+  background-color: #122945;
+}
+
+/* ====== BRANDS SECTION ====== */
+.brands-section {
+  background-color: #F8F9FB;
+}
+
+.brand-card .card-title {
+  color: #1A3C63;
+  font-weight: 600;
+}
