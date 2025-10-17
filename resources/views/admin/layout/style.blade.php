@@ -1,6 +1,8 @@
+
 <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" as="style" />
+
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link
@@ -36,3 +38,4 @@
       integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
       crossorigin="anonymous"
     />
+
