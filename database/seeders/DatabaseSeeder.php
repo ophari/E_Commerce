@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             BrandSeeder::class,
-            ProductSeeder::class,
+            ProductSeeder::class, 
         ]);
 
         User::factory(10)->create();
