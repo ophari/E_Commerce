@@ -33,5 +33,4 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
 @stack('scripts')   
 </body>
-
 </html>
