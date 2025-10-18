@@ -53,6 +53,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     // Reviews
     Route::resource('reviews', AdminReviewController::class)->only(['index', 'destroy']);
 
+    // logout
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 
 
 });
