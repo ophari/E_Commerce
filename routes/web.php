@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // ==== CONTROLLERS ====
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\AdminReviewController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -49,8 +50,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     // Customers
     Route::resource('customers', CustomerController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
 
-    // reviews
-    Route::resource('reviews', UserController::class);
+    // Reviews
+    Route::resource('reviews', AdminReviewController::class)->only(['index', 'destroy']);
+
+
 
 });
 
