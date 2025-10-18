@@ -16,7 +16,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\BrandController;
 
 // ======================================
@@ -26,14 +26,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// ======================================
-// AUTH ROUTES
-// ======================================
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('products', ProductController::class);
+    Route::resource('brand', BrandController::class);
 
 // ======================================
 // ADMIN ROUTES
