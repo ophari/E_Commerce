@@ -55,18 +55,21 @@
 
                     </ul>
                 </li>
+                {{-- orders --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.orders.index') }}" class='sidebar-link'>
                         <i class="ti ti-shopping-cart"></i>
                         <span>Orders</span>
                     </a>
                 </li>
+                {{-- customers --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.customers.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.customers.index') }}" class='sidebar-link'>
                         <i class="ti ti-users"></i>
                         <span>Customers</span>
                     </a>
                 </li>
+                {{-- reviews --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.reviews.index') }}" class='sidebar-link'>
                         <i class="ti ti-star"></i>

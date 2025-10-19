@@ -36,7 +36,31 @@ class AuthController extends Controller
         return $response;
     }
 
+    // ========================
+    //  PROSES LOGIN
+    // ========================
+    public function login(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
 
+        $credentials = $request->only('email', 'password');
+
+        // Cek login
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            return $user->role === 'admin'
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('user.home');
+        }
+
+        // Jika gagal login
+        return back()->with('error', 'Email atau password salah.');
+    }
 
     // ========================
     //  REGISTER FORM
