@@ -69,6 +69,16 @@
                         <span>Reviews</span>
                     </a>
                 </li>
+                {{-- logout --}}
+                <li class="sidebar-item">
+                    <form method="POST" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class='sidebar-link'>
+                            <i class="ti ti-logout"></i>
+                            <span>Logout</span>
+                        </a>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>

@@ -30,10 +30,12 @@ Route::get('/', function () {
 // AUTH ROUTES
 // ======================================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('firebase/login', [AuthController::class, 'firebaseLogin'])->name('firebase.login');
+Route::post('firebase/register', [AuthController::class, 'firebaseLogin'])->name('firebase.register');
 
 // ======================================
 // ADMIN ROUTES
@@ -63,6 +65,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     Route::prefix('reviews')->name('reviews.')->group(function () {
         Route::get('/', [AdminReviewController::class, 'index'])->name('index');
     });
+
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // ======================================
