@@ -17,9 +17,7 @@ class AdminReviewController extends Controller
         return view('admin.reviews.index', compact('reviews'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy(Review $review)
     {
         $review->delete();
