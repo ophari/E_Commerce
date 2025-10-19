@@ -16,7 +16,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerController;
-use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\BrandController;
 
 // ======================================
