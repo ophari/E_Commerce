@@ -10,7 +10,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ReviewController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\User\ProductController;
 
 // ==== ADMIN ====
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
@@ -69,9 +69,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
 Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    // Produk
-    Route::get('/products', [ProductController::class, 'index'])->name('products');
-    Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.show');
+    // Produk   
+    Route::get('/products', [ProductController::class, 'index'])->name('product.list');
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
 
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart');

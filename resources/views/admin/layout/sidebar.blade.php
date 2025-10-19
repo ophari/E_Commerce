@@ -69,6 +69,12 @@
                         <span>Reviews</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ route('logout') }}" class='sidebar-link'>
+                        <i class="ti ti-logout"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

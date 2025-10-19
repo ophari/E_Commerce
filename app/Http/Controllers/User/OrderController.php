@@ -14,7 +14,7 @@ class OrderController extends Controller
             return redirect()->route('user.home')->with('error','Keranjang kosong.');
         }
         $total = collect($cart)->map(fn($i) => $i['price'] * $i['qty'])->sum();
-        return view('user.pages.checkout', compact('cart','total'));
+        return view('user.checkout.index', compact('cart','total'));
     }
 
     public function confirm(Request $request)
@@ -42,6 +42,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = session('orders', []);
-        return view('user.pages.order-history', compact('orders'));
+        return view('user.order.index', compact('orders'));
     }
 }

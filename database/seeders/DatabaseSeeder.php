@@ -21,9 +21,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            UserSeeder::class,
             BrandSeeder::class,
             ProductSeeder::class,
-        ]);
+        ]); 
 
         User::factory(10)->create();
         Cart::factory(3)->has(CartItem::factory()->count(3))->create();

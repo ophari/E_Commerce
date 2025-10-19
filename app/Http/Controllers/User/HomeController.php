@@ -10,11 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featured = Product::with('brand')->get()->map(function($product) {
+        $products = Product::with('brand')->get()->map(function($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
-                'brand' => $product->brand->name ?? 'Unknown',
+                'brand' => $product->brand ? $product->brand->name : 'Unknown',
                 'price' => $product->price,
                 'image' => $product->image_url,
             ];
@@ -41,6 +41,8 @@ class HomeController extends Controller
             }
         }
 
-        return view('user.pages.home', compact('featured', 'brands', 'productsByBrand'));
+        $bestSellers = Product::with('brand')->take(8)->get();
+
+        return view('user.pages.home', compact('brands', 'productsByBrand', 'products', 'bestSellers'));
     }
 }
