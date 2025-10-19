@@ -85,6 +85,7 @@
                             <span>Logout</span>
                         </a>
                     </form>
+                </li>
             </ul>
         </div>
     </div>
