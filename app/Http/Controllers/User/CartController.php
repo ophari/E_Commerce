@@ -12,7 +12,7 @@ class CartController extends Controller
     {
         $cart = session('cart', []);
         $total = collect($cart)->map(fn($i) => $i['price'] * $i['qty'])->sum();
-        return view('user.cart.index', compact('cart','total'));
+        return view('user.pages.cart', compact('cart','total'));
     }
 
     // add by POST id, name, price

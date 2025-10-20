@@ -47,33 +47,44 @@
                         <li class="submenu-item {{ request()->routeIs('admin.products.index') ? 'active' : '' }}">
                             <a href="{{ route('admin.products.index') }}" class="submenu-link">All Products</a>
                         </li>
+                        <li class="submenu-item {{ request()->routeIs('admin.brand.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.brand.index') }}" class="submenu-link">Brand</a>
+                        </li>
+
 
 
                     </ul>
                 </li>
+                {{-- orders --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.orders.index') }}" class='sidebar-link'>
                         <i class="ti ti-shopping-cart"></i>
                         <span>Orders</span>
                     </a>
                 </li>
+                {{-- customers --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.customers.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.customers.index') }}" class='sidebar-link'>
                         <i class="ti ti-users"></i>
                         <span>Customers</span>
                     </a>
                 </li>
+                {{-- reviews --}}
                 <li class="sidebar-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }} ">
                     <a href="{{ route('admin.reviews.index') }}" class='sidebar-link'>
                         <i class="ti ti-star"></i>
                         <span>Reviews</span>
                     </a>
                 </li>
+                {{-- logout --}}
                 <li class="sidebar-item">
-                    <a href="{{ route('logout') }}" class='sidebar-link'>
-                        <i class="ti ti-logout"></i>
-                        <span>Logout</span>
-                    </a>
+                    <form method="POST" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class='sidebar-link'>
+                            <i class="ti ti-logout"></i>
+                            <span>Logout</span>
+                        </a>
+                    </form>
                 </li>
             </ul>
         </div>

@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\AdminReviewController;
 
 // ======================================
 // ROUTE AWAL / LOGIN
@@ -61,6 +62,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     Route::prefix('reviews')->name('reviews.')->group(function () {
         Route::get('/', [AdminReviewController::class, 'index'])->name('index');
     });
+
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // ======================================

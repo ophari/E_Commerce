@@ -30,11 +30,5 @@ class DatabaseSeeder extends Seeder
         Cart::factory(3)->has(CartItem::factory()->count(3))->create();
         Order::factory(5)->has(OrderItem::factory()->count(3))->create();
         Review::factory(15)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'role' => 'admin',
-        ]);
     }
 }
