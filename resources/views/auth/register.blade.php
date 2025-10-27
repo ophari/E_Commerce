@@ -27,19 +27,28 @@
         <div class="col-md-6 p-5">
             <h4 class="text-center mb-4 fw-semibold">Create an Account</h4>
 
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('register.submit') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="name" required>
+                    @error('name')
+                        <div class="text-danger mt-1"><small>{{ $message }}</small></div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email" required>
+                    @error('email')
+                        <div class="text-danger mt-1"><small>{{ $message }}</small></div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required>
+                    @error('password')
+                        <div class="text-danger mt-1"><small>{{ $message }}</small></div>
+                    @enderror
                 </div>
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">Confirm Password</label>
