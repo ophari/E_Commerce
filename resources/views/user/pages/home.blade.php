@@ -54,15 +54,9 @@
 
     <div class="brand-marquee py-4 bg-light mt-5 border-top border-bottom">
       <div class="brand-track d-flex align-items-center gap-5">
-        <img src="https://source.unsplash.com/200x100/?rolex,watch" alt="Rolex" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?casio,watch" alt="Casio" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?omega,watch" alt="Omega" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?tissot,watch" alt="Tissot" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?seiko,watch" alt="Seiko" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?tagheuer,watch" alt="TAG Heuer" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?rolex,watch" alt="Rolex" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?casio,watch" alt="Casio" class="brand-logo">
-        <img src="https://source.unsplash.com/200x100/?omega,watch" alt="Omega" class="brand-logo">
+        @foreach ($brands as $brand)
+          <img src="https://source.unsplash.com/200x100/?{{ urlencode($brand->name) }},watch" alt="{{ $brand->name }}" class="brand-logo">
+        @endforeach
       </div>
     </div>
   </section>
@@ -112,7 +106,7 @@
              class="text-decoration-none text-dark w-100">
             <div class="card border-0 shadow-sm text-center h-100 hover-shadow">
               <div class="ratio ratio-1x1 overflow-hidden rounded-top">
-                <img src="https://source.unsplash.com/400x400/?watch,{{ urlencode($product->name) }}" 
+                <img src="{{ asset($product->image_url) }}" 
                      class="card-img-top object-fit-cover" 
                      alt="{{ $product->name }}">
               </div>
