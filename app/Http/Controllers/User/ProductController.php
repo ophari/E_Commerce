@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Product;
 use App\Models\Brand;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -33,5 +34,15 @@ class ProductController extends Controller
             return view('user.products.detail', compact('product', 'related'));
         }
 
+        public function search(Request $request)
+        {
+            $query = $request->input('q');
+
+            $brands = Brand::all();
+            $products = Product::where('name', 'like', '%' . $query . '%')->get();
+
+            return view('user.products.list', compact('brands', 'products'))
+                ->with('searchQuery', $query);
+        }
 
 }
