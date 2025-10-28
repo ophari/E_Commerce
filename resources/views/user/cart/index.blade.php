@@ -6,7 +6,7 @@
 <div class="container py-4">
     <h3 class="text-dark mb-4">Keranjang Belanja</h3>
 
-    @if(!isset($cart) || count($cart) === 0)
+    @if(!isset($cartData) || count($cartData) === 0)
         <div class="alert alert-info">
             Keranjang kosong. 
             <a href="{{ route('user.product.list') }}" class="fw-semibold text-dark">Lihat produk</a>
@@ -25,12 +25,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($cart as $item)
+                    @foreach($cartData as $item)
                         <tr>
                             <td style="width:100px">
-                                <img src="{{ asset('storage/' . $item['image']) }}" 
-                                     alt="{{ $item['name'] }}" 
-                                     class="img-fluid rounded shadow-sm" 
+                                <img src="{{ $item['image'] }}"
+                                     alt="{{ $item['name'] }}"
+                                     class="img-fluid rounded shadow-sm"
                                      style="height:60px; object-fit:cover;">
                             </td>
                             <td class="fw-semibold">{{ $item['name'] }}</td>
@@ -39,7 +39,7 @@
                                 <form action="{{ route('user.cart.update') }}" method="POST" class="d-flex">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $item['id'] }}">
-                                    <input type="number" name="qty" value="{{ $item['qty'] }}" min="1" 
+                                    <input type="number" name="qty" value="{{ $item['qty'] }}" min="1"
                                            class="form-control form-control-sm me-2 text-center">
                                     <button class="btn btn-sm btn-outline-secondary">OK</button>
                                 </form>
