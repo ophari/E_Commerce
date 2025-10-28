@@ -24,17 +24,20 @@
             <p class="text-muted mb-4">{{ $product->description ?? 'Tidak ada deskripsi untuk produk ini.' }}</p>
 
             <div class="d-flex gap-3 mb-4">
-                <button class="btn btn-dark px-4 py-2 rounded-pill shadow-sm">
-                    <i class="bi bi-cart me-2"></i> Add to Cart
-                </button>
-                <button class="btn btn-outline-dark px-4 py-2 rounded-pill">
+                <form action="{{ route('user.cart.add') }}" method="POST" class="d-inline">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $product->id }}">
+                    <input type="hidden" name="name" value="{{ $product->name }}">
+                    <input type="hidden" name="price" value="{{ $product->price }}">
+                    <input type="hidden" name="image" value="{{ $product->image }}">
+                    <button type="submit" class="btn btn-dark px-4 py-2 rounded-pill shadow-sm">
+                        <i class="bi bi-cart me-2"></i> Add to Cart
+                    </button>
+                </form>
+                <a href="{{ route('user.checkout', $product->id) }}" class="btn btn-outline-dark px-4 py-2 rounded-pill">
                     <i class="bi bi-bag-heart me-2"></i> Buy Now
-                </button>
+                </a>
             </div>
-
-            <p class="text-muted small mb-0">
-                <i class="bi bi-truck me-1"></i> Free Shipping for orders above Rp 1.000.000
-            </p>
         </div>
     </div>
 
