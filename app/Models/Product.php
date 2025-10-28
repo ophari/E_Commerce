@@ -15,7 +15,7 @@ class Product extends Model
         'price',
         'stock',
         'description',
-        'image_url' // Assuming image_url is the column name for storing the image path
+        'image',
     ];
 
     public function brand()
