@@ -11,6 +11,7 @@ use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\ProductController;
+use App\Http\Controllers\User\ProfileController;
 
 // ==== ADMIN ====
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
@@ -84,7 +85,8 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
     // Checkout & Order
-    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::match(['GET', 'POST'], '/checkout/{productId?}', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/user/orders/{id}', [OrderController::class, 'show'])->name('user.orders.show');
     Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
 
@@ -92,5 +94,8 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     Route::post('/review/{productId}', [ReviewController::class, 'store'])->name('review.store');
 
     // Profil
-    Route::get('/profile', fn() => view('user.pages.profile'))->name('profile');
+    Route::get('/profile', fn() => view('user.profile.edit'))->name('profile');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
 });
