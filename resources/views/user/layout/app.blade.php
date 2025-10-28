@@ -10,9 +10,13 @@
     .hero { background: linear-gradient(90deg, #f8fafc, #ffffff); }
     .product-card img { height: 220px; object-fit: cover; }
   </style>
+      <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
 </head>
 <body class="bg-light">
-
 @include('user.layout.navbar')
 
 <main class="py-4">
