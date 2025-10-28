@@ -3,58 +3,114 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    private function getOrCreateCart()
+    {
+        $userId = Auth::id();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if (!$cart) {
+            $cart = Cart::create(['user_id' => $userId]);
+        }
+
+        return $cart;
+    }
+
     // show cart
     public function index()
     {
-        $cart = session('cart', []);
-        $total = collect($cart)->map(fn($i) => $i['price'] * $i['qty'])->sum();
-        return view('user.pages.cart', compact('cart','total'));
+        $cart = $this->getOrCreateCart();
+        $cartItems = $cart->cartItems()->with('product')->get();
+
+        $cartData = $cartItems->map(function($item) {
+            return [
+                'id' => $item->product->id,
+                'name' => $item->product->name,
+                'price' => $item->product->price,
+                'qty' => $item->quantity,
+                'image' => asset('storage/' . $item->product->image),
+            ];
+        })->toArray();
+
+        $total = collect($cartData)->map(fn($i) => $i['price'] * $i['qty'])->sum();
+
+        return view('user.cart.index', compact('cartData','total'));
     }
 
     // add by POST id, name, price
     public function add(Request $request)
     {
-        $id = $request->post('id');
-        $cart = session('cart', []);
-        if (isset($cart[$id])) {
-            $cart[$id]['qty'] += 1;
-        } else {
-            $cart[$id] = [
-                'id' => $id,
-                'name' => $request->post('name'),
-                'price' => (int)$request->post('price'),
-                'qty' => 1,
-                'image' => $request->post('image'),
-            ];
+        $productId = $request->post('id');
+        $product = Product::find($productId);
+
+        if (!$product) {
+            return back()->with('error', 'Produk tidak ditemukan.');
         }
-        session(['cart' => $cart]);
+
+        if ($product->stock <= 0) {
+            return back()->with('error', 'Stok produk habis.');
+        }
+
+        $cart = $this->getOrCreateCart();
+        $cartItem = $cart->cartItems()->where('product_id', $productId)->first();
+
+        if ($cartItem) {
+            $newQty = $cartItem->quantity + 1;
+            if ($newQty > $product->stock) {
+                return back()->with('error', 'Stok tidak mencukupi.');
+            }
+            $cartItem->update(['quantity' => $newQty]);
+        } else {
+            if (1 > $product->stock) {
+                return back()->with('error', 'Stok tidak mencukupi.');
+            }
+            CartItem::create([
+                'cart_id' => $cart->id,
+                'product_id' => $productId,
+                'quantity' => 1,
+            ]);
+        }
+
         return back()->with('success','Produk ditambahkan ke keranjang.');
     }
 
     public function remove(Request $request)
     {
-        $id = $request->post('id');
-        $cart = session('cart', []);
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session(['cart' => $cart]);
-        }
+        $productId = $request->post('id');
+        $cart = $this->getOrCreateCart();
+        $cart->cartItems()->where('product_id', $productId)->delete();
+
         return back()->with('success','Produk dihapus dari keranjang.');
     }
 
     public function update(Request $request)
     {
-        $id = $request->post('id');
+        $productId = $request->post('id');
         $qty = max(1, (int)$request->post('qty'));
-        $cart = session('cart', []);
-        if (isset($cart[$id])) {
-            $cart[$id]['qty'] = $qty;
-            session(['cart' => $cart]);
+
+        $product = Product::find($productId);
+        if (!$product) {
+            return back()->with('error', 'Produk tidak ditemukan.');
         }
+
+        if ($qty > $product->stock) {
+            return back()->with('error', 'Stok tidak mencukupi.');
+        }
+
+        $cart = $this->getOrCreateCart();
+        $cartItem = $cart->cartItems()->where('product_id', $productId)->first();
+
+        if ($cartItem) {
+            $cartItem->update(['quantity' => $qty]);
+        }
+
         return back()->with('success','Keranjang diperbarui.');
     }
 }
