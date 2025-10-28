@@ -3,47 +3,43 @@
 @section('title', 'Home | Watch Store')
 
 @section('content')
+
 <div class="container-fluid px-0">
 
   {{-- HERO SECTION --}}
-  <section class="hero-section text-dark d-flex align-items-center">
-      <div class="container">
-          <div class="row align-items-center">
-              {{-- Kiri: Teks --}}
-              <div class="col-lg-6 mb-4 mb-lg-0">
-                  <h6 class="text-uppercase fw-semibold mb-2" style="color:#C5A572; letter-spacing:1px;">
-                      Jam Tangan Berkualitas Terbaik
-                  </h6>
-                  <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
-                      Desain Abadi<br>Dibuat untuk Anda
-                  </h1>
-                  <p class="lead mb-4 text-muted" style="max-width: 500px;">
-                      Temukan koleksi jam tangan premium yang memadukan keanggunan, ketepatan, dan gaya tanpa batas waktu.
-                  </p>
-                  <a href="{{ route('user.product.list') }}" 
-                    class="btn px-4 py-2 rounded-pill fw-semibold"
-                    style="background-color:#C5A572; color:#000; border:none; transition:all 0.3s ease;">
-                      Belanja Sekarang
-                  </a>
-              </div>
+<section class="hero-section fade-up text-dark d-flex align-items-center py-5">
+  <div class="container">
+    <div class="row align-items-center">
 
-
-              {{-- Kanan: Gambar --}}
-              <div class="col-lg-6 text-center">
-                  <img src="{{ asset('image/watch-hero.png') }}" alt="Watch Hero" class="img-fluid hero-img">
-              </div>
-          </div>
+      {{-- Kiri: Teks --}}
+      <div class="col-lg-6 mb-4 mb-lg-0 hero-text">
+        <h6 class="text-uppercase fw-semibold mb-2" style="color:#ad833f; letter-spacing:1px;">
+          Jam Tangan Berkualitas Terbaik
+        </h6>
+        <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
+          Desain Abadi<br>Dibuat untuk Anda
+        </h1>
+        <p class="lead mb-4 text-muted" style="max-width: 500px;">
+          Temukan koleksi jam tangan premium yang memadukan keanggunan, ketepatan, dan gaya tanpa batas waktu.
+        </p>
+        <a href="{{ route('user.product.list') }}" 
+           class="btn px-4 py-2 rounded-pill fw-semibold"
+           style="background-color:#C5A572; color:#000; border:none; transition:all 0.3s ease;">
+           Belanja Sekarang
+        </a>
       </div>
 
-      {{-- Lengkungan Bawah --}}
-      <svg class="hero-wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180">
-          <path fill="#ffffff" fill-opacity="1"
-                d="M0,64 C480,128 960,0 1440,96 L1440,180 L0,180Z"></path>
-      </svg>
-  </section>
+      {{-- Kanan: Gambar --}}
+      <div class="col-lg-6 text-center hero-image">
+        <img src="{{ asset('image/watch-hero.png') }}" alt="Watch Hero" class="img-fluid hero-img">
+      </div>
+
+    </div>
+  </div>
+</section>
 
   {{-- BRAND MARQUEE --}}
-  <section class="bg-white py-5 text-center position-relative overflow-hidden">
+  <section class="bg-white py-5 fade-up text-center position-relative overflow-hidden">
     <div class="container py-5">
       <h1 class="fw-bold text-dark mb-3">Find Your Perfect Timepiece</h1>
       <p class="text-muted mb-4">
@@ -62,7 +58,7 @@
   </section>
 
   {{-- PROMO BANNERS --}}
-  <section class="container my-5">
+  <section class="container fade-up my-5">
     <div class="row g-4">
       <div class="col-md-6">
         <div class="banner-card bg-dark text-white rounded-4 p-4 d-flex align-items-center justify-content-between shadow-sm h-100">
@@ -93,7 +89,7 @@
   </section>
 
   {{-- BEST SELLER PRODUCTS --}}
-  <section class="container my-5">
+  <section class="container fade-up my-5">
     <div class="text-center mb-5">
       <h3 class="fw-bold text-dark">Best Seller Products</h3>
       <p class="text-muted">Top selling watches of this month</p>
@@ -114,6 +110,16 @@
                 <h6 class="card-title text-dark mb-1">{{ $product->name }}</h6>
                 <p class="text-muted small mb-2">{{ $product->brand->name ?? '-' }}</p>
                 <p class="fw-semibold text-dark mb-0">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                <form action="{{ route('user.cart.add') }}" method="POST" class="mt-2">
+                  @csrf
+                  <input type="hidden" name="id" value="{{ $product->id }}">
+                  <input type="hidden" name="name" value="{{ $product->name }}">
+                  <input type="hidden" name="price" value="{{ $product->price }}">
+                  <input type="hidden" name="image" value="{{ $product->image_url }}">
+                  <button type="submit" class="btn btn-sm btn-dark rounded-pill">
+                    <i class="bi bi-cart me-1"></i> Add to Cart
+                  </button>
+                </form>
               </div>
             </div>
           </a>
@@ -123,7 +129,7 @@
   </section>
 
   {{-- ABOUT SECTION (digabung dari about.blade.php) --}}
-  <section class="container py-5">
+  <section class="about-section fade-up container py-5">
     <div class="row align-items-center">
       <div class="col-md-6 mb-4 mb-md-0">
         <img src="https://source.unsplash.com/700x500/?watch,luxury" 
@@ -148,7 +154,7 @@
     </div>
   </section>
 
-  <section class="bg-light py-5 text-center">
+  <section class="bg-light py-5 fade-up text-center">
     <div class="container">
       <h3 class="fw-bold mb-3">Why Watches Still Matter</h3>
       <p class="text-muted mx-auto" style="max-width: 700px;">
@@ -159,7 +165,7 @@
   </section>
 
     {{-- FAQ SECTION --}}
-  <section class="container py-5">
+  <section class="container fade-up py-5">
     <div class="text-center mb-5">
       <h3 class="fw-bold text-dark">Frequently Asked Questions</h3>
       <p class="text-muted">Temukan jawaban dari pertanyaan umum tentang pembelian di Watch Store.</p>
@@ -238,7 +244,7 @@
   </section>
 
   {{-- NEWSLETTER --}}
-  <section class="newsletter py-5 bg-light text-center">
+  <section class="newsletter fade-up py-5 bg-light text-center">
     <div class="container">
       <h4 class="fw-bold mb-3 text-dark">Join Our Newsletter Now</h4>
       <form class="d-flex justify-content-center">
