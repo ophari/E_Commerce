@@ -1,31 +1,36 @@
-# DataTables for jQuery with styling for [Bootstrap5](https://getbootstrap.com/)
+# DataTables for jQuery with styling for [Bootstrap 5](https://getbootstrap.com/)
 
-This package contains distribution files required to style [DataTables library](https://datatables.net) for [jQuery](http://jquery.com/) with styling for [Bootstrap5](https://getbootstrap.com/).
+This package contains distribution files required to style the [DataTables library](https://datatables.net) for [jQuery](https://jquery.com/) using [Bootstrap 5](https://getbootstrap.com/).
 
-DataTables is a table enhancing library which adds features such as paging, ordering, search, scrolling and many more to a static HTML page. A comprehensive API is also available that can be used to manipulate the table. Please refer to the [DataTables web-site](//datatables.net) for a full range of documentation and examples.
+DataTables is a table-enhancing library that adds features such as paging, ordering, searching, scrolling, and many more to a static HTML page.  
+A comprehensive API is also available that can be used to manipulate the table.  
+Please refer to the [DataTables website](https://datatables.net) for a full range of documentation and examples.
 
+---
 
 ## Installation
 
 ### Browser
 
-For inclusion of this library using a standard `<script>` tag, rather than using this package, it is recommended that you use the [DataTables download builder](//datatables.net/download) which can create CDN or locally hosted packages for you, will all dependencies satisfied.
+For inclusion of this library using a standard `<script>` tag, it is recommended that you use the [DataTables download builder](https://datatables.net/download),  
+which can create CDN or locally hosted packages for you, with all dependencies satisfied.
 
 ### npm
 
-```
+```bash
 npm install datatables.net-bs5
+
 ```
 
 ES3 Syntax
 ```
-var $ = require( 'jquery' );
-require( 'datatables.net-bs5' )( window, $ );
+var $ = require('jquery');
+require('datatables.net-bs5')(window, $);
 ```
 
 ES6 Syntax
 ```
-import 'datatables.net-bs5'
+import 'datatables.net-bs5';
 ```
 
 ### bower
