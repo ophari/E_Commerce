@@ -1,5 +1,10 @@
 # E-Commerce
 
+# team
+1. Muhamad Yusuf  NIM-242502040108
+2. Ramzy Fadlil Agusanddawi NIM-242502040052
+3. Raffy Andreano Pratama NIM-242502040030
+
 ## About
 An e-commerce website built with Laravel 11 and AdminLTE for the admin dashboard.
 
@@ -19,7 +24,6 @@ An e-commerce website built with Laravel 11 and AdminLTE for the admin dashboard
 
 ## Built With
 - [Laravel](https://laravel.com/)
-- [AdminLTE](https://adminlte.io/)
 - [Bootstrap](https://getbootstrap.com/)
 - [JQuery](https://jquery.com/)
 
