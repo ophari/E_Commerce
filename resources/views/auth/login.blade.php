@@ -44,7 +44,7 @@
                 <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
             </form>
 
-            <div class="text-center mt-3">
+            {{-- <div class="text-center mt-3">
                 <small class="text-muted">or</small>
             </div>
 
@@ -54,7 +54,7 @@
                         <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.25C3.21 7.243 3 8.07 3 9s.21 1.757.508 2.584C4.14 13.592 5.913 15 8 15c1.463 0 2.714-.546 3.636-1.491l2.284 2.284A7.959 7.959 0 0 1 8 16Z"/>
                     </svg>
                     Login with Google
-                </button>
+                </button> --}}
 
                 <div class="text-center mt-3">
                     <small class="text-muted">Don’t have an account?</small>
