@@ -7,7 +7,7 @@ The world's #1 open source rich text editor.
 Used and trusted by millions of developers, TinyMCE is the world’s most customizable, scalable, and flexible rich text editor. We’ve helped launch the likes of Atlassian, Medium, Evernote (and lots more that we can’t tell you), by empowering them to create exceptional content and experiences for their users.
 
 With more than 350M+ downloads every year, we’re also one of the most trusted enterprise-grade open source HTML editors on the internet. There’s currently more than 100M+ products worldwide, powered by Tiny. As a high powered WYSIWYG editor, TinyMCE is built to scale, designed to innovate, and thrives on delivering results to difficult edge-cases.
-
+x
 You can access a [full featured demo of TinyMCE](https://www.tiny.cloud/docs/tinymce/6/premium-full-featured/) in the docs on the TinyMCE website.
 
 <p align="center">
