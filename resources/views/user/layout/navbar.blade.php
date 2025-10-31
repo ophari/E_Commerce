@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm sticky-top">
   <div class="container">
     {{-- Brand --}}
-    <a class="navbar-brand fw-bold text-uppercase" href="{{ route('user.home') }}"
+    <a class="navbar-brand fw-bold text-uppercase" href="{{ route('home') }}"
        style="color:#C5A572; font-family:'Playfair Display', serif; letter-spacing:1px;">
       WatchStore
     </a>
@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="nav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link text-light" href="{{ route('user.product.list') }}">Products</a>
+          <a class="nav-link text-light" href="{{ route('product.list') }}">Products</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="{{ route('user.orders') }}">Orders</a>

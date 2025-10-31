@@ -9,7 +9,7 @@
     @if(!isset($cartData) || count($cartData) === 0)
         <div class="alert alert-info">
             Keranjang kosong. 
-            <a href="{{ route('user.product.list') }}" class="fw-semibold text-dark">Lihat produk</a>
+            <a href="{{ route('product.list') }}" class="fw-semibold text-dark">Lihat produk</a>
         </div>
     @else
         <div class="table-responsive">

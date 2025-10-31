@@ -25,7 +25,7 @@
                     <h4 class="fw-semibold text-dark">
                         <i class="bi bi-gem text-warning me-2"></i> {{ $brand->name }}
                     </h4>
-                    <a href="{{ route('user.product.list', ['brand' => $brand->id]) }}" class="text-decoration-none small text-muted">
+                    <a href="{{ route('product.list', ['brand' => $brand->id]) }}" class="text-decoration-none small text-muted">
                         Lihat semua →
                     </a>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="row g-4">
                     @foreach($brandProducts->take(4) as $product)
                         <div class="col-6 col-md-4 col-lg-3">
-                            <a href="{{ route('user.product.detail', $product->id) }}" 
+                            <a href="{{ route('product.detail', $product->id) }}" 
                                class="text-decoration-none text-dark d-block">
                                 <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative product-card">
                                     <div class="position-relative">

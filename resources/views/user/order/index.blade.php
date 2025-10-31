@@ -12,7 +12,7 @@
         @if(empty($orders))
             <div class="text-center py-5 bg-light rounded-4 shadow-sm">
                 <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
-                <a href="{{ route('user.product.list') }}" 
+                <a href="{{ route('product.list') }}" 
                    class="btn btn-lg px-4 py-2 rounded-pill" 
                    style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
                    Belanja sekarang

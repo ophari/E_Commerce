@@ -18,7 +18,7 @@
 
         <!-- Gambar Jam Tangan (kanan) -->
         <div class="col-md-6 d-none d-md-block p-0">
-            <img src="https://drive.google.com/uc?export=view&id=1fpRajwbunmhXH8L8TvEMIgBmKlkCXDeU"
+            <img src="https://i.pinimg.com/736x/e4/b8/a6/e4b8a6f18e9c8e9491a0154e76f2df37.jpg"
                  alt="Watch Image"
                  class="img-fluid rounded-end" style="height:100%; object-fit: cover;">
         </div>

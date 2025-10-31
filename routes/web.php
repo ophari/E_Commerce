@@ -24,9 +24,12 @@ use App\Http\Controllers\Admin\BrandController;
 // ======================================
 // ROUTE AWAL / LOGIN
 // ======================================
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+ Route::get('/', [HomeController::class, 'index'])->name('home');
+
+ // Produk
+Route::get('/products', [ProductController::class, 'index'])->name('product.list');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
+
 
 // ==== AUTH ====
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -72,12 +75,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
 // USER ROUTES
 // ======================================
 Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
-
-    // Produk
-    Route::get('/products', [ProductController::class, 'index'])->name('product.list');
-    Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
-
+    
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
