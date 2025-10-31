@@ -68,7 +68,7 @@
 <!-- Redirect if already logged in -->
 @if(Auth::check())
 <script>
-  window.location.replace('{{ Auth::user()->role === "admin" ? route("admin.dashboard") : route("user.home") }}');
+  window.location.replace('{{ Auth::user()->role === "admin" ? route("admin.dashboard") : route("home") }}');
 </script>
 @endif
 
@@ -112,7 +112,7 @@
                     }).then(response => {
                         if (response.ok) {
                             // Redirect to the appropriate dashboard
-                            window.location.replace('{{ route("user.home") }}'); // Default to user home
+                            window.location.replace('{{ route("home") }}'); // Default to user home
                         } else {
                             // Handle errors
                             console.error('Firebase login failed.');
