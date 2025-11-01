@@ -75,6 +75,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
 // USER ROUTES
 // ======================================
 Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->group(function () {
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
