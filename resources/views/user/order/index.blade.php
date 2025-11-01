@@ -12,8 +12,8 @@
         @if(empty($orders))
             <div class="text-center py-5 bg-light rounded-4 shadow-sm">
                 <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
-                <a href="{{ route('product.list') }}" 
-                   class="btn btn-lg px-4 py-2 rounded-pill" 
+                <a href="{{ route('product.list') }}"
+                   class="btn btn-lg px-4 py-2 rounded-pill"
                    style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
                    Belanja sekarang
                 </a>
@@ -38,7 +38,7 @@
                             <td>{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</td>
                             <td class="fw-semibold">Rp {{ number_format($order['total'], 0, ',', '.') }}</td>
                             <td>
-                                <span class="badge px-3 py-2 
+                                <span class="badge px-3 py-2
                                     @if($order['status'] == 'pending') bg-warning text-dark
                                     @elseif($order['status'] == 'completed') bg-success
                                     @elseif($order['status'] == 'cancelled') bg-danger
@@ -49,11 +49,11 @@
                             </td>
                             <td>
                                 <button
-                                    class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 fw-semibold view-order-btn"
+                                    class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 fw-semibold view-order-btn d-inline-flex align-items-center"
                                     data-bs-toggle="modal"
                                     data-bs-target="#orderDetailModal"
-                                    data-order="{{ htmlspecialchars(json_encode($order), ENT_QUOTES, 'UTF-8') }}">
-                                    View
+                                    data-id="{{ $order['id'] }}">
+                                    <i class="bi bi-eye me-1"></i> View
                                 </button>
                             </td>
                         </tr>
@@ -75,7 +75,7 @@
       </div>
       <div class="modal-body p-4">
         <div id="orderDetailContent">
-          <!-- Order details will be populated here -->
+            
         </div>
       </div>
     </div>
@@ -87,30 +87,50 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const orderDetailModal = document.getElementById('orderDetailModal');
+    const orderDetailContent = document.getElementById('orderDetailContent');
+
+    // Handle the click event on the "View" button
     document.querySelectorAll('.view-order-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const order = JSON.parse(this.dataset.order);
+        btn.addEventListener('click', async function() {
+            const orderId = this.dataset.id;
+            const url = `{{ route('user.orders.show', [':id']) }}`.replace(':id', orderId);
 
-            const content = `
-                <p><strong>Order ID:</strong> #${order.id}</p>
-                <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString()}</p>
-                <p><strong>Status:</strong> ${order.status}</p>
-                <p><strong>Total:</strong> Rp ${Number(order.total).toLocaleString('id-ID')}</p>
+            // Show a loading spinner in the modal
+            orderDetailContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
-                <hr>
-                <h6 class="fw-bold">Product Details:</h6>
-                <ul>
-                    ${
-                        order.items && order.items.length > 0
-                        ? order.items.map(item => `
-                            <li>${item.name} — Rp ${Number(item.price).toLocaleString('id-ID')} × ${item.qty}</li>
-                        `).join('')
-                        : '<li class="text-muted">No product details available</li>'
-                    }
-                </ul>
-            `;
+            try {
+                // Fetch order details from the server
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const order = await response.json();
 
-            document.getElementById('orderDetailContent').innerHTML = content;
+                // Format the order items into a list
+                const itemsHtml = order.items && order.items.length > 0
+                    ? order.items.map(item => `
+                        <li>${item.name} — Rp ${Number(item.price).toLocaleString('id-ID')} × ${item.qty}</li>
+                    `).join('')
+                    : '<li class="text-muted">No product details available</li>';
+
+                // Populate the modal with the order details
+                const content = `
+                    <p><strong>Order ID:</strong> #${order.id}</p>
+                    <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString()}</p>
+                    <p><strong>Status:</strong> <span class="text-capitalize">${order.status}</span></p>
+                    <p><strong>Total:</strong> Rp ${Number(order.total).toLocaleString('id-ID')}</p>
+                    <hr>
+                    <h6 class="fw-bold">Product Details:</h6>
+                    <ul>${itemsHtml}</ul>
+                `;
+                orderDetailContent.innerHTML = content;
+
+            } catch (error) {
+                // Show an error message if the fetch fails
+                console.error('Error fetching order details:', error);
+                orderDetailContent.innerHTML = '<p class="text-danger text-center">Failed to load order details. Please try again later.</p>';
+            }
         });
     });
 });

@@ -113,34 +113,54 @@ class OrderController extends Controller
 
     public function index()
     {
-        // Check if using database orders or session orders
-        $userId = Auth::id() ?? 1;
-        if (Order::where('user_id', $userId)->count() > 0) {
-            // Use database orders
-            $orders = Order::with(['orderItems.product', 'user'])
-                ->where('user_id', $userId)
-                ->latest()
-                ->get()
-                ->map(function($order) {
-                    return [
-                        'id' => $order->id,
-                        'items' => $order->orderItems->map(function($item) {
-                            return [
-                                'name' => $item->product->name,
-                                'price' => $item->price,
-                                'qty' => $item->quantity,
-                            ];
-                        })->toArray(),
-                        'total' => $order->total_price,
-                        'status' => $order->status,
-                        'created_at' => $order->created_at->toDateTimeString(),
-                    ];
-                })->toArray();
-        } else {
-            // Use session orders (dummy storage)
-            $orders = session('orders', []);
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login untuk melihat riwayat pesanan Anda.');
         }
 
+        $userId = Auth::id();
+        $orders = Order::with(['orderItems.product', 'user'])
+            ->where('user_id', $userId)
+            ->latest()
+            ->get()
+            ->map(function($order) {
+                return [
+                    'id' => $order->id,
+                    'items' => $order->orderItems->map(function($item) {
+                        return [
+                            'name' => $item->product->name,
+                            'price' => $item->price,
+                            'qty' => $item->quantity,
+                        ];
+                    })->toArray(),
+                    'total' => $order->total_price,
+                    'status' => $order->status,
+                    'created_at' => $order->created_at->toDateTimeString(),
+                ];
+            })->toArray();
+
         return view('user.order.index', compact('orders'));
+    }
+
+    public function show($id)
+    {
+        $order = Order::with('orderItems.product')
+            ->where('user_id', Auth::id())
+            ->findOrFail($id);
+
+        $orderData = [
+            'id' => $order->id,
+            'created_at' => $order->created_at->toDateTimeString(),
+            'status' => $order->status,
+            'total' => $order->total_price,
+            'items' => $order->orderItems->map(function ($item) {
+                return [
+                    'name' => $item->product->name,
+                    'price' => $item->price,
+                    'qty' => $item->quantity,
+                ];
+            }),
+        ];
+
+        return response()->json($orderData);
     }
 }

@@ -84,7 +84,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
 
     // Checkout & Order
     Route::match(['GET', 'POST'], '/checkout/{productId?}', [OrderController::class, 'checkout'])->name('checkout');
-    Route::get('/user/orders/{id}', [OrderController::class, 'show'])->name('user.orders.show');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
 
