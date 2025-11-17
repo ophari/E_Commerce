@@ -52,7 +52,7 @@
     <div class="row g-4">
         @foreach($related as $r)
             <div class="col-6 col-md-4 col-lg-3">
-                <a href="{{ route('user.product.detail', $r->id) }}" 
+                <a href="{{ route('product.detail', $r->id) }}" 
                    class="text-decoration-none text-dark d-block">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden product-card h-100">
                         <img src="{{ asset('storage/' . $r->image) }}" 
