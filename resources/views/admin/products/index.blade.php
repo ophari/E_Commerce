@@ -77,6 +77,8 @@
     <form action="{{ route('admin.products.bulkDestroy') }}" method="POST" id="bulk-delete-form">
         @csrf
         @method('DELETE')
+    </form>
+    
         <div class="card shadow-sm">
             <div class="card-body">
                 <div id="bulk-actions" class="mb-3" style="display: none;">
@@ -132,7 +134,7 @@
                     </tbody>
                 </table>
             </div>
-        </form>
+        
         </div>
         <div class="card-footer">
             {!! $products->links() !!}
