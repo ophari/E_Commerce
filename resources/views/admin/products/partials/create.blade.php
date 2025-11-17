@@ -87,8 +87,8 @@
 
             <div class="mb-3">
               <label class="form-label">Product Image</label>
-              <input type="file" name="image" class="form-control" accept="image/*" required>
-              @error('image')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
+              <input type="file" name="image_url" class="form-control" accept="image/*" required>
+              @error('image_url')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
           </div>
 
