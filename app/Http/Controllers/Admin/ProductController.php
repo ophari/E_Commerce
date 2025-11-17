@@ -73,11 +73,11 @@ class ProductController extends Controller
             'type' => 'required|in:analog,digital,smartwatch',
             'price' => 'required|numeric',
             'description' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'stock' => 'required|integer|min:0',
         ]);
 
-        if ($image = $request->file('image')) {
+        if ($image = $request->file('image_url')) {
             $destinationPath = 'image/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
@@ -119,11 +119,11 @@ class ProductController extends Controller
             'type' => 'required|in:analog,digital,smartwatch',
             'price' => 'required|numeric',
             'description' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'stock' => 'required|integer|min:0',
         ]);
 
-        if ($image = $request->file('image')) {
+        if ($image = $request->file('image_url')) {
             $destinationPath = 'image/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
@@ -131,7 +131,7 @@ class ProductController extends Controller
         } else {
             // If no new image is uploaded, remove 'image' from validatedData
             // to prevent trying to update a non-existent 'image' column
-            unset($validatedData['image']);
+            unset($validatedData['image_url']);
         }
 
         $product->update($validatedData);
