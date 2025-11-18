@@ -104,7 +104,7 @@
                             <tr>
                                 <td><input type="checkbox" name="selected_products[]" class="product-checkbox" value="{{ $product->id }}" data-product-name="{{ $product->name }}"></td>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img src="/image/{{ $product->image_url }}" width="60" class="rounded"></td>
+                                <td><img src="/storage/image/{{ $product->image_url }}" width="60" class="rounded"></td>
                                 <td>
                                     <div class="fw-bold">{{ $product->name }}</div>
                                     <small class="text-muted">{{ $product->model }}</small>

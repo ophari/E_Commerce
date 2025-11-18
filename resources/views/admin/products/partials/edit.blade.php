@@ -97,7 +97,7 @@
                     <input type="file" name="image_url" id="image" class="form-control">
                     <div class="mt-2">
                         <small class="text-muted">Current Image:</small>
-                        <img src="/image/{{ $product->image_url }}" width="100px" class="rounded ms-2">
+                        <img src="/storage/image/{{ $product->image_url }}" width="100px" class="rounded ms-2">
                     </div>
                 </div>
             </div>
