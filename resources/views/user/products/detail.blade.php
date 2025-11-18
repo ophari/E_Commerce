@@ -8,7 +8,7 @@
         <!-- Gambar Produk -->
         <div class="col-md-6 text-center">
             <div class="border rounded-4 shadow-sm overflow-hidden">
-                <img src="{{ asset('storage/' . $product->image) }}" 
+                <img src="{{ asset('storage/image/' . $product->image_url) }}" 
                      class="img-fluid w-100" 
                      alt="{{ $product->name }}" 
                      style="max-height: 450px; object-fit: cover;">
@@ -29,7 +29,7 @@
                     <input type="hidden" name="id" value="{{ $product->id }}">
                     <input type="hidden" name="name" value="{{ $product->name }}">
                     <input type="hidden" name="price" value="{{ $product->price }}">
-                    <input type="hidden" name="image" value="{{ $product->image }}">
+                    <input type="hidden" name="image" value="{{ $product->image_url }}">
                     <button type="submit" class="btn btn-dark px-4 py-2 rounded-pill shadow-sm">
                         <i class="bi bi-cart me-2"></i> Add to Cart
                     </button>
@@ -55,7 +55,7 @@
                 <a href="{{ route('product.detail', $r->id) }}" 
                    class="text-decoration-none text-dark d-block">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden product-card h-100">
-                        <img src="{{ asset('storage/' . $r->image) }}" 
+                        <img src="{{ asset('storage/image/' . $r->image_url) }}" 
                              class="card-img-top" 
                              alt="{{ $r->name }}" 
                              style="height: 230px; object-fit: cover;">

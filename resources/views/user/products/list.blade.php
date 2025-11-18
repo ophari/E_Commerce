@@ -38,7 +38,7 @@
                                class="text-decoration-none text-dark d-block">
                                 <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative product-card">
                                     <div class="position-relative">
-                                        <img src="{{ asset('storage/' . $product->image) }}"
+                                        <img src="{{ asset('storage/image/' . $product->image_url) }}"
                                              class="card-img-top"
                                              alt="{{ $product->name }}"
                                              style="height: 230px; object-fit: cover;">
