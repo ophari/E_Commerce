@@ -22,16 +22,6 @@
         </li>
       </ul>
 
-      {{-- Search Bar --}}
-      <li class="nav-item search-nav">
-        <a class="nav-link" href="#" id="searchToggle">
-          <i class="bi bi-search"></i>
-        </a>
-        <div class="search-box">
-          <input type="text" class="form-control form-control-sm" placeholder="Search...">
-        </div>
-      </li>
-
       {{-- Right Side --}}
       <ul class="navbar-nav ms-auto align-items-center">
         {{-- Cart --}}
