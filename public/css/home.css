@@ -12,6 +12,18 @@
 }
 
 /* Efek muncul dari bawah */
+.fade-left {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all .8s ease;
+}
+
+.fade-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
 .fade-up {
   opacity: 0;
   transform: translateY(20px);
@@ -28,24 +40,90 @@
 /* =========================================================
    HERO SECTION
 ========================================================= */
+/* Background full + tidak ikut scroll */
+.hero-bg-fixed {
+    position: absolute;     /* kunci di layar */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;       /* full layar */
+    background:     linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.95),   /* kiri terang */
+        rgba(255, 255, 255, 0.4),    /* tengah soft */
+        rgba(255, 255, 255, 0)       /* kanan transparan */
+    ), url('/storage/image/bg-hero.jpg') center/cover no-repeat;
+    z-index: -1;         /* taruh di belakang */
+    filter: brightness(0.9); /* opsional: sedikit gelap */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 550px;
+  padding: 40px;
+  color: #111;
+}
+
+/* Hero tinggi 1 layar */
+.hero-wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.hero-zoom {
+  background-size: 110%;
+  background-position: center;
+  transition: background-size 1.5s ease;
+}
+
+.hero-zoom:hover {
+  background-size: 120%;
+}
+
+.hero-box {
+  background: rgb(255, 255, 255);      /* putih elegan */
+  padding: 35px 40px;
+  border-radius: 20px;                        /* sudut melengkung */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);    /* shadow halus */
+  backdrop-filter: blur(4px);                 /* efek glass */
+  -webkit-backdrop-filter: blur(4px);         /* Safari support */
+  position: relative;
+  z-index: 5;
+}
+
+/* Glass Morphism */
+.glass {
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+}
+
+/* Responsive Hero Image */
+.hero-img {
+    max-width: 400px;
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Floating Animation */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
 .hero-section {
   position: relative;
-  background-color: #fff;
   padding: 100px 0;
   overflow: hidden;
   min-height: 90vh;
 }
 
 /* Untuk memberi jarak antar teks dan gambar */
-.hero-image img {
-  max-width: 90%;
-}
-
-.hero-section .hero-img {
-  max-width: 85%;
-  border-radius: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
 
 .hero-section h1 {
   color: #1a1a1a;
@@ -108,7 +186,7 @@
 
 /* Saat hover, ubah warna teks */
 .product-card:hover p.fw-semibold {
-    color: #1A3C63; /* warna tema biru navy elegan */
+    color: #ad833f; /* warna tema biru navy elegan */
 }
 
 /* Harga */
@@ -119,7 +197,7 @@
 
 /* Garis pemisah di bawah produk utama */
 hr.my-5 {
-    border-top: 2px solid #1A3C63;
+    border-top: 2px solid #ad833f;
     opacity: 0.8;
 }
 
@@ -144,35 +222,28 @@ h4.text-center span.text-warning {
    BRAND MARQUEE
 ========================================================= */
 .brand-marquee {
-  overflow: hidden;
-  position: relative;
-  background: #fff;
+    /* Menyembunyikan konten yang keluar dari batas horizontal */
+    overflow: hidden; 
 }
 
 .brand-track {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-  animation: scroll 25s linear infinite;
+    /* Memastikan track cukup lebar untuk semua konten */
+    width: fit-content;
+    /* Mencegah item brand turun baris (penting untuk marquee) */
+    white-space: nowrap; 
+    /* Mengaplikasikan animasi gulir */
+    animation: scroll 35s linear infinite; /* Kecepatan sedikit diperlambat */
 }
 
+/* Kunci animasi untuk gulir */
 @keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.brand-logo {
-  height: 60px;
-  width: auto;
-  border-radius: 8px;
-  object-fit: cover;
-  opacity: 0.85;
-  transition: all 0.3s ease;
-}
-
-.brand-logo:hover {
-  opacity: 1;
-  transform: scale(1.05);
+    from {
+        transform: translateX(0);
+    }
+    /* Bergerak 50% dari total lebar (karena kita menduplikasi konten 2x) */
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 /* =========================================================
@@ -402,12 +473,30 @@ img.rounded-circle {
 
 /* ===== NAVBAR CENTERED DI MODE HP ===== */
 @media (max-width: 991px) {
+    .hero-bg-fixed {
+        background:
+            linear-gradient(
+                to bottom,
+                rgb(255, 255, 255),
+                rgb(255, 255, 255),
+                rgba(255,255,255,0)
+            ),
+            url('/storage/image/bg-hero.jpg') center/cover no-repeat;
+    }
+
   .navbar-collapse {
-    text-align: center;
+    text-align: left;
+  }
+
+  .hero-zoom, .hero-zoom-auto {
+    background-size: cover !important;
+    background-position: center !important;
+    transition: none !important;
+    animation: none !important;
   }
 
   .navbar-nav {
-    align-items: center;
+    align-items: flex-start !important;
   }
 
   .navbar-nav .nav-item {
@@ -434,6 +523,7 @@ img.rounded-circle {
   .hero-section {
     text-align: center;
     padding: 60px 20px; /* biar lega di sisi kanan kiri */
+    
   }
 
   .hero-text {
@@ -447,15 +537,24 @@ img.rounded-circle {
 
   .hero-image img {
     max-width: 80%;
-    margin-top: 20px; /* kasih jarak biar gak dempet ke teks */
+    margin-top: 10px; /* kasih jarak biar gak dempet ke teks */
   }
 
   .card-body { padding: 1rem; }
   .container { padding-left: 1rem; padding-right: 1rem; }
 
-  .search-box {
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%);
+  .navbar-nav .nav-item,
+  .navbar-nav .dropdown,
+  .navbar-nav .dropdown-item {
+    text-align: left !important;
+  }
+
+  /* Batas antar menu */
+  .navbar-nav .nav-item {
+    padding: 10px 0;
+  }
+
+  .navbar-nav .nav-item:last-child {
+    border-bottom: none;
   }
 }

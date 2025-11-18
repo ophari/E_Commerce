@@ -7,55 +7,74 @@
 <div class="container-fluid px-0">
 
   {{-- HERO SECTION --}}
-<section class="hero-section fade-up text-dark d-flex align-items-center py-5">
-  <div class="container">
-    <div class="row align-items-center">
+<!-- Background Fixed -->
+<div class="hero-bg-fixed hero-zoom"></div>
 
-      {{-- Kiri: Teks --}}
-      <div class="col-lg-6 mb-4 mb-lg-0 hero-text">
-        <h6 class="text-uppercase fw-semibold mb-2" style="color:#ad833f; letter-spacing:1px;">
-          Jam Tangan Berkualitas Terbaik
-        </h6>
-        <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
-          Desain Abadi<br>Dibuat untuk Anda
-        </h1>
-        <p class="lead mb-4 text-muted" style="max-width: 500px;">
-          Temukan koleksi jam tangan premium yang memadukan keanggunan, ketepatan, dan gaya tanpa batas waktu.
-        </p>
-        <a href="{{ route('product.list') }}"
-           class="btn px-4 py-2 rounded-pill fw-semibold"
-           style="background-color:#C5A572; color:#000; border:none; transition:all 0.3s ease;">
-           Belanja Sekarang
-        </a>
-      </div>
+<!-- Hero Wrapper -->
+<div class="hero-wrapper d-flex align-items-center">
+    <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center">
 
-      {{-- Kanan: Gambar --}}
-      <div class="col-lg-6 text-center hero-image">
-        <img src="{{ asset('image/watch-hero.png') }}" alt="Watch Hero" class="img-fluid hero-img">
-      </div>
+            <!-- Kiri -->
+            <div class="col-lg-12 col-md-8 hero-section mb-4 mb-lg-0">
+                <h6 class="text-uppercase fw-semibold mb-2" style="color:#ad833f; letter-spacing:1px;">
+                    Jam Tangan Berkualitas Terbaik
+                </h6>
 
+                <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
+                    Desain Abadi<br>Dibuat untuk Anda
+                </h1>
+
+                <p class="lead mb-4 text-black" style="max-width: 400px; font-family:'Playfair Display', poppins;">
+                    Temukan koleksi jam tangan premium yang memadukan 
+                    keanggunan, ketepatan, dan gaya tanpa batas waktu.
+                </p>
+
+                <a href="{{ route('product.list') }}"
+                   class="btn px-4 py-2 rounded-pill fw-semibold"
+                   style="background-color: transparent; color:#0a0a0a; border: 2px solid #C5A572;">
+                    Belanja Sekarang
+                </a>
+            </div>
+
+            
+
+        </div>
+    </div>
+</div>
+
+{{-- BRAND MARQUEE (TEXT BASED & CLEANER) --}}
+<section class="bg-white py-5 fade-up text-center position-relative overflow-hidden">
+  <div class="container py-5">
+    <h1 class="fw-bold text-dark mb-3">Find Your Perfect Timepiece</h1>
+    <p class="text-muted mb-4">
+      Discover luxury, style, and precision from world-renowned watch brands.
+    </p>
+    <a href="{{ route('product.list') }}" class="btn btn-dark px-4 py-2">Shop Now</a>
+  </div>
+
+  <div class="brand-marquee py-4 bg-light mt-5 border-top border-bottom">
+    <div class="brand-track d-flex align-items-center">
+      
+      {{-- ULANGI DUA KALI UNTUK EFEK LOOPING SEMPURNA --}}
+      @for ($i = 0; $i < 2; $i++)
+        @foreach ($brands as $brand)
+          {{-- Item Brand dengan Pembatas dan Lebar Terbatas --}}
+          <div class="brand-text-item p-3 border-end border-2" style="width: 250px;"> 
+            <p class="fw-bold h6 mb-1 text-dark text-nowrap">
+              {{ $brand->name }}
+            </p>
+            {{-- Menggunakan text-truncate untuk memotong deskripsi jika terlalu panjang --}}
+            <p class="text-muted small mb-0 text-truncate">
+              {{ $brand->description ?? 'World-renowned precision and style.' }}
+            </p>
+          </div>
+        @endforeach
+      @endfor
+      
     </div>
   </div>
 </section>
-
-  {{-- BRAND MARQUEE --}}
-  <section class="bg-white py-5 fade-up text-center position-relative overflow-hidden">
-    <div class="container py-5">
-      <h1 class="fw-bold text-dark mb-3">Find Your Perfect Timepiece</h1>
-      <p class="text-muted mb-4">
-        Discover luxury, style, and precision from world-renowned watch brands.
-      </p>
-      <a href="{{ route('product.list') }}" class="btn btn-dark px-4 py-2">Shop Now</a>
-    </div>
-
-    <div class="brand-marquee py-4 bg-light mt-5 border-top border-bottom">
-      <div class="brand-track d-flex align-items-center gap-5">
-        @foreach ($brands as $brand)
-          <img src="https://source.unsplash.com/200x100/?{{ urlencode($brand->name) }},watch" alt="{{ $brand->name }}" class="brand-logo">
-        @endforeach
-      </div>
-    </div>
-  </section>
 
   {{-- PROMO BANNERS --}}
   <section class="container fade-up my-5">
@@ -67,7 +86,7 @@
             <p class="mb-3">Jowel Watch for Men</p>
             <a href="#" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
           </div>
-          <img src="https://images.unsplash.com/photo-1518544801958-efcbf8a7ec10?auto=format&fit=crop&w=400&q=80"
+          <img src="{{ asset('storage/image/pmo1.jpg') }}"
                class="img-fluid rounded-3"
                alt="Watch Promo" style="max-width: 180px;">
         </div>
@@ -80,7 +99,7 @@
             <p class="mb-3">Make a better life. Make a rich life.</p>
             <a href="#" class="btn btn-outline-dark btn-sm px-3">Shop Now</a>
           </div>
-          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80"
+          <img src="{{ asset('storage/image/pmo2.jpg') }}"
                class="img-fluid rounded-3"
                alt="Watch Promo" style="max-width: 180px;">
         </div>
@@ -102,7 +121,7 @@
              class="text-decoration-none text-dark w-100">
             <div class="card border-0 shadow-sm text-center h-100 hover-shadow">
               <div class="ratio ratio-1x1 overflow-hidden rounded-top">
-                <img src="{{ asset($product->image_url) }}"
+                <img src="{{ asset('storage/image/' . $product->image_url) }}"
                      class="card-img-top object-fit-cover"
                      alt="{{ $product->name }}">
               </div>
@@ -132,14 +151,14 @@
   <section class="about-section fade-up container py-5">
     <div class="row align-items-center">
       <div class="col-md-6 mb-4 mb-md-0">
-        <img src="https://source.unsplash.com/700x500/?watch,luxury"
+        <img src="{{ asset('storage/image/about-img.jpg') }}"
              class="img-fluid rounded-4 shadow-sm"
              alt="Luxury Watches">
       </div>
       <div class="col-md-6">
         <h2 class="fw-bold text-dark mb-3">About Our Store</h2>
         <p class="text-muted">
-          Waktu adalah hal paling berharga yang kita miliki dan di <strong>Watch Store</strong>,
+          Waktu adalah hal paling berharga yang kita miliki dan di <strong>WATCHSTORE</strong>,
           kami percaya setiap detik layak untuk dirayakan. Koleksi kami menampilkan jam tangan terbaik
           dari merek ternama seperti Rolex, Casio, dan Omega, yang memadukan presisi, keahlian,
           serta desain yang tak lekang oleh waktu.
