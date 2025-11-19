@@ -24,19 +24,25 @@
                 <h4 class="card-title">Customers</h4>
                 <div class="mt-3">
                     <div class="d-flex justify-content-between">
-                        <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search for customers..." name="search">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </div>
+                        <form method="GET" action="{{ route('admin.customers.index') }}" class="w-50">
+                            <div class="input-group w-100">
+                                <input type="text" 
+                                    name="search" 
+                                    class="form-control" 
+                                    placeholder="Search for customers..." 
+                                    value="{{ request('search') }}">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+                        </form>
                         <div class="d-flex gap-2">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-light-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     Filter
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Last 30 days</a></li>
-                                    <li><a class="dropdown-item" href="#">Last 90 days</a></li>
-                                    <li><a class="dropdown-item" href="#">All time</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter' => '30']) }}">Last 30 days</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter' => '90']) }}">Last 90 days</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index') }}">All time</a></li>
                                 </ul>
                             </div>
                             <div class="btn-group">
@@ -44,11 +50,11 @@
                                     Bulk Actions
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Delete Selected</a></li>
-                                    <li><a class="dropdown-item" href="#">Export Selected</a></li>
+                                    <li><a class="dropdown-item bulk-delete" href="#">Delete Selected</a></li>
+                                    <li><a class="dropdown-item bulk-export" href="#">Export Selected</a></li>
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-primary">Export CSV</button>
+                            <button href="{{ route('admin.customers.export.csv') }}" type="button" class="btn btn-primary">Export CSV</button>
                         </div>
                     </div>
                 </div>
@@ -65,51 +71,66 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>+1234567890</td>
-                            <td>5</td>
-                            <td>
-                                <a href="#"><i class="ti ti-eye"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Jane Doe</td>
-                            <td>jane.doe@example.com</td>
-                            <td>+1234567891</td>
-                            <td>2</td>
-                            <td>
-                                <a href="#"><i class="ti ti-eye"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>Peter Jones</td>
-                            <td>peter.jones@example.com</td>
-                            <td>+1234567892</td>
-                            <td>10</td>
-                            <td>
-                                <a href="#"><i class="ti ti-eye"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td>John Smith</td>
-                            <td>john.smith@example.com</td>
-                            <td>+1234567893</td>
-                            <td>1</td>
-                            <td>
-                                <a href="#"><i class="ti ti-eye"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <tbody>
+                            @foreach ($customers as $customer)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" 
+                                            value="{{ $customer->id }}" 
+                                            class="form-check-input select-customer">
+                                    </td>
+
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->email }}</td>
+                                    <td>{{ $customer->phone ?? '-' }}</td>
+
+                                    <td>{{ $customer->orders_count }}</td>
+
+                                    <td>
+                                        <a href="{{ route('admin.customers.show', $customer->id) }}" 
+                                        class="btn btn-sm btn-primary">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                 </table>
             </div>
         </div>
     </section>
 </div>
+
+<script>
+document.getElementById('select-all').addEventListener('click', function () {
+    let check = this.checked;
+    document.querySelectorAll('.select-customer').forEach(c => c.checked = check);
+});
+
+function getSelectedIds() {
+    return [...document.querySelectorAll('.select-customer:checked')].map(e => e.value);
+}
+
+// Bulk Delete
+document.querySelector('.bulk-delete').addEventListener('click', function () {
+    let ids = getSelectedIds();
+    if (ids.length === 0) return alert('No customer selected.');
+
+    document.getElementById('bulk-ids').value = ids;
+    let form = document.getElementById('bulk-form');
+    form.action = "{{ route('admin.customers.bulk.delete') }}";
+    form.submit();
+});
+
+// Bulk Export
+document.querySelector('.bulk-export').addEventListener('click', function () {
+    let ids = getSelectedIds();
+    if (ids.length === 0) return alert('No customer selected.');
+
+    document.getElementById('bulk-ids').value = ids;
+    let form = document.getElementById('bulk-form');
+    form.action = "{{ route('admin.customers.bulk.export') }}";
+    form.submit();
+});
+</script>
 @endsection
