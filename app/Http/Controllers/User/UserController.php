@@ -41,7 +41,7 @@ class UserController extends Controller
             $products = $products->filter(fn($p) => $p['price'] <= (int)$request->max_price);
         }
 
-        return view('user.pages.product-list', ['products' => $products->values()]);
+        return view('user.products.list', ['products' => $products->values()]);
     }
 
     public function show($id)
@@ -50,6 +50,6 @@ class UserController extends Controller
         if (!$product) abort(404);
         // related = same brand or type
         $related = $this->sampleProducts()->filter(fn($p) => $p['id'] !== $product['id'])->take(4);
-        return view('user.pages.product-detail', compact('product', 'related'));
+        return view('user.products.detail', compact('product', 'related'));
     }
 }
