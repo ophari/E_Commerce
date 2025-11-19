@@ -55,12 +55,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     // Orders
     Route::prefix('orders')->name('orders.')->group(function () {
         Route::get('/', [AdminOrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [AdminOrderController::class, 'show'])->name('show');
+        Route::patch('/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus');
     });
 
     // Customers
     Route::prefix('customers')->name('customers.')->group(function () {
         Route::get('/', [CustomerController::class, 'index'])->name('index');
         Route::get('{customer}', [CustomerController::class, 'show'])->name('show');
+
+        // Bulk actions
+        Route::post('/bulk-delete', [CustomerController::class, 'bulkDelete'])->name('bulk.delete');
+        Route::post('/bulk-export', [CustomerController::class, 'bulkExport'])->name('bulk.export');
+
+        // Export all
+        Route::get('/export/csv', [CustomerController::class, 'exportCsv'])->name('export.csv');
     });
 
     // Reviews

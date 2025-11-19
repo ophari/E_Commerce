@@ -27,10 +27,10 @@
                         <h4 class="card-title">Customer Information</h4>
                     </div>
                     <div class="card-body">
-                        <p><strong>Name:</strong> John Doe</p>
-                        <p><strong>Email:</strong> john.doe@example.com</p>
-                        <p><strong>Phone:</strong> +1234567890</p>
-                        <p><strong>Address:</strong> 123 Main St, Anytown, USA</p>
+                        <p><strong>Name:</strong> {{ $customer->name }}</p>
+                        <p><strong>Email:</strong> {{ $customer->email }}</p>
+                        <p><strong>Phone:</strong> {{ $customer->phone ?? '-' }}</p>
+                        <p><strong>Address:</strong> {{ $customer->address ?? '-' }}</p>
                     </div>
                 </div>
             </div>
@@ -50,26 +50,56 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>OR9842</td>
-                                    <td><span class="badge bg-success">Shipped</span></td>
-                                    <td>$180.00</td>
-                                    <td>2023-10-12</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">View</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>OR1848</td>
-                                    <td><span class="badge bg-warning">Pending</span></td>
-                                    <td>$70.00</td>
-                                    <td>2023-10-11</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-primary">View</a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                                <tbody>
+                                    @forelse($customer->orders as $order)
+                                        <tr>
+                                            <td>#{{ $order->id }}</td>
+
+                                            <td>
+                                                <span class="badge 
+                                                    @if($order->status == 'pending') bg-warning
+                                                    @elseif($order->status == 'processing') bg-info
+                                                    @elseif($order->status == 'shipped') bg-primary
+                                                    @elseif($order->status == 'delivered') bg-success
+                                                    @else bg-secondary
+                                                    @endif">
+                                                    {{ ucfirst($order->status) }}
+                                                </span>
+                                            </td>
+
+                                            <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+
+                                            <td>{{ $order->created_at->format('Y-m-d') }}</td>
+
+                                            <td class="d-flex gap-1">
+                                                {{-- Tombol View (kalau masih mau pakai halaman detail) --}}
+                                                <a href="{{ route('admin.orders.show', $order->id) }}" 
+                                                class="btn btn-sm btn-outline-secondary">
+                                                    View
+                                                </a>
+
+                                                {{-- Ubah status langsung dari sini --}}
+                                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" 
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <select name="status" 
+                                                            class="form-select form-select-sm"
+                                                            onchange="this.form.submit()">
+                                                        <option value="pending"    {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                        <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                        <option value="shipped"    {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                                        <option value="delivered"  {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted">Belum ada pesanan</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
                         </table>
                     </div>
                 </div>
