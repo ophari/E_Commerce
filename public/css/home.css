@@ -156,37 +156,54 @@
    DETAIL PRODUCT - RELATED ITEMS
    ============================== */
 
-/* Kartu produk */
 .product-card {
     transition: all 0.35s ease;
     background-color: #fff;
+    height: 360px;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Saat hover, naik sedikit dan tambah shadow lembut */
+/* Hover */
 .product-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Gambar di dalam kartu */
+/* Gambar */
 .product-card img {
     transition: transform 0.4s ease;
+    height: 200px;
+    object-fit: cover;
 }
 
-/* Efek zoom halus saat hover */
+/* Zoom */
 .product-card:hover img {
     transform: scale(1.05);
 }
 
-/* Nama produk */
+/* Judul produk */
+.product-card h6,
 .product-card p.fw-semibold {
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     transition: color 0.2s ease;
 }
 
-/* Saat hover, ubah warna teks */
+/* Hover warna */
 .product-card:hover p.fw-semibold {
-    color: #ad833f; /* warna tema biru navy elegan */
+    color: #ad833f;
+}
+
+/* Body fix */
+.product-card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 15px;           
 }
 
 /* Harga */
@@ -205,6 +222,7 @@ hr.my-5 {
 h4.text-center span.text-warning {
     color: #D4AF37 !important; /* warna emas lembut */
 }
+
 
 /* =========================================================
    BANNER / PROMO
@@ -282,6 +300,22 @@ h4.text-center span.text-warning {
   background-color: #1A3C63;
   color: white;
 }
+
+/* =========================================================
+   BEST SELLER SECTION
+========================================================= */
+
+.best-seller-bg {
+  background: url('/storage/image/bg-pattern.jpg') center/cover no-repeat;
+  background-color: #f0f0f0; /* fallback */
+}
+
+.best-seller-bg {
+  background: url('/storage/image/bg-pattern.jpg') center/cover no-repeat;
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
+}
+
 
 /* =========================================================
    NAVBAR
