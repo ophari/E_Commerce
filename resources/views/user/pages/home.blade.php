@@ -32,7 +32,7 @@
 
                 <a href="{{ route('product.list') }}"
                    class="btn px-4 py-2 rounded-pill fw-semibold"
-                   style="background-color: transparent; color:#0a0a0a; border: 2px solid #C5A572;">
+                   style="background-color: transparent; color:#0a0a0a; border: 2px solid #0a0a0a;">
                     Belanja Sekarang
                 </a>
             </div>
@@ -108,42 +108,46 @@
   </section>
 
   {{-- BEST SELLER PRODUCTS --}}
-  <section class="container fade-up my-5">
-    <div class="text-center mb-5">
-      <h3 class="fw-bold text-dark">Best Seller Products</h3>
-      <p class="text-muted">Top selling watches of this month</p>
-    </div>
+  <section class="container my-5">
+    <div class="row align-items-center">
 
-    <div class="row g-4">
-      @foreach ($bestSellers as $product)
-        <div class="col-6 col-md-4 col-lg-3 d-flex">
-          <a href="{{ route('product.detail', $product->id) }}"
-             class="text-decoration-none text-dark w-100">
-            <div class="card border-0 shadow-sm text-center h-100 hover-shadow">
-              <div class="ratio ratio-1x1 overflow-hidden rounded-top">
+      <!-- Kiri: Text -->
+      <div class="col-lg-4 mb-4">
+        <h3 class="fw-bold text-dark">Best Seller Product</h3>
+        <p class="text-muted">
+          Produk jam tangan paling laris bulan ini. Kualitas premium dengan desain elegan.
+        </p>
+        <a href="{{ route('product.list') }}" class="btn btn-outline-dark px-4">SEE MORE</a>
+      </div>
+
+      <!-- Kanan: Produk -->
+      <div class="col-lg-8">
+        <div class="d-flex overflow-auto gap-3 pb-3">
+
+          @foreach ($bestSellers->take(5) as $product)
+            <div class="card border-0 shadow-sm" style="min-width: 220px;">
+              
+              <div class="ratio ratio-1x1 bg-light">
                 <img src="{{ asset('storage/image/' . $product->image_url) }}"
-                     class="card-img-top object-fit-cover"
-                     alt="{{ $product->name }}">
+                    class="object-fit-cover w-100 h-100">
               </div>
+
               <div class="card-body">
-                <h6 class="card-title text-dark mb-1">{{ $product->name }}</h6>
-                <p class="text-muted small mb-2">{{ $product->brand->name ?? '-' }}</p>
-                <p class="fw-semibold text-dark mb-0">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                <form action="{{ route('user.cart.add') }}" method="POST" class="mt-2">
-                  @csrf
-                  <input type="hidden" name="id" value="{{ $product->id }}">
-                  <input type="hidden" name="name" value="{{ $product->name }}">
-                  <input type="hidden" name="price" value="{{ $product->price }}">
-                  <input type="hidden" name="image" value="{{ $product->image_url }}">
-                  <button type="submit" class="btn btn-sm btn-dark rounded-pill">
-                    <i class="bi bi-cart me-1"></i> Add to Cart
-                  </button>
-                </form>
+                <div class="mb-1">
+                  ⭐⭐⭐⭐⭐
+                </div>
+                <h6 class="mb-0 text-dark">{{ $product->name }}</h6>
+                <p class="fw-bold text-dark mt-1">
+                  Rp {{ number_format($product->price, 0, ',', '.') }}
+                </p>
               </div>
+
             </div>
-          </a>
+          @endforeach
+
         </div>
-      @endforeach
+      </div>
+
     </div>
   </section>
 

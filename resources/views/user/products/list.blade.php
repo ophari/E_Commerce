@@ -36,12 +36,11 @@
                         <div class="col-6 col-md-4 col-lg-3">
                             <a href="{{ route('product.detail', $product->id) }}" 
                                class="text-decoration-none text-dark d-block">
-                                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative product-card">
+                                <div class="card border-0 shadow-sm rounded-4 overflow-hidden position-relative product-card">
                                     <div class="position-relative">
                                         <img src="{{ asset('storage/image/' . $product->image_url) }}"
                                              class="card-img-top"
-                                             alt="{{ $product->name }}"
-                                             style="height: 230px; object-fit: cover;">
+                                             alt="{{ $product->name }}">
                                     </div>
                                     <div class="card-body text-center p-3">
                                         <h6 class="fw-semibold text-dark mb-1">{{ $product->name }}</h6>
@@ -52,7 +51,7 @@
                                             <input type="hidden" name="id" value="{{ $product->id }}">
                                             <input type="hidden" name="name" value="{{ $product->name }}">
                                             <input type="hidden" name="price" value="{{ $product->price }}">
-                                            <input type="hidden" name="image" value="{{ $product->image }}">
+                                            <input type="hidden" name="image" value="{{ $product->image_url }}">
                                             <button type="submit" class="btn btn-sm btn-dark rounded-pill">
                                                 <i class="bi bi-cart me-1"></i> Add to Cart
                                             </button>
