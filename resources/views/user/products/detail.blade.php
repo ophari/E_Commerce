@@ -8,7 +8,7 @@
         <!-- Gambar Produk -->
         <div class="col-md-6 text-center">
             <div class="border rounded-4 shadow-sm overflow-hidden">
-                <img src="{{ asset('storage/image/' . $product->image_url) }}" 
+                <img src="{{ asset('image/' . $product->image_url) }}" 
                      class="img-fluid w-100" 
                      alt="{{ $product->name }}" 
                      style="max-height: 450px; object-fit: cover;">
@@ -55,7 +55,7 @@
                 <a href="{{ route('product.detail', $r->id) }}" 
                    class="text-decoration-none text-dark d-block">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden product-card h-100">
-                        <img src="{{ asset('storage/image/' . $r->image_url) }}" 
+                        <img src="{{ asset('image/' . $r->image_url) }}" 
                              class="card-img-top" 
                              alt="{{ $r->name }}" 
                              style="height: 230px; object-fit: cover;">
