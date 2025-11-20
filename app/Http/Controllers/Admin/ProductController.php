@@ -78,7 +78,7 @@ class ProductController extends Controller
         ]);
 
         if ($image = $request->file('image_url')) {
-            $destinationPath = 'storage/image/';
+            $destinationPath = 'image/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $validatedData['image_url'] = $profileImage;
@@ -124,7 +124,7 @@ class ProductController extends Controller
         ]);
 
         if ($image = $request->file('image_url')) {
-            $destinationPath = 'storage/image/';
+            $destinationPath = 'image/';
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $validatedData['image_url'] = $profileImage;

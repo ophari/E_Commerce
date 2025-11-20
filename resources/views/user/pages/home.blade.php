@@ -86,7 +86,7 @@
             <p class="mb-3">Jowel Watch for Men</p>
             <a href="#" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
           </div>
-          <img src="{{ asset('storage/image/pmo1.jpg') }}"
+          <img src="{{ asset('image/pmo1.jpg') }}"
                class="img-fluid rounded-3"
                alt="Watch Promo" style="max-width: 180px;">
         </div>
@@ -99,7 +99,7 @@
             <p class="mb-3">Make a better life. Make a rich life.</p>
             <a href="#" class="btn btn-outline-dark btn-sm px-3">Shop Now</a>
           </div>
-          <img src="{{ asset('storage/image/pmo2.jpg') }}"
+          <img src="{{ asset('image/pmo2.jpg') }}"
                class="img-fluid rounded-3"
                alt="Watch Promo" style="max-width: 180px;">
         </div>
@@ -128,7 +128,7 @@
             <div class="card border-0 shadow-sm" style="min-width: 220px;">
               
               <div class="ratio ratio-1x1 bg-light">
-                <img src="{{ asset('storage/image/' . $product->image_url) }}"
+                <img src="{{ asset('image/' . $product->image_url) }}"
                     class="object-fit-cover w-100 h-100">
               </div>
 
@@ -155,7 +155,7 @@
   <section class="about-section fade-up container py-5">
     <div class="row align-items-center">
       <div class="col-md-6 mb-4 mb-md-0">
-        <img src="{{ asset('storage/image/about-img.jpg') }}"
+        <img src="{{ asset('image/about-img.jpg') }}"
              class="img-fluid rounded-4 shadow-sm"
              alt="Luxury Watches">
       </div>

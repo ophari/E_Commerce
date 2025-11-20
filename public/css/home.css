@@ -52,7 +52,7 @@
         rgba(255, 255, 255, 0.95),   /* kiri terang */
         rgba(255, 255, 255, 0.4),    /* tengah soft */
         rgba(255, 255, 255, 0)       /* kanan transparan */
-    ), url('/storage/image/bg-hero.jpg') center/cover no-repeat;
+    ), url('/image/bg-hero.jpg') center/cover no-repeat;
     z-index: -1;         /* taruh di belakang */
     filter: brightness(0.9); /* opsional: sedikit gelap */
 }
@@ -306,12 +306,12 @@ h4.text-center span.text-warning {
 ========================================================= */
 
 .best-seller-bg {
-  background: url('/storage/image/bg-pattern.jpg') center/cover no-repeat;
+  background: url('/image/bg-pattern.jpg') center/cover no-repeat;
   background-color: #f0f0f0; /* fallback */
 }
 
 .best-seller-bg {
-  background: url('/storage/image/bg-pattern.jpg') center/cover no-repeat;
+  background: url('/image/bg-pattern.jpg') center/cover no-repeat;
   backdrop-filter: blur(4px);
   border-radius: 12px;
 }
@@ -515,7 +515,7 @@ img.rounded-circle {
                 rgb(255, 255, 255),
                 rgba(255,255,255,0)
             ),
-            url('/storage/image/bg-hero.jpg') center/cover no-repeat;
+            url('/image/bg-hero.jpg') center/cover no-repeat;
     }
 
   .navbar-collapse {

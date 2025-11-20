@@ -16,7 +16,7 @@
         <div class="col-md-5">
             <div class="card shadow-sm mb-4">
                 <div class="card-body text-center">
-                    <img src="/storage/image/{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 400px;">
+                    <img src="/image/{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid rounded" style="max-height: 400px;">
                 </div>
             </div>
         </div>

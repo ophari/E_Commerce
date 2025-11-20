@@ -38,7 +38,7 @@
                                class="text-decoration-none text-dark d-block">
                                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden position-relative product-card">
                                     <div class="position-relative">
-                                        <img src="{{ asset('storage/image/' . $product->image_url) }}"
+                                        <img src="{{ asset('image/' . $product->image_url) }}"
                                              class="card-img-top"
                                              alt="{{ $product->name }}">
                                     </div>

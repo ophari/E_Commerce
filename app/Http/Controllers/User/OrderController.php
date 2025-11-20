@@ -49,7 +49,7 @@ class OrderController extends Controller
                 'name' => $item->product->name,
                 'price' => $item->product->price,
                 'qty' => $item->quantity,
-                'image' => asset('storage/image/' . $item->product->image_url),
+                'image' => asset('image/' . $item->product->image_url),
             ];
         })->toArray();
 
