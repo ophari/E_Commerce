@@ -316,6 +316,34 @@ h4.text-center span.text-warning {
   border-radius: 12px;
 }
 
+/* =========================================================
+   Cart Divider
+========================================================= */
+
+.luxury-divider {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        #C5A572,
+        transparent
+    );
+    position: relative;
+}
+
+.luxury-divider::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: #C5A572;
+    border-radius: 50%;
+}
+
 
 /* =========================================================
    NAVBAR
@@ -325,7 +353,6 @@ h4.text-center span.text-warning {
 }
 
 .navbar-brand {
-  color: #C5A572 !important;
   font-family: 'Playfair Display', serif;
   letter-spacing: 1px;
   transition: color 0.3s ease;
@@ -335,6 +362,32 @@ h4.text-center span.text-warning {
   color: #e2c88f !important;
   text-shadow: 0 0 5px rgba(197, 165, 114, 0.4);
 }
+
+/* Text default */
+.header-brand {
+    color: #f7f7f7;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Hover: efek luxury */
+.header-brand:hover {
+    color: #C5A572 !important;
+    transform: translateY(-2px);
+    letter-spacing: 2px;
+}
+
+/* Warna original untuk STORE (emas) */
+.header-brand .brand-gold {
+    color: #C5A572;
+    transition: color 0.3s ease;
+}
+
+/* Saat hover → STORE jadi hitam (kontras kebalik) */
+.header-brand:hover .brand-gold {
+    color: #f7f7f7;
+}
+
 
 /* ===== PERBAIKAN GARIS HOVER NAVBAR (TERMASUK DROPDOWN) ===== */
 .navbar-nav .nav-link {

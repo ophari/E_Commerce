@@ -16,7 +16,7 @@
         <div class="row align-items-center">
 
             <!-- Kiri -->
-            <div class="col-lg-12 col-md-8 hero-section mb-4 mb-lg-0">
+            <div class="col-lg-12 fade-up col-md-8 hero-section mb-4 mb-lg-0">
                 <h6 class="text-uppercase fw-semibold mb-2" style="color:#ad833f; letter-spacing:1px;">
                     Jam Tangan Berkualitas Terbaik
                 </h6>
@@ -187,6 +187,43 @@
     </div>
   </section>
 
+    {{-- OUR PRODUCT SECTION --}}
+  <section class="container my-5 fade-up">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold text-dark">Our Products</h3>
+          <a href="{{ route('product.list') }}" class="btn btn-outline-dark btn-sm px-3">See All</a>
+      </div>
+
+      <div class="row g-4">
+          @foreach ($ourProducts as $product)
+              <div class="col-6 col-md-3">
+                  <div class="card border-0 shadow-sm h-100">
+                      
+                      <div class="ratio ratio-1x1 bg-light">
+                          <img src="{{ asset('image/' . $product->image_url) }}"
+                              class="object-fit-cover w-100 h-100 rounded-top">
+                      </div>
+
+                      <div class="card-body">
+                          <h6 class="text-dark mb-1">{{ $product->name }}</h6>
+                          <p class="fw-bold mb-0 text-dark">
+                              Rp {{ number_format($product->price, 0, ',', '.') }}
+                          </p>
+                      </div>
+
+                  </div>
+              </div>
+          @endforeach
+      </div>
+
+      {{-- BUTTON DI BAWAH --}}
+      <div class="text-center mt-4 d-md-none">
+          <a href="{{ route('product.list') }}" class="btn btn-dark px-4 py-2">
+              View All Products
+          </a>
+      </div>
+  </section>
+
     {{-- FAQ SECTION --}}
   <section class="container fade-up py-5">
     <div class="text-center mb-5">
@@ -265,17 +302,5 @@
       </div>
     </div>
   </section>
-
-  {{-- NEWSLETTER --}}
-  <section class="newsletter fade-up py-5 bg-light text-center">
-    <div class="container">
-      <h4 class="fw-bold mb-3 text-dark">Join Our Newsletter Now</h4>
-      <form class="d-flex justify-content-center">
-        <input type="email" class="form-control w-50 rounded-start-pill" placeholder="Your email address">
-        <button type="submit" class="btn btn-dark btn-lg rounded-end-pill px-4">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
 </div>
 @endsection
