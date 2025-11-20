@@ -23,7 +23,6 @@ class CartController extends Controller
         return $cart;
     }
 
-    // show cart
     public function index()
     {
         $cart = $this->getOrCreateCart();
@@ -41,8 +40,16 @@ class CartController extends Controller
 
         $total = collect($cartData)->map(fn($i) => $i['price'] * $i['qty'])->sum();
 
-        return view('user.cart.index', compact('cartData','total'));
+        // ⭐ Tambahkan produk rekomendasi
+        $recommendedProducts = Product::inRandomOrder()->take(6)->get();
+
+        return view('user.cart.index', compact(
+            'cartData',
+            'total',
+            'recommendedProducts'
+        ));
     }
+
 
     // add by POST id, name, price
     public function add(Request $request)
@@ -110,7 +117,7 @@ class CartController extends Controller
         if ($cartItem) {
             $cartItem->update(['quantity' => $qty]);
         }
-
+        
         return back()->with('success','Keranjang diperbarui.');
     }
 }
