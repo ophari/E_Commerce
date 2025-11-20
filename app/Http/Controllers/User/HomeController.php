@@ -43,6 +43,15 @@ class HomeController extends Controller
 
         $bestSellers = Product::with('brand')->take(8)->get();
 
+        $ourProducts = Product::latest()->take(8)->get();
+
+        return view('user.pages.home', [
+            'brands' => $brands,
+            'bestSellers' => $bestSellers,
+            'ourProducts' => $ourProducts
+        ]);
+
+
         return view('user.pages.home', compact('brands', 'productsByBrand', 'products', 'bestSellers'));
     }
 }
