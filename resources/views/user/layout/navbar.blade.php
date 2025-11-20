@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm sticky-top">
   <div class="container">
     {{-- Brand --}}
-    <a class="navbar-brand fw-bold text-uppercase" href="{{ route('home') }}"
-       style="color:#C5A572; font-family:'Playfair Display', serif; letter-spacing:1px;">
-      WatchStore
+    <a class="navbar-brand fw-bold text-uppercase header-brand" href="{{ route('home') }}"
+       style="font-family:'Playfair Display', serif; letter-spacing:1px;">
+      WATCH<span class="brand-gold">STORE</span>
     </a>
 
     {{-- Toggle Button (Mobile) --}}
