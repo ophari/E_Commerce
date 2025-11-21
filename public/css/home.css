@@ -346,21 +346,92 @@ h4.text-center span.text-warning {
 
 
 /* =========================================================
-   NAVBAR
+   NAVBAR (Desktop + Mobile Clean Version)
 ========================================================= */
-.navbar {
-  transition: all 0.3s ease;
-}
 
+/* Brand */
 .navbar-brand {
   font-family: 'Playfair Display', serif;
+  color: #f7f7f7;
   letter-spacing: 1px;
-  transition: color 0.3s ease;
+  transition: 0.3s;
 }
 
 .navbar-brand:hover {
-  color: #e2c88f !important;
-  text-shadow: 0 0 5px rgba(197, 165, 114, 0.4);
+  color: #C5A572 !important;
+  transform: translateY(-2px);
+}
+
+.navbar-brand .brand-gold {
+  color: #C5A572;
+}
+
+/* Nav links desktop */
+.navbar-nav .nav-link {
+  color: #ddd !important;
+  font-weight: 500;
+  position: relative;
+  padding: 8px 14px;
+  transition: 0.3s;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2px;
+  width: 0;
+  background: #C5A572;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #C5A572 !important;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: calc(100% - 20px);
+}
+
+/* Cart button desktop */
+.navbar .btn-outline-light {
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.navbar .btn-outline-light:hover {
+  background-color: #C5A572;
+  color: #000 !important;
+  transform: translateY(-2px);
+}
+
+.navbar .badge {
+  background: #C5A572;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+/* Dropdown items desktop */
+.dropdown-menu {
+  background: #111;
+  border: none;
+  transition: 0.3s;
+}
+
+.dropdown-menu .dropdown-item {
+  color: #ddd !important;
+  text-align: center;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: #C5A572;
+  color: #000 !important;
 }
 
 /* Text default */
@@ -386,100 +457,6 @@ h4.text-center span.text-warning {
 /* Saat hover → STORE jadi hitam (kontras kebalik) */
 .header-brand:hover .brand-gold {
     color: #f7f7f7;
-}
-
-
-/* ===== PERBAIKAN GARIS HOVER NAVBAR (TERMASUK DROPDOWN) ===== */
-.navbar-nav .nav-link {
-  color: #ddd !important;
-  font-weight: 500;
-  position: relative;
-  transition: all 0.3s ease;
-  text-align: center;
-  padding: 8px 14px; /* padding seragam */
-}
-
-/* Efek garis hover dari tengah, menyesuaikan teks */
-.navbar-nav .nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: 2px; /* sedikit dinaikkan agar sejajar */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background-color: #C5A572;
-  transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
-/* Saat hover atau active — lebar sesuai teks */
-.navbar-nav .nav-link:hover::after,
-.navbar-nav .nav-link.active::after {
-  width: calc(100% - 20px); /* sesuai teks, minus padding kiri-kanan */
-}
-
-/* Warna hover & active */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-  color: #C5A572 !important;
-}
-
-
-/* khusus dropdown: hilangkan garis bawaan di parent dropdown-toggle */
-.navbar-nav .dropdown-toggle::after {
-  display: none; /* hilangkan panah kecil bawaan Bootstrap */
-}
-
-/* pastikan dropdown item juga rata tengah */
-.dropdown-menu .dropdown-item {
-  text-align: center;
-}
-
-/* Tombol Cart */
-.navbar .btn-outline-light {
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-}
-
-.navbar .btn-outline-light:hover {
-  background-color: #C5A572;
-  color: #000 !important;
-  transform: translateY(-2px);
-}
-
-/* Badge keranjang */
-.navbar .badge {
-  background-color: #C5A572;
-  color: #000;
-  font-weight: 600;
-  font-size: 0.75rem;
-}
-
-/* Tombol Login */
-.navbar .btn-sm {
-  transition: all 0.3s ease;
-}
-
-.navbar .btn-sm:hover {
-  background-color: #e2c88f;
-  color: #000;
-  transform: translateY(-2px);
-}
-
-/* Dropdown menu */
-.dropdown-menu {
-  transition: all 0.3s ease;
-}
-
-.dropdown-menu .dropdown-item {
-  color: #ddd !important;
-  transition: all 0.2s ease;
-}
-
-.dropdown-menu .dropdown-item:hover {
-  background-color: #C5A572;
-  color: #000 !important;
 }
 
 /* Profile edit - tema WatchStore */
@@ -511,70 +488,119 @@ img.rounded-circle {
   border: 4px solid rgba(197,165,114,0.08);
 }
 
-/* ===== SEARCH NAV ITEM ===== */
-.search-nav {
-  position: relative;
-}
+/* ========================== 
+   DESKTOP FIX DROPDOWN 
+=========================== */
+@media (min-width: 992px) {
+  .dropdown-menu {
+    position: absolute !important;
+    inset: auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
 
-/* ikon search */
-.search-nav .nav-link i {
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
-}
+  .dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+  }
 
-.search-nav .nav-link:hover i {
-  color: #C5A572;
+  .navbar-nav .dropdown-toggle::after {
+    display: none !important;
+  }
+  
+  /* Pastikan garis hover tidak muncul */
+  .navbar-nav .dropdown-toggle:hover::after {
+    width: 0 !important;
+  }
 }
-
-/* kotak input tersembunyi dulu */
-.search-box {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(26, 60, 99, 0.95);
-  padding: 6px 10px;
-  border-radius: 8px;
-  display: none;
-  animation: fadeIn 0.3s ease forwards;
-  z-index: 1000;
-}
-
-/* input style */
-.search-box input {
-  width: 160px;
-  background-color: transparent;
-  border: 1px solid #C5A572;
-  color: #fff;
-  border-radius: 20px;
-  padding: 5px 10px;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-}
-
-.search-box input:focus {
-  background-color: rgba(255, 255, 255, 0.1);
-  outline: none;
-  box-shadow: none;
-}
-
 
 /* ===== NAVBAR CENTERED DI MODE HP ===== */
 @media (max-width: 991px) {
-    .hero-bg-fixed {
-        background:
-            linear-gradient(
-                to bottom,
-                rgb(255, 255, 255),
-                rgb(255, 255, 255),
-                rgba(255,255,255,0)
-            ),
-            url('/image/bg-hero.jpg') center/cover no-repeat;
-    }
 
+  /* Collapse spacing */
   .navbar-collapse {
-    text-align: left;
+    padding: 18px 12px;
   }
 
+  /* Center simple links */
+  .navbar-nav .simple-link .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+  }
+
+  /* Separator */
+  .nav-separator {
+    width: 60%;
+    height: 1px;
+    background: #C5A572;
+    margin: 12px auto 20px auto;
+    opacity: 0.4;
+  }
+
+  /* Center action buttons */
+  .navbar-nav .action-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Cart & profile buttons */
+  .navbar-nav .action-btn > a,
+  .navbar-nav .action-btn > .dropdown-toggle {
+    width: 80%;
+    max-width: 260px;
+    background: #1b1b1b;
+    border: 1px solid #C5A57244;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #C5A572 !important;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.25s;
+  }
+
+  .navbar-nav .action-btn > a:hover,
+  .navbar-nav .action-btn > .dropdown-toggle:hover {
+    background: #C5A572;
+    color: #000 !important;
+  }
+
+  /* Dropdown mobile */
+  .navbar-nav .action-btn.dropdown .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    width: 80% !important;
+    max-width: 260px !important;
+
+    margin-top: 6px !important;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    z-index: 9999;
+  }
+
+  .navbar-nav .action-btn.dropdown {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  .navbar-nav .action-btn.dropdown .dropdown-item {
+    padding: 10px;
+  }
+
+  /* Remove hover line on mobile */
+  .navbar-nav .nav-link::after {
+    display: none !important;
+  }
+
+  /* background section hero*/
   .hero-zoom, .hero-zoom-auto {
     background-size: cover !important;
     background-position: center !important;
@@ -582,21 +608,15 @@ img.rounded-circle {
     animation: none !important;
   }
 
-  .navbar-nav {
-    align-items: flex-start !important;
-  }
-
-  .navbar-nav .nav-item {
-    margin-bottom: 8px;
-  }
-
-  .navbar-brand {
-    margin: 0 auto;
-  }
-
-  .navbar-toggler {
-    border: none;
-    outline: none;
+  .hero-bg-fixed {
+      background:
+          linear-gradient(
+              to bottom,
+              rgb(255, 255, 255),
+              rgb(255, 255, 255),
+              rgba(255,255,255,0)
+          ),
+          url('/image/bg-hero.jpg') center/cover no-repeat;
   }
   
   .order-history h2 {
@@ -629,19 +649,4 @@ img.rounded-circle {
 
   .card-body { padding: 1rem; }
   .container { padding-left: 1rem; padding-right: 1rem; }
-
-  .navbar-nav .nav-item,
-  .navbar-nav .dropdown,
-  .navbar-nav .dropdown-item {
-    text-align: left !important;
-  }
-
-  /* Batas antar menu */
-  .navbar-nav .nav-item {
-    padding: 10px 0;
-  }
-
-  .navbar-nav .nav-item:last-child {
-    border-bottom: none;
-  }
 }

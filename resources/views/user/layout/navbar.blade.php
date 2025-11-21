@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm sticky-top">
   <div class="container">
+
     {{-- Brand --}}
-    <a class="navbar-brand fw-bold text-uppercase header-brand" href="{{ route('home') }}"
-       style="font-family:'Playfair Display', serif; letter-spacing:1px;">
+    <a class="navbar-brand fw-bold text-uppercase header-brand" href="{{ route('home') }}">
       WATCH<span class="brand-gold">STORE</span>
     </a>
 
@@ -13,19 +13,27 @@
 
     {{-- Navbar Menu --}}
     <div class="collapse navbar-collapse" id="nav">
+
+      {{-- Left (Products + Orders) --}}
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
+        <li class="nav-item simple-link">
           <a class="nav-link text-light" href="{{ route('product.list') }}">Products</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item simple-link">
           <a class="nav-link text-light" href="{{ route('user.orders') }}">Orders</a>
         </li>
       </ul>
 
-      {{-- Right Side --}}
+      {{-- MOBILE ONLY SEPARATOR --}}
+      <div class="nav-separator d-lg-none"></div>
+
+      {{-- RIGHT SIDE --}}
       <ul class="navbar-nav ms-auto align-items-center">
-        {{-- Cart --}}
-        <li class="nav-item me-2">
+
+        {{-- =========================
+             DESKTOP CART + PROFILE
+           ========================= --}}
+        <li class="nav-item d-none d-lg-block">
           <a class="btn btn-outline-light btn-sm border-0" href="{{ route('user.cart') }}" style="color:#C5A572;">
             <i class="bi bi-bag"></i> Cart
             <span class="badge" style="background-color:#C5A572; color:#000;">
@@ -34,10 +42,9 @@
           </a>
         </li>
 
-        {{-- Authentication --}}
         @auth
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+          <li class="nav-item dropdown d-none d-lg-block ms-3">
+            <a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown">
               {{ Auth::user()->name }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
@@ -54,14 +61,43 @@
               </li>
             </ul>
           </li>
-        @else
-          <li class="nav-item">
-            <a class="btn btn-sm px-3" href="{{ route('login') }}"
-               style="background-color:#C5A572; color:#000; font-weight:600;">
-              Login
+        @endauth
+
+
+        {{-- =========================
+             MOBILE CART + PROFILE
+           ========================= --}}
+        <li class="nav-item action-btn d-lg-none">
+          <a class="btn btn-outline-light btn-sm border-0" href="{{ route('user.cart') }}" style="color:#C5A572;">
+            <i class="bi bi-bag"></i> Cart
+            <span class="badge" style="background-color:#C5A572; color:#000;">
+              {{ $cartCount ?? 0 }}
+            </span>
+          </a>
+        </li>
+
+        @auth
+          <li class="nav-item action-btn dropdown d-lg-none">
+            <a class="nav-link dropdown-toggle text-light text-center" href="#" data-bs-toggle="dropdown">
+              {{ Auth::user()->name }}
             </a>
+
+            <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
+              <li>
+                <a class="dropdown-item text-light" href="{{ route('user.profile.edit') }}">
+                  Profile
+                </a>
+              </li>
+              <li><hr class="dropdown-divider bg-secondary"></li>
+              <li>
+                <a class="dropdown-item text-light" href="{{ route('logout') }}">
+                  Logout
+                </a>
+              </li>
+            </ul>
           </li>
         @endauth
+
       </ul>
     </div>
   </div>
