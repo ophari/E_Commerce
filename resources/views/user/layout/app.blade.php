@@ -16,7 +16,7 @@
 @include('user.layout.navbar')
 
 <main class="py-4">
-  <div class="container">
+  
     @if(session('success'))
       <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -25,7 +25,7 @@
     @endif
 
     @yield('content')
-  </div>
+
 </main>
 
 <footer class="footer-modern bg-dark text-white pt-5 pb-4 mt-5">
