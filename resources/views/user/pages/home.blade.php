@@ -214,31 +214,30 @@
 
       <div class="row g-4">
           @foreach ($ourProducts as $product)
-              <div class="col-6 col-md-3">
-                  <div class="card border-0 shadow-sm h-100">
-                      
-                      <div class="ratio ratio-1x1 bg-light">
-                          <img src="{{ asset('image/' . $product->image_url) }}"
-                              class="object-fit-cover w-100 h-100 rounded-top">
-                      </div>
+<div class="col-6 col-md-3">
+    <a href="{{ route('product.detail', $product->id) }}"
+       class="text-decoration-none product-card text-dark d-block">
 
-                      <div class="card-body">
-                          <h6 class="text-dark mb-1">{{ $product->name }}</h6>
-                          <p class="fw-bold mb-0 text-dark">
-                              Rp {{ number_format($product->price, 0, ',', '.') }}
-                          </p>
-                      </div>
+        <div class="card border-0 shadow-sm h-100">
 
-                  </div>
-              </div>
+            <div class="ratio ratio-1x1 bg-light">
+                <img src="{{ asset('image/' . $product->image_url) }}"
+                     class="object-fit-cover w-100 h-100 rounded-top">
+            </div>
+
+            <div class="card-body">
+                <h6 class="text-dark mb-1">{{ $product->name }}</h6>
+                <p class="fw-bold mb-0 text-dark">
+                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                </p>
+            </div>
+
+        </div>
+
+    </a>
+</div>
+
           @endforeach
-      </div>
-
-      {{-- BUTTON DI BAWAH --}}
-      <div class="text-center mt-4 d-md-none">
-          <a href="{{ route('product.list') }}" class="btn btn-dark px-4 py-2">
-              View All Products
-          </a>
       </div>
   </section>
 
