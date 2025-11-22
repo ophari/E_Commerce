@@ -1,71 +1,71 @@
 /* =========================================================
    GLOBAL STYLES
 ========================================================= */
-.object-fit-cover {
-  object-fit: cover;
-}
+
+.object-fit-cover { object-fit: cover; }
 
 .hover-shadow:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
 }
 
-/* Efek muncul dari bawah */
-.fade-left {
-  opacity: 0;
-  transform: translateX(20px);
-  transition: all .8s ease;
-}
-
-.fade-left.active {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-
+/* Fade Animations */
 .fade-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.8s ease;
 }
-
-/* Ketika elemen terlihat di layar */
 .fade-up.show {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
+.fade-left {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: 0.8s ease;
+}
+.fade-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.fade-right {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: 0.8s ease;
+}
+.fade-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Hide Scrollbar */
+::-webkit-scrollbar { width: 0; height: 0; }
+html { scrollbar-width: none; }
+body { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* =========================================================
    HERO SECTION
 ========================================================= */
-/* Background full + tidak ikut scroll */
+
 .hero-bg-fixed {
-    position: absolute;     /* kunci di layar */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;       /* full layar */
-    background:     linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.95),   /* kiri terang */
-        rgba(255, 255, 255, 0.4),    /* tengah soft */
-        rgba(255, 255, 255, 0)       /* kanan transparan */
-    ), url('/image/bg-hero.jpg') center/cover no-repeat;
-    z-index: -1;         /* taruh di belakang */
-    filter: brightness(0.9); /* opsional: sedikit gelap */
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background:
+        linear-gradient(
+            to right,
+            rgba(255,255,255,0.95),
+            rgba(255,255,255,0.4),
+            rgba(255,255,255,0)
+        ),
+        url('/image/bg-hero.jpg') center/cover no-repeat;
+    z-index: -1;
+    filter: brightness(0.9);
 }
 
-.hero-content {
-  position: relative;
-  z-index: 3;
-  max-width: 550px;
-  padding: 40px;
-  color: #111;
-}
-
-/* Hero tinggi 1 layar */
 .hero-wrapper {
     height: 100vh;
     display: flex;
@@ -73,83 +73,313 @@
     position: relative;
 }
 
-.hero-zoom {
-  background-size: 110%;
-  background-position: center;
-  transition: background-size 1.5s ease;
+.hero-section {
+    padding: 100px 0;
+    min-height: 90vh;
 }
 
-.hero-zoom:hover {
-  background-size: 120%;
+.hero-section h1 {
+    color: #1a1a1a;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
-.hero-box {
-  background: rgb(255, 255, 255);      /* putih elegan */
-  padding: 35px 40px;
-  border-radius: 20px;                        /* sudut melengkung */
-  box-shadow: 0 8px 25px rgba(0,0,0,0.12);    /* shadow halus */
-  backdrop-filter: blur(4px);                 /* efek glass */
-  -webkit-backdrop-filter: blur(4px);         /* Safari support */
-  position: relative;
-  z-index: 5;
+.hero-section p { color: #555; font-size: 1.05rem; }
+
+.hero-section .btn {
+    background-color: #C5A572;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    transition: 0.3s ease;
+}
+.hero-section .btn:hover {
+    background: #e2c88f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(197,165,114,0.4);
 }
 
-/* Glass Morphism */
-.glass {
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 20px;
-}
-
-/* Responsive Hero Image */
 .hero-img {
     max-width: 400px;
     animation: float 4s ease-in-out infinite;
 }
 
-/* Floating Animation */
 @keyframes float {
     0% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
 
-.hero-section {
-  position: relative;
-  padding: 100px 0;
-  overflow: hidden;
-  min-height: 90vh;
+/* =========================================================
+   BANNER / PROMO
+========================================================= */
+
+.banner-card {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    transition: 0.3s ease;
+}
+.banner-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.22);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
 
-/* Untuk memberi jarak antar teks dan gambar */
-
-.hero-section h1 {
-  color: #1a1a1a;
-  font-weight: 700;
-  line-height: 1.2;
+.promo-full-bg {
+    width: 100%;
+    padding: 80px 0;
+    background:
+        linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+        url('/image/bg-pattern.jpg') center/cover no-repeat;
+    border-radius: 16px;
 }
 
-.hero-section p {
-  color: #555;
-  font-size: 1.05rem;
+/* =========================================================
+   BRAND MARQUEE
+========================================================= */
+
+.brand-marquee { overflow: hidden; }
+
+.brand-track {
+    width: max-content;
+    white-space: nowrap;
+    animation: scroll 35s linear infinite;
 }
 
-/* Tombol utama (tema emas) */
-.hero-section .btn {
-  background-color: #C5A572;
-  color: #000;
-  border: none;
-  border-radius: 50px;
-  transition: all 0.3s ease;
+@keyframes scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
 }
 
-.hero-section .btn:hover {
-  background-color: #e2c88f;
-  color: #000;
+/* =========================================================
+   BEST SELLER SLIDER — FINAL CLEAN VERSION
+========================================================= */
+
+.best-seller-slider {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+
+.best-seller-track {
+    display: flex;
+    transition: 0.5s ease;
+    width: 100%;
+}
+
+.slide-page {
+    min-width: 100%;
+    display: flex;
+    gap: 16px;
+}
+
+/* 3 Produk per slide */
+.product-card {
+    flex: 0 0 calc(33.33% - 12px);
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+.product-card:hover { transform: translateY(-6px); }
+
+.product-card img { object-fit: contain; padding: 10px; }
+
+.product-card .card-body { text-align: center; padding: 14px; }
+
+.rating { color: #FFD700; margin-bottom: 6px; }
+
+.price { font-weight: 700; color: #000; }
+
+.best-seller-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 14px;
+}
+
+.best-seller-dots button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: #d4d4d4;
+    transition: 0.3s;
+}
+
+.best-seller-dots button.active {
+    background: #C5A572;
+    transform: scale(1.25);
+}
+
+
+/* =========================================================
+   NAVBAR (Desktop + Mobile)
+========================================================= */
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  color: #f7f7f7;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    color: #f7f7f7;
+    transition: 0.3s;
+}
+
+.navbar-brand:hover {
+  color: #C5A572 !important;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(197,165,114,0.4);
+}
+
+.header-brand {
+    color: #ffffff !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.header-brand .brand-gold {
+    color: #C5A572 !important;
+}
+
+.header-brand:hover {
+    color: #C5A572 !important;
+}
+
+.header-brand:hover .brand-gold {
+    color: #ffffff !important;
+}
+
+
+.navbar-brand:hover {
+    color: #C5A572 !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link {
+  color: #ddd !important;
+  font-weight: 500;
+  position: relative;
+  padding: 8px 14px;
+  transition: 0.3s;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2px;
+  width: 0;
+  background: #C5A572;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #C5A572 !important;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: calc(100% - 20px);
+}
+
+.nav-item.dropdown .nav-link::after {
+    display: none !important;
+}
+
+/* USER NAME: biasa, tanpa animasi */
+.nav-item.dropdown .nav-link {
+    color: #ffffff !important;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+/* Hover: hanya ganti warna (tanpa garis bawah) */
+.nav-item.dropdown .nav-link:hover {
+    color: #C5A572 !important;
+}
+
+
+/* Cart button desktop */
+.navbar .btn-outline-light {
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.navbar .btn-outline-light:hover {
+  background-color: #C5A572;
+  color: #000 !important;
+  transform: translateY(-2px);
+}
+
+.navbar .badge {
+  background: #C5A572;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+/* Dropdown items desktop */
+.dropdown-menu {
+  background: #111;
+  border: none;
+  transition: 0.3s;
+}
+
+.dropdown-menu .dropdown-item {
+  color: #ddd !important;
+  text-align: center;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background: #C5A572;
+  color: #000 !important;
+}
+
+/* Auth Buttons */
+.nav-auth-btn {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    transition: all 0.25s ease !important;
+}
+
+/* Login Button */
+.nav-auth-login {
+    border: 1px solid #C5A572 !important;
+    color: #C5A572 !important;
+    background: transparent !important;
+}
+
+.nav-auth-login:hover {
+    background-color: #C5A572 !important;
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(197,165,114,0.4);
+}
+
+/* Register Button */
+.nav-auth-register {
+    background-color: #C5A572 !important;
+    color: #000 !important;
+    border: none !important;
+}
+
+.nav-auth-register:hover {
+    background-color: #e4c48a !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(197,165,114,0.45);
 }
 
 /* ==============================
@@ -223,425 +453,249 @@ h4.text-center span.text-warning {
     color: #D4AF37 !important; /* warna emas lembut */
 }
 
-
 /* =========================================================
-   BANNER / PROMO
-========================================================= */
-.banner-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.banner-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
-}
-
-/* =========================================================
-   BRAND MARQUEE
-========================================================= */
-.brand-marquee {
-    /* Menyembunyikan konten yang keluar dari batas horizontal */
-    overflow: hidden; 
-}
-
-.brand-track {
-    /* Memastikan track cukup lebar untuk semua konten */
-    width: fit-content;
-    /* Mencegah item brand turun baris (penting untuk marquee) */
-    white-space: nowrap; 
-    /* Mengaplikasikan animasi gulir */
-    animation: scroll 35s linear infinite; /* Kecepatan sedikit diperlambat */
-}
-
-/* Kunci animasi untuk gulir */
-@keyframes scroll {
-    from {
-        transform: translateX(0);
-    }
-    /* Bergerak 50% dari total lebar (karena kita menduplikasi konten 2x) */
-    to {
-        transform: translateX(-50%);
-    }
-}
-
-/* =========================================================
-   NEWSLETTER
-========================================================= */
-.newsletter input {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-.newsletter button {
-  background-color: #1A3C63;
-  color: #fff;
-  border: none;
-  transition: 0.3s;
-}
-
-.newsletter button:hover {
-  background-color: #122945;
-}
-
-/* =========================================================
-   ORDER HISTORY
-========================================================= */
-.order-history table {
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.order-history tbody tr:hover {
-  background-color: #f8f9fb;
-  transition: background 0.2s ease-in-out;
-}
-
-.order-history .btn-outline-dark:hover {
-  background-color: #1A3C63;
-  color: white;
-}
-
-/* =========================================================
-   BEST SELLER SECTION
+   MOBILE RESPONSIVE
 ========================================================= */
 
-.best-seller-bg {
-  background: url('/image/bg-pattern.jpg') center/cover no-repeat;
-  background-color: #f0f0f0; /* fallback */
-}
-
-.best-seller-bg {
-  background: url('/image/bg-pattern.jpg') center/cover no-repeat;
-  backdrop-filter: blur(4px);
-  border-radius: 12px;
-}
-
-/* =========================================================
-   Cart Divider
-========================================================= */
-
-.luxury-divider {
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        #C5A572,
-        transparent
-    );
-    position: relative;
-}
-
-.luxury-divider::after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
-    background: #C5A572;
-    border-radius: 50%;
-}
-
-
-/* =========================================================
-   NAVBAR
-========================================================= */
-.navbar {
-  transition: all 0.3s ease;
-}
-
-.navbar-brand {
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 1px;
-  transition: color 0.3s ease;
-}
-
-.navbar-brand:hover {
-  color: #e2c88f !important;
-  text-shadow: 0 0 5px rgba(197, 165, 114, 0.4);
-}
-
-/* Text default */
-.header-brand {
-    color: #f7f7f7;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-/* Hover: efek luxury */
-.header-brand:hover {
-    color: #C5A572 !important;
-    transform: translateY(-2px);
-    letter-spacing: 2px;
-}
-
-/* Warna original untuk STORE (emas) */
-.header-brand .brand-gold {
-    color: #C5A572;
-    transition: color 0.3s ease;
-}
-
-/* Saat hover → STORE jadi hitam (kontras kebalik) */
-.header-brand:hover .brand-gold {
-    color: #f7f7f7;
-}
-
-
-/* ===== PERBAIKAN GARIS HOVER NAVBAR (TERMASUK DROPDOWN) ===== */
-.navbar-nav .nav-link {
-  color: #ddd !important;
-  font-weight: 500;
-  position: relative;
-  transition: all 0.3s ease;
-  text-align: center;
-  padding: 8px 14px; /* padding seragam */
-}
-
-/* Efek garis hover dari tengah, menyesuaikan teks */
-.navbar-nav .nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: 2px; /* sedikit dinaikkan agar sejajar */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background-color: #C5A572;
-  transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
-/* Saat hover atau active — lebar sesuai teks */
-.navbar-nav .nav-link:hover::after,
-.navbar-nav .nav-link.active::after {
-  width: calc(100% - 20px); /* sesuai teks, minus padding kiri-kanan */
-}
-
-/* Warna hover & active */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-  color: #C5A572 !important;
-}
-
-
-/* khusus dropdown: hilangkan garis bawaan di parent dropdown-toggle */
-.navbar-nav .dropdown-toggle::after {
-  display: none; /* hilangkan panah kecil bawaan Bootstrap */
-}
-
-/* pastikan dropdown item juga rata tengah */
-.dropdown-menu .dropdown-item {
-  text-align: center;
-}
-
-/* Tombol Cart */
-.navbar .btn-outline-light {
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-}
-
-.navbar .btn-outline-light:hover {
-  background-color: #C5A572;
-  color: #000 !important;
-  transform: translateY(-2px);
-}
-
-/* Badge keranjang */
-.navbar .badge {
-  background-color: #C5A572;
-  color: #000;
-  font-weight: 600;
-  font-size: 0.75rem;
-}
-
-/* Tombol Login */
-.navbar .btn-sm {
-  transition: all 0.3s ease;
-}
-
-.navbar .btn-sm:hover {
-  background-color: #e2c88f;
-  color: #000;
-  transform: translateY(-2px);
-}
-
-/* Dropdown menu */
-.dropdown-menu {
-  transition: all 0.3s ease;
-}
-
-.dropdown-menu .dropdown-item {
-  color: #ddd !important;
-  transition: all 0.2s ease;
-}
-
-.dropdown-menu .dropdown-item:hover {
-  background-color: #C5A572;
-  color: #000 !important;
-}
-
-/* Profile edit - tema WatchStore */
-.card .form-label {
-  font-weight: 600;
-  color: #222;
-}
-
-.btn-dark {
-  background-color: #1A3C63;
-  border-color: #1A3C63;
-}
-
-.btn-dark:hover {
-  background-color: #122945;
-  border-color: #122945;
-}
-
-.btn-outline-secondary {
-  border-radius: 30px;
-}
-
-input.form-control, textarea.form-control {
-  border-radius: 10px;
-  padding: 10px 12px;
-}
-
-img.rounded-circle {
-  border: 4px solid rgba(197,165,114,0.08);
-}
-
-/* ===== SEARCH NAV ITEM ===== */
-.search-nav {
-  position: relative;
-}
-
-/* ikon search */
-.search-nav .nav-link i {
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
-}
-
-.search-nav .nav-link:hover i {
-  color: #C5A572;
-}
-
-/* kotak input tersembunyi dulu */
-.search-box {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: rgba(26, 60, 99, 0.95);
-  padding: 6px 10px;
-  border-radius: 8px;
-  display: none;
-  animation: fadeIn 0.3s ease forwards;
-  z-index: 1000;
-}
-
-/* input style */
-.search-box input {
-  width: 160px;
-  background-color: transparent;
-  border: 1px solid #C5A572;
-  color: #fff;
-  border-radius: 20px;
-  padding: 5px 10px;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
-}
-
-.search-box input:focus {
-  background-color: rgba(255, 255, 255, 0.1);
-  outline: none;
-  box-shadow: none;
-}
-
-
-/* ===== NAVBAR CENTERED DI MODE HP ===== */
 @media (max-width: 991px) {
-    .hero-bg-fixed {
-        background:
-            linear-gradient(
-                to bottom,
-                rgb(255, 255, 255),
-                rgb(255, 255, 255),
-                rgba(255,255,255,0)
-            ),
-            url('/image/bg-hero.jpg') center/cover no-repeat;
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+    /* Collapse spacing */
+  .navbar-collapse {
+    padding: 18px 12px;
+  }
+
+  /* Center simple links */
+  .navbar-nav .simple-link .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+  }
+
+  /* Separator */
+  .nav-separator {
+    width: 60%;
+    height: 1px;
+    background: #C5A572;
+    margin: 12px auto 20px auto;
+    opacity: 0.4;
+  }
+
+  /* Center action buttons */
+  .navbar-nav .action-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Cart & profile buttons */
+  .navbar-nav .action-btn > a,
+  .navbar-nav .action-btn > .dropdown-toggle {
+    width: 80%;
+    max-width: 260px;
+    background: #1b1b1b;
+    border: 1px solid #C5A57244;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #C5A572 !important;
+    font-weight: 600;
+    text-align: center;
+    transition: 0.25s;
+  }
+
+  .navbar-nav .action-btn > a:hover,
+  .navbar-nav .action-btn > .dropdown-toggle:hover {
+    background: #C5A572;
+    color: #000 !important;
+  }
+
+  /* Dropdown mobile */
+  .navbar-nav .action-btn.dropdown .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    width: 80% !important;
+    max-width: 260px !important;
+
+    margin-top: 6px !important;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    z-index: 9999;
+  }
+
+  .navbar-nav .action-btn.dropdown {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  /* Hide navbar on scroll down */
+.nav-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* Navbar locked (no hide during mobile menu open) */
+.nav-locked {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+
+  .navbar-nav .action-btn.dropdown .dropdown-item { padding: 10px; }
+
+  /* Remove hover line on mobile */
+    .navbar-nav .nav-link::after { display: none !important; }
+
+    .navbar-collapse { padding: 18px 12px; }
+
+    .navbar-nav .nav-link::after { display: none !important; }
+
+    .hero-section { text-align: center; padding: 60px 20px; }
+
+    .hero-image img { max-width: 80%; margin-top: 10px; }
+}
+
+@media (max-width: 576px) {
+
+    .best-seller-slider {
+        padding: 0 !important;
+        margin-top: 10px !important;
     }
 
-  .navbar-collapse {
-    text-align: left;
-  }
+    .slide-page {
+        min-height: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+    }
 
-  .hero-zoom, .hero-zoom-auto {
-    background-size: cover !important;
-    background-position: center !important;
-    transition: none !important;
-    animation: none !important;
-  }
+    .best-seller-track {
+        height: auto !important;
+        min-height: auto !important;
+        padding-bottom: 10px !important;
+    }
 
-  .navbar-nav {
-    align-items: flex-start !important;
-  }
+    .product-card .ratio {
+        height: 180px !important;
+        max-height: 180px !important;
+    }
 
-  .navbar-nav .nav-item {
-    margin-bottom: 8px;
-  }
+    .product-card img {
+        height: 100% !important;
+        object-fit: cover !important;
+    }
 
-  .navbar-brand {
-    margin: 0 auto;
-  }
+    .product-card {
+        flex: 0 0 85% !important;
+        min-width: 85% !important;
+        max-width: 85% !important;
+        margin: 0 auto !important;
+        border-radius: 14px !important;
+    }
 
-  .navbar-toggler {
-    border: none;
-    outline: none;
-  }
-  
-  .order-history h2 {
-    font-size: 1.6rem;
-  }
+    .product-card .card-body {
+        padding: 10px !important;
+    }
 
-  .order-history table {
-    font-size: 0.9rem;
-  }
+    .best-seller-track::-webkit-scrollbar {
+        display: none;
+    }
 
-  .hero-section {
-    text-align: center;
-    padding: 60px 20px; /* biar lega di sisi kanan kiri */
-    
-  }
+    .best-seller-dots {
+        margin-top: -5px !important;
+        margin-bottom: 10px !important;
+    }
 
-  .hero-text {
-    text-align: center;
-    margin-bottom: 30px; /* jarak antara teks dan gambar */
-  }
+        .banner-card {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 18px !important;
+    }
 
-  .hero-text p {
-    margin: 0 auto;
-  }
+    .banner-card img {
+        max-width: 140px !important;
+        margin-top: 14px;
+    }
 
-  .hero-image img {
-    max-width: 80%;
-    margin-top: 10px; /* kasih jarak biar gak dempet ke teks */
-  }
+    .hero-bg-fixed {
+        height: 75vh !important;
+        background-size: cover !important;
+        background-position: center !important;
+        filter: brightness(0.9);
+    }
 
-  .card-body { padding: 1rem; }
-  .container { padding-left: 1rem; padding-right: 1rem; }
+    /* Wrapper menyesuaikan image */
+    .hero-wrapper {
+        min-height: 75vh !important;
+        display: flex;
+        align-items: center;
+        padding-top: 90px !important; /* offset untuk navbar */
+        padding-bottom: 20px !important;
+        text-align: center;
+    }
 
-  .navbar-nav .nav-item,
-  .navbar-nav .dropdown,
-  .navbar-nav .dropdown-item {
-    text-align: left !important;
-  }
+    /* Text section */
+    .hero-section {
+        padding: 0 20px !important;
+        min-height: auto !important;
+    }
 
-  /* Batas antar menu */
-  .navbar-nav .nav-item {
-    padding: 10px 0;
-  }
+    .hero-section h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.3;
+    }
 
-  .navbar-nav .nav-item:last-child {
-    border-bottom: none;
-  }
+    .hero-section p {
+        font-size: 1rem !important;
+        max-width: 90% !important;
+        margin: 0 auto;
+    }
+
+    /* Button */
+    .hero-section .btn {
+        margin-top: 15px;
+        padding: 8px 24px !important;
+        font-size: 0.95rem;
+    }
+
+    /* Jangan ganggu section lain */
+    section:not(.hero-wrapper), 
+    .container:not(.hero-wrapper) {
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+        .our-products .card {
+        border-radius: 14px;
+    }
+
+    .our-products .col-6 {
+        padding: 6px !important;
+    }
+
+     .navbar {
+        padding: 8px 12px !important;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .navbar-toggler {
+        padding: 4px 8px !important;
+    }
 }
