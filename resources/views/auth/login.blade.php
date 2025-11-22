@@ -29,6 +29,10 @@
 
         <!-- Form Login -->
         <div class="col-md-6 p-5">
+            <a href="{{ route('home') }}" class="back-home-btn mb-3">
+                <i class="bi bi-arrow-left"></i> <
+            </a>
+
             <h4 class="text-center mb-4 fw-semibold">Login to Your Account</h4>
 
             <form action="{{ route('login') }}" method="POST">
