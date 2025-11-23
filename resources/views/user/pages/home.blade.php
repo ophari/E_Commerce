@@ -6,7 +6,7 @@
 
 <div class="container-fluid px-0">
 
-  {{-- HERO SECTION --}}
+{{-- HERO SECTION --}}
 <!-- Background Fixed -->
 <div class="hero-bg-fixed hero-zoom"></div>
 
@@ -37,16 +37,14 @@
                 </a>
             </div>
 
-            
-
         </div>
     </div>
-  </div>
 </div>
 
+
 {{-- BRAND MARQUEE (TEXT BASED & CLEANER) --}}
-<section class="bg-white py-5 fade-up text-center position-relative overflow-hidden">
-  <div class="container py-5">
+<section class="bg-white py-5 text-center position-relative overflow-hidden">
+  <div class="container fade-up py-5">
     <h1 class="fw-bold text-dark mb-3">Find Your Perfect Timepiece</h1>
     <p class="text-muted mb-4">
       Discover luxury, style, and precision from world-renowned watch brands.
@@ -54,7 +52,7 @@
     <a href="{{ route('product.list') }}" class="btn btn-dark px-4 py-2">Shop Now</a>
   </div>
 
-  <div class="brand-marquee py-4 bg-light mt-5 border-top border-bottom">
+  <div class="brand-marquee fade-up py-4 bg-light mt-5 border-top border-bottom">
     <div class="brand-track d-flex align-items-center">
       
       {{-- ULANGI DUA KALI UNTUK EFEK LOOPING SEMPURNA --}}
@@ -83,7 +81,7 @@
         <div class="row g-4">
 
             <div class="col-md-6">
-                <div class="banner-card p-4 d-flex align-items-center justify-content-between h-100">
+                <div class="banner-card p-4 d-flex align-items-center slide-left justify-content-between h-100">
                     <div>
                         <h4 class="fw-bold mb-2 text-white">Best Deal</h4>
                         <p class="mb-3 text-white">Jowel Watch for Men</p>
@@ -94,7 +92,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="banner-card p-4 d-flex align-items-center justify-content-between h-100">
+                <div class="banner-card p-4 d-flex align-items-center slide-right justify-content-between h-100">
                     <div>
                         <h4 class="fw-bold mb-2 text-white">Rich Watch</h4>
                         <p class="mb-3 text-white">Make a better life. Make a rich life.</p>
@@ -115,7 +113,7 @@
     <div class="row align-items-center">
 
         <!-- Kiri: Text -->
-        <div class="col-lg-4 mb-4 text-lg-start text-center">
+        <div class="col-lg-4 mb-4 fade-up text-lg-start text-center">
             <h3 class="fw-bold text-dark">Best Seller Product</h3>
             <p class="text-muted">
                 Produk jam tangan paling laris bulan ini. Kualitas premium dengan desain elegan.
@@ -126,7 +124,7 @@
         </div>
 
         <!-- Kanan: Slider -->
-        <div class="col-lg-8">
+        <div class="col-lg-8 fade-up">
 
             <div class="best-seller-slider position-relative">
 
@@ -212,31 +210,39 @@
           <a href="{{ route('product.list') }}" class="btn btn-outline-dark btn-sm px-3">See All</a>
       </div>
 
-      <div class="row g-4">
+      <div class="row g-4 our-products">
           @foreach ($ourProducts as $product)
-<div class="col-6 col-md-3">
-    <a href="{{ route('product.detail', $product->id) }}"
-       class="text-decoration-none product-card text-dark d-block">
+          <div class="col-6 col-md-3">
 
-        <div class="card border-0 shadow-sm h-100">
+              <a href="{{ route('product.detail', $product->id) }}"
+                class="text-decoration-none text-dark d-block">
 
-            <div class="ratio ratio-1x1 bg-light">
-                <img src="{{ asset('image/' . $product->image_url) }}"
-                     class="object-fit-cover w-100 h-100 rounded-top">
-            </div>
+                  <div class="our-product-card card border-0 shadow-sm h-100">
 
-            <div class="card-body">
-                <h6 class="text-dark mb-1">{{ $product->name }}</h6>
-                <p class="fw-bold mb-0 text-dark">
-                    Rp {{ number_format($product->price, 0, ',', '.') }}
-                </p>
-            </div>
+                      <div class="ratio ratio-1x1 bg-light">
+                          <img src="{{ asset('image/' . $product->image_url) }}"
+                              class="object-fit-cover w-100 h-100 rounded-top">
+                      </div>
 
-        </div>
+                      <div class="card-body text-center">
 
-    </a>
-</div>
+                          <h6 class="product-name mb-1">{{ $product->name }}</h6>
 
+                          <p class="fw-bold price mb-2">
+                              Rp {{ number_format($product->price, 0, ',', '.') }}
+                          </p>
+
+                          <button type="submit" class="btn btn-sm btn-dark rounded-pill">
+                            <i class="bi bi-cart me-1"></i> Add to Cart
+                          </button>
+
+                      </div>
+
+                  </div>
+
+              </a>
+
+          </div>
           @endforeach
       </div>
   </section>

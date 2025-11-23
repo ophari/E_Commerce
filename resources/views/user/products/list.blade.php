@@ -31,7 +31,7 @@
                 </div>
 
                 <!-- Grid Produk -->
-                <div class="row g-4">
+                <div class="row g-4 product-list">
                     @foreach($brandProducts->take(4) as $product)
                         <div class="col-6 col-md-4 col-lg-3">
                             <a href="{{ route('product.detail', $product->id) }}" 
