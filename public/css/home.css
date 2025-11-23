@@ -47,7 +47,7 @@ html { scrollbar-width: none; }
 body { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* =========================================================
-   HERO SECTION
+   HERO SECTION DESKTOP
 ========================================================= */
 
 .hero-bg-fixed {
@@ -58,7 +58,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
         linear-gradient(
             to right,
             rgba(255,255,255,0.95),
-            rgba(255,255,255,0.4),
+            rgba(255,255,255,0.5),
             rgba(255,255,255,0)
         ),
         url('/image/bg-hero.jpg') center/cover no-repeat;
@@ -74,7 +74,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
 .hero-section {
-    padding: 100px 0;
+    padding: 120px 0;
     min-height: 90vh;
 }
 
@@ -84,7 +84,11 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     line-height: 1.2;
 }
 
-.hero-section p { color: #555; font-size: 1.05rem; }
+.hero-section p {
+    color: #555;
+    font-size: 1.05rem;
+    max-width: 480px;
+}
 
 .hero-section .btn {
     background-color: #C5A572;
@@ -93,6 +97,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     border-radius: 50px;
     transition: 0.3s ease;
 }
+
 .hero-section .btn:hover {
     background: #e2c88f;
     transform: translateY(-2px);
@@ -100,7 +105,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
 .hero-img {
-    max-width: 400px;
+    max-width: 420px;
     animation: float 4s ease-in-out infinite;
 }
 
@@ -109,6 +114,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0); }
 }
+
 
 /* =========================================================
    BANNER / PROMO
@@ -135,6 +141,32 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
         url('/image/bg-pattern.jpg') center/cover no-repeat;
     border-radius: 16px;
 }
+
+/* =============================================
+   PROMO SLIDE-IN ANIMATIONS
+============================================= */
+
+.slide-left, .slide-right {
+    opacity: 0;
+    transition: 1.3s ease;
+}
+
+/* Start positions */
+.slide-left {
+    transform: translateX(-60px);
+}
+
+.slide-right {
+    transform: translateX(60px);
+}
+
+/* Active state (fade + slide to normal) */
+.slide-left.active,
+.slide-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
 
 /* =========================================================
    BRAND MARQUEE
@@ -169,26 +201,38 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     width: 100%;
 }
 
+/* BEST SELLER — FIX RATIO SAMA TINGGI */
+.best-seller-track .product-card {
+    flex: 0 0 calc(33.33% - 12px);
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 340px; /* samakan tinggi card */
+    display: flex;
+    flex-direction: column;
+}
+
+.best-seller-track .product-card img {
+    height: 180px;        /* SAMA untuk semua gambar */
+    width: 100%;
+    object-fit: cover;    /* biar proporsional, tidak gepeng */
+    padding: 0 !important;
+    border-bottom: 0;
+}
+
+.best-seller-track .product-card .card-body {
+    flex-grow: 1;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .slide-page {
     min-width: 100%;
     display: flex;
     gap: 16px;
 }
-
-/* 3 Produk per slide */
-.product-card {
-    flex: 0 0 calc(33.33% - 12px);
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
-}
-.product-card:hover { transform: translateY(-6px); }
-
-.product-card img { object-fit: contain; padding: 10px; }
-
-.product-card .card-body { text-align: center; padding: 14px; }
 
 .rating { color: #FFD700; margin-bottom: 6px; }
 
@@ -382,14 +426,39 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     box-shadow: 0 4px 12px rgba(197,165,114,0.45);
 }
 
+.navbar {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+    transition: transform 0.35s ease, opacity 0.35s ease !important;
+}
+
+/* Hide */
+.nav-hidden {
+    transform: translateY(-100%) !important;
+    opacity: 0 !important;
+}
+
+/* Show */
+.nav-visible {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
+/* Remove leftover lock state */
+.nav-locked {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}
+
 /* ==============================
    DETAIL PRODUCT - RELATED ITEMS
    ============================== */
 
 .product-card {
-    transition: all 0.35s ease;
-    background-color: #fff;
-    height: 360px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.3s ease;
     display: flex;
     flex-direction: column;
 }
@@ -397,14 +466,15 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
 /* Hover */
 .product-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
 /* Gambar */
 .product-card img {
-    transition: transform 0.4s ease;
+    width: 100%;
     height: 200px;
     object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
 /* Zoom */
@@ -427,13 +497,9 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     color: #ad833f;
 }
 
-/* Body fix */
 .product-card .card-body {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding-bottom: 15px;           
+    padding: 14px;
+    text-align: center;
 }
 
 /* Harga */
@@ -453,6 +519,87 @@ h4.text-center span.text-warning {
     color: #D4AF37 !important; /* warna emas lembut */
 }
 
+/* ======================================
+   OUR PRODUCTS — FINAL RESPONSIVE FIX
+====================================== */
+
+/* Desktop */
+.our-products .our-product-card {
+    height: 340px;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+    
+}
+
+.our-products .our-product-card:hover {
+    transform: translateY(-6px); /* naik lembut */
+    box-shadow: 0 10px 28px rgba(0,0,0,0.18); /* shadow premium */
+}
+
+.our-products .our-product-card img {
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.our-products .our-product-card:hover img {
+    transform: scale(1.05); /* zoom sedikit */
+}
+
+/* Title */
+.our-products .product-name {
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.our-products .price {
+    color: #000;
+    font-weight: 700;
+}
+
+.our-products img { object-fit: contain; padding: 10px; }
+
+.our-products .card-body { text-align: center; padding: 14px; }
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.our-products .col-6,
+.our-products .col-md-3 {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.our-products .col-6,
+.our-products .col-md-3 {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+}
+
+.our-products .col-6:nth-child(1),
+.our-products .col-md-3:nth-child(1) { animation-delay: 0.1s; }
+.our-products .col-6:nth-child(2),
+.our-products .col-md-3:nth-child(2) { animation-delay: 0.2s; }
+.our-products .col-6:nth-child(3),
+.our-products .col-md-3:nth-child(3) { animation-delay: 0.3s; }
+.our-products .col-6:nth-child(4),
+.our-products .col-md-3:nth-child(4) { animation-delay: 0.4s; }
+
+
+
 /* =========================================================
    MOBILE RESPONSIVE
 ========================================================= */
@@ -465,6 +612,7 @@ h4.text-center span.text-warning {
     left: 0;
     width: 100%;
     z-index: 9999;
+    transition: transform 0.35s ease, opacity 0.35s ease !important;
 }
 
     /* Collapse spacing */
@@ -570,21 +718,53 @@ h4.text-center span.text-warning {
 
 @media (max-width: 576px) {
 
+    .best-seller-track .product-card {
+        flex: 0 0 82% !important;
+        min-width: 82% !important;
+        max-width: 82% !important;
+        height: auto !important;
+        scroll-snap-align: center;
+    }
+
+    .best-seller-track .product-card img {
+        height: 180px !important;
+        object-fit: cover !important;
+        padding: 0 !important;
+    }
+
+    .best-seller-track .product-card .card-body {
+        flex-grow: 1;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
     .best-seller-slider {
         padding: 0 !important;
         margin-top: 10px !important;
     }
 
     .slide-page {
-        min-height: auto !important;
-        height: auto !important;
-        padding: 0 !important;
+        display: contents !important; 
+        min-width: auto !important;
     }
 
     .best-seller-track {
-        height: auto !important;
-        min-height: auto !important;
-        padding-bottom: 10px !important;
+        overflow-x: auto !important;
+        display: flex !important;
+        scroll-snap-type: x mandatory;
+    }
+
+    .best-seller-track::-webkit-scrollbar {
+        display: none;
+    }
+
+    .best-seller-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
     }
 
     .product-card .ratio {
@@ -598,24 +778,14 @@ h4.text-center span.text-warning {
     }
 
     .product-card {
-        flex: 0 0 85% !important;
-        min-width: 85% !important;
-        max-width: 85% !important;
-        margin: 0 auto !important;
-        border-radius: 14px !important;
+        flex: 0 0 80% !important;
+        min-width: 80% !important;
+        max-width: 80% !important;
+        scroll-snap-align: center;
     }
 
     .product-card .card-body {
         padding: 10px !important;
-    }
-
-    .best-seller-track::-webkit-scrollbar {
-        display: none;
-    }
-
-    .best-seller-dots {
-        margin-top: -5px !important;
-        margin-bottom: 10px !important;
     }
 
         .banner-card {
@@ -629,62 +799,51 @@ h4.text-center span.text-warning {
         margin-top: 14px;
     }
 
+    /* Background hero */
     .hero-bg-fixed {
-        height: 75vh !important;
+        height: 100vh !important;              /* samakan dengan wrapper */
         background-size: cover !important;
-        background-position: center !important;
+        background-position: center top !important; /* perbaikan gambar */
         filter: brightness(0.9);
     }
 
-    /* Wrapper menyesuaikan image */
+    /* Bungkus hero */
     .hero-wrapper {
-        min-height: 75vh !important;
+        min-height: 100vh !important;
         display: flex;
         align-items: center;
-        padding-top: 90px !important; /* offset untuk navbar */
-        padding-bottom: 20px !important;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 120px !important;  /* offset navbar mobile */
+        padding-bottom: 40px !important;
         text-align: center;
+        position: relative;
     }
 
-    /* Text section */
+    /* Text block */
     .hero-section {
-        padding: 0 20px !important;
-        min-height: auto !important;
+        padding: 0 25px !important;
+        width: 100%;
     }
 
     .hero-section h1 {
-        font-size: 1.8rem !important;
+        font-size: 1.9rem !important;
         line-height: 1.3;
+        margin-bottom: 15px;
     }
 
     .hero-section p {
         font-size: 1rem !important;
-        max-width: 90% !important;
-        margin: 0 auto;
+        max-width: 90%;
+        margin: 0 auto 20px;
     }
 
-    /* Button */
     .hero-section .btn {
-        margin-top: 15px;
-        padding: 8px 24px !important;
-        font-size: 0.95rem;
-    }
-
-    /* Jangan ganggu section lain */
-    section:not(.hero-wrapper), 
-    .container:not(.hero-wrapper) {
-        margin-top: 30px !important;
-        margin-bottom: 30px !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-
-        .our-products .card {
-        border-radius: 14px;
-    }
-
-    .our-products .col-6 {
-        padding: 6px !important;
+        margin-top: 20px;
+        padding: 10px 28px !important;
+        font-size: 1rem;
+        border: 1px solid #000;
+        background: transparent;
     }
 
      .navbar {
@@ -697,5 +856,105 @@ h4.text-center span.text-warning {
 
     .navbar-toggler {
         padding: 4px 8px !important;
+    }
+
+    /* Our Products versi mobile */
+    .our-products .product-card {
+        height: auto !important;
+        border-radius: 12px !important;
+    }
+
+    .our-products .product-card .ratio {
+        height: 140px !important;
+        max-height: 140px !important;
+    }
+
+    .our-products .product-card img {
+        height: 150px !important;
+        object-fit: cover !important;
+    }
+
+    /* Title mobile */
+    .our-products .product-name {
+        font-size: 13px !important;
+        white-space: normal !important;
+        height: auto !important;
+        margin-bottom: 4px !important;
+        text-align: left;
+    }
+
+    /* Price mobile */
+    .our-products .price {
+        font-size: 14px !important;
+        text-align: left;
+    }
+
+    .our-products .product-card .card {
+        border-radius: 12px !important;
+    }
+
+    .our-products .product-card .card-body {
+        padding: 10px !important;
+    }
+
+     /* Button mobile */
+    .our-products .our-product-card .btn {
+        font-size: 13px !important;
+        padding: 6px 14px !important;
+    }
+
+    /* Align card content */
+    .our-products .card-body {
+        padding: 10px !important;
+        text-align: left !important;
+    }
+
+    .our-products .product-card h6 {
+        font-size: 14px !important;
+        white-space: normal !important;
+        height: auto !important;
+        margin-bottom: 4px !important;
+    }
+
+    .our-products .product-card p {
+        font-size: 15px !important;
+        margin-bottom: 0 !important;
+    }
+
+        /* CARD KHUSUS DI LIST PRODUCT */
+    .product-list .product-card {
+        height: auto !important;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    /* FIX GAMBAR LONJONG */
+    .product-list .product-card .ratio {
+        height: 150px !important;
+        max-height: 150px !important;
+    }
+
+    .product-list .product-card img {
+        height: 150px !important;
+        object-fit: cover !important;  /* wajib */
+        padding: 0 !important;
+    }
+
+    /* BODY RAPI */
+    .product-list .product-card .card-body {
+        padding: 10px !important;
+    }
+
+    .product-list .product-card h6 {
+        font-size: 14px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 4px !important;
+    }
+
+    .product-list .product-card p {
+        font-size: 14px !important;
+        margin-bottom: 0 !important;
     }
 }
