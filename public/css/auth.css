@@ -1,0 +1,326 @@
+/* ================================
+   BRAND TITLE + WELCOME
+================================ */
+.brand-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    cursor: pointer;
+    transition: color 0.4s ease;
+    margin-top: 5px;
+    margin-bottom: 2px;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.brand-title .brand-gold {
+    color: #C5A572;
+}
+
+.brand-title:hover {
+    color: #C5A572;
+}
+.brand-title:hover .brand-gold {
+    color: #1a1a1a;
+}
+
+.welcome-text {
+    font-size: 15px;
+    color: #666;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+/* ================================
+   DESKTOP AUTH LAYOUT
+================================ */
+.auth-body {
+    background: 
+        url('https://i.pinimg.com/736x/e4/b8/a6/e4b8a6f18e9c8e9491a0154e76f2df37.jpg') left center/cover no-repeat,
+        linear-gradient(to right, #ffffff00 0%, #ffffff 55%);
+    background-size: 55% 100%, 100% 100%;
+    background-position: left, right;
+    background-repeat: no-repeat;
+    
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    background: #ffffff; 
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 10px 40px rgba(0,0,0,0.08);
+}
+
+/* LEFT IMAGE */
+.auth-image {
+    width: 45%;
+    border-radius: 20px 0 0 20px;
+    border: 8px solid #ffffff;
+}
+
+.auth-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px 20px 20px 20px;
+}
+
+/* RIGHT SIDE */
+.auth-content {
+    width: 55%;
+    padding: 40px 50px;
+    color: #222;
+}
+
+.auth-hint {
+    font-size: 14px;
+    color: #666;
+}
+
+.auth-link {
+    color: #C5A572;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+/* NAV SWITCH (Login / Sign Up) */
+.auth-nav {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-switch-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 6px 14px;
+    color: #888;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+}
+
+.auth-switch-btn.active {
+    color: #1A1A1A;
+    border-bottom: 2px solid #C5A572;
+}
+
+/* PANELS */
+.auth-panels {
+    width: 100%;
+}
+
+.panel {
+    display: none;
+    width: 100%;
+    animation: fadeSlide 0.4s ease;
+    min-height: 300px;
+}
+
+.panel.active {
+    display: block;
+}
+
+/* ANIMATION */
+@keyframes fadeSlide {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* LABEL */
+.form-label {
+    color: #333 !important;
+}
+
+/* INPUT */
+.auth-content .form-control {
+    background: #ffffff !important;
+    border: 1px solid #d1d1d1 !important;
+    color: #222 !important;
+}
+
+.form-control:focus {
+    border-color: #C5A572 !important;
+    box-shadow: 0 0 0 2px rgba(197,165,114,0.25);
+    background: #ffffff !important;
+}
+
+/* Placeholder warna tetap */
+.form-control::placeholder {
+    color: #9d9d9d !important;
+    opacity: 1 !important;
+}
+
+/* Autofill fix */
+input:-webkit-autofill {
+    -webkit-text-fill-color: #222 !important;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* BUTTONS */
+.btn-primary {
+    background: #C5A572 !important;
+    border-color: #C5A572 !important;
+}
+.btn-primary:hover {
+    background: #b8955e !important;
+}
+
+/* REGISTER PANEL – DESKTOP */
+.register-panel {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-right: 16px !important; 
+    margin-right: 4px;              
+}
+
+.register-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.register-panel::-webkit-scrollbar-thumb {
+    background: #c7b38a;
+    border-radius: 4px;
+}
+
+.register-panel::-webkit-scrollbar-track {
+    background: #f8f8f8;
+}
+
+.auth-divider {
+    width: 100%;
+    height: 1px;
+    background: #e5d5b8;
+    opacity: 0.5;
+    margin: 15px 0;
+    border-radius: 3px;
+}
+
+.login-panel {
+    min-height: 400px;
+}
+
+.register-panel {
+    min-height: 400px !important;
+}
+
+
+/* ================================
+   MOBILE VERSION — FINAL FIX
+================================ */
+@media (max-width: 768px) {
+
+    /* Gambar jadi background */
+    .auth-body {
+        background: url('/image/auth-bg.jpg') no-repeat center/cover;
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    /* Card jadi scroll container */
+    .auth-card {
+        flex-direction: column;
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 16px;
+        height: auto !important;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding-bottom: 15px;
+        position: relative;
+    }
+
+    /* Hapus image element */
+    .auth-image {
+        display: none !important;
+    }
+
+    /* Gambar hanya di belakang header area */
+    .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.55),  
+            rgba(0, 0, 0, 0.25),   
+            rgba(0, 0, 0, 0)       
+        ), url('/image/auth-bg.jpg') center/cover no-repeat;
+        filter: brightness(0.8);
+        border-radius: 16px 16px 0 0;
+        z-index: 1;
+    }
+
+    .auth-divider {
+        width: 100%;
+        height: 1px;
+        background: #e5d5b8;   /* warna gold soft */
+        opacity: 0.5;
+        margin: 12px 0 12px 0; /* jarak atas bawah */
+        border-radius: 3px;
+    }
+
+
+    /* Content on top of background */
+    .auth-content {
+        width: 100%;
+        padding: 25px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* NAV */
+    .auth-nav {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 3;
+    }
+
+    /* Panels no absolute */
+    .auth-panels {
+        position: static !important;
+        margin-top: 10px;
+        max-height: unset;
+        overflow: visible;
+        z-index: 3;
+    }
+
+    .panel {
+        position: static !important;
+        opacity: 1 !important;
+        transform: none !important;
+        pointer-events: auto !important;
+        display: none;
+    }
+
+    .panel.active {
+        display: block !important;
+    }
+
+    /* Register panel — NO SCROLL in mobile */
+    .register-panel {
+        max-height: unset !important;
+        overflow-y: visible !important;
+        padding-right: 0 !important;
+    }
+}
