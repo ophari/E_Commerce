@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function showLoginForm(Request $request)
     {
         // Cegah browser men-cache halaman login
-        $response = response()->view('auth.login');
+        $response = response()->view('auth.auth', ['mode' => 'login']);
         $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
         $response->header('Pragma', 'no-cache');
         $response->header('Expires', '0');
@@ -31,6 +31,7 @@ class AuthController extends Controller
             } else {
                 return redirect()->route('user.home');
             }
+            return view('auth.auth')->with('mode', 'login');
         }
 
         return $response;
@@ -75,9 +76,10 @@ class AuthController extends Controller
             } else {
                 return redirect()->route('user.home');
             }
+             return view('auth.auth')->with('mode', 'register');
         }
 
-        return view('auth.register');
+        return view('auth.auth')->with('mode', 'register');
     }
 
 
@@ -90,6 +92,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:20'],
+            'address' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -98,6 +102,8 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
                 'role' => 'user',
             ]);
 

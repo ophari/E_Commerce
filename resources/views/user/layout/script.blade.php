@@ -95,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (nearest !== currentIndex) {
                 currentIndex = nearest;
 
+                // update active card (only mobile)
+                cards.forEach(card => card.classList.remove("active"));
+                cards[currentIndex].classList.add("active");
+
                 const dots = dotsContainer.querySelectorAll("button");
                 dots.forEach(d => d.classList.remove("active"));
                 dots[currentIndex].classList.add("active");
