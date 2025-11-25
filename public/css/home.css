@@ -732,6 +732,18 @@ h4.text-center span.text-warning {
         padding: 0 !important;
     }
 
+         .best-seller-track .product-card.active {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+        transition: 0.3s ease;
+    }
+
+    /* Nonaktifkan hover biasa di mobile */
+    .best-seller-track .product-card:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
     .best-seller-track .product-card .card-body {
         flex-grow: 1;
         padding: 14px;
