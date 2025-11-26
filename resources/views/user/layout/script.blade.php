@@ -2,6 +2,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ==========================
+       FORCE START AT TOP (Mobile Safe)
+    ========================== */
+    window.scrollTo(0, 0);
+    setTimeout(() => window.scrollTo(0, 0), 40);
+
+    // Flag untuk mencegah scrollIntoView pertama kali
+    window.initialLoad = true;
+
+
+    /* ==========================
        Fade Animation
     ========================== */
     const fadeElems = document.querySelectorAll('.fade-up');
@@ -18,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fadeElems.forEach(el => observer.observe(el));
 
 
-
     /* ==========================
        Fade Left & Right
     ========================== */
@@ -26,9 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const promoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("active");
-            }
+            if (entry.isIntersecting) entry.target.classList.add("active");
         });
     }, { threshold: 0.2 });
 
@@ -36,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================
-       BEST SELLER SLIDER — FINAL FIX
+       BEST SELLER SLIDER — FIXED
     ========================== */
 
     const track = document.querySelector(".best-seller-track");
@@ -61,10 +68,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         for (let i = 0; i < total; i++) {
             const dot = document.createElement("button");
-
             if (i === currentIndex) dot.classList.add("active");
 
-            dot.addEventListener("click", () => goTo(i));
+            dot.addEventListener("click", () => {
+                window.initialLoad = false; // dot = user interaction
+                goTo(i);
+            });
 
             dotsContainer.appendChild(dot);
         }
@@ -72,10 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDotsWindow();
     }
 
-    
-    /* ======================================
-    MOBILE AUTO DOT SYNC (FOLLOW SWIPE)
-    ====================================== */
+
+    /* ==========================
+       Mobile swipe auto sync
+    ========================== */
     if (isMobile) {
         track.addEventListener("scroll", () => {
             let nearest = 0;
@@ -95,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (nearest !== currentIndex) {
                 currentIndex = nearest;
 
-                // update active card (only mobile)
                 cards.forEach(card => card.classList.remove("active"));
                 cards[currentIndex].classList.add("active");
 
@@ -105,8 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 updateDotsWindow();
             }
+
+            window.initialLoad = false; // swipe = user interaction
         });
     }
+
 
     /* ==========================
        Go To Slide / Card
@@ -121,10 +132,15 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDotsWindow();
 
         if (isMobile) {
-            cards[currentIndex].scrollIntoView({
-                behavior: "smooth",
-                inline: "center"
-            });
+
+            // MENCEGAH SCROLL PERTAMA KALI !!!
+            if (!window.initialLoad) {
+                cards[currentIndex].scrollIntoView({
+                    behavior: "smooth",
+                    inline: "center"
+                });
+            }
+
         } else {
             const slideWidth = pages[0].clientWidth;
             const offset = -(slideWidth * currentIndex);
@@ -134,10 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================
-       Autoplay (Desktop Only)
+       Autoplay Desktop Only
     ========================== */
     function startAutoplay() {
-        if (isMobile) return; // mobile tidak autoplay
+        if (isMobile) return;
 
         stopAutoplay();
 
@@ -153,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================
-       Dots Window (Show 5)
+       Dots Window Show 5
     ========================== */
     function updateDotsWindow() {
         const dots = dotsContainer.querySelectorAll("button");
@@ -180,8 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (nowMobile !== isMobile) {
             isMobile = nowMobile;
-
             currentIndex = 0;
+            window.initialLoad = true;
+
             generateDots();
             goTo(0);
 
@@ -192,15 +209,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ==========================
-       INIT
+       INIT (REVISED)
     ========================== */
     generateDots();
-    goTo(0);
+    goTo(0); // desktop OK, mobile protected by initialLoad
     startAutoplay();
+
+    // Setelah semua selesai, baru izinkan scrollIntoView
+    setTimeout(() => window.initialLoad = false, 200);
+
 
 
     /* ==========================
-       NAVBAR SHOW/HIDE ON SCROLL  
+       NAVBAR SCROLL BEHAVIOR
     ========================== */
     const navbar = document.querySelector(".navbar");
     const toggler = document.querySelector(".navbar-toggler");
@@ -208,28 +229,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastScroll = window.pageYOffset;
     let menuOpen = false;
 
-    // Reset awal — Biar semua halaman mulai dalam keadaan "visible"
     navbar.classList.remove("nav-hidden");
     navbar.classList.add("nav-visible");
 
-    /* MOBILE MENU HANDLER */
     if (toggler) {
         toggler.addEventListener("click", () => {
             menuOpen = !menuOpen;
 
             if (menuOpen) {
-                navbar.classList.add("nav-visible");
-                navbar.classList.add("nav-locked");
+                navbar.classList.add("nav-visible", "nav-locked");
             } else {
                 navbar.classList.remove("nav-locked");
             }
         });
     }
 
-    /* SCROLL HANDLER */
     window.addEventListener("scroll", () => {
-
-        if (menuOpen) return; // Jangan hide ketika menu terbuka
+        if (menuOpen) return;
 
         const currentScroll = window.pageYOffset;
 
@@ -241,15 +257,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentScroll > lastScroll) {
             navbar.classList.remove("nav-visible");
-            navbar.classList.add("nav-hidden"); // Scroll down → hide
+            navbar.classList.add("nav-hidden");
         } else {
             navbar.classList.remove("nav-hidden");
-            navbar.classList.add("nav-visible"); // Scroll up → show
+            navbar.classList.add("nav-visible");
         }
 
-        lastScroll = currentScroll;
+        lastScroll = currentScroll; 
     });
-
 
 });
 </script>
