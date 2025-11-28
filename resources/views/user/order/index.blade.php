@@ -8,19 +8,25 @@
         <div class="container">
             <h2 class="text-center text-dark fw-bold mb-4">Riwayat Pesanan</h2>
 
-        {{-- Jika belum ada pesanan --}}
-        @if(empty($orders))
-            <div class="text-center py-5 bg-light rounded-4 shadow-sm">
-                <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
-                <a href="{{ route('product.list') }}"
-                   class="btn btn-lg px-4 py-2 rounded-pill"
-                   style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
-                   Belanja sekarang
-                </a>
-            </div>
-        @else
-            {{-- Jika ada pesanan --}}
-            <div class="table-responsive shadow rounded-4">
+            {{-- ================================
+                JIKA BELUM ADA PESANAN
+            ================================= --}}
+            @if(empty($orders))
+                <div class="text-center py-5 bg-light rounded-4 shadow-sm">
+                    <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
+                    <a href="{{ route('product.list') }}"
+                    class="btn btn-lg px-4 py-2 rounded-pill"
+                    style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
+                        Belanja sekarang
+                    </a>
+                </div>
+
+            @else
+
+            {{-- ================================
+                DESKTOP VERSION (TABEL)
+            ================================= --}}
+            <div class="table-responsive shadow rounded-4 order-table-wrapper d-none d-md-block">
                 <table class="table table-hover align-middle text-center mb-0">
                     <thead style="background-color: #1A3C63; color: #fff;">
                         <tr>
@@ -29,24 +35,28 @@
                             <th scope="col">Total</th>
                             <th scope="col">Status</th>
                             <th scope="col">Details</th>
+                            <th scope="col">Rate</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach($orders as $order)
                         <tr>
                             <td class="fw-semibold">#{{ $order['id'] }}</td>
                             <td>{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</td>
                             <td class="fw-semibold">Rp {{ number_format($order['total'], 0, ',', '.') }}</td>
+
                             <td>
                                 <span class="badge px-3 py-2
-                                    @if($order['status'] == 'pending') bg-warning text-dark
-                                    @elseif($order['status'] == 'completed') bg-success
-                                    @elseif($order['status'] == 'cancelled') bg-danger
+                                    @if($order['status']=='pending') bg-warning text-dark
+                                    @elseif($order['status']=='completed') bg-success
+                                    @elseif($order['status']=='cancelled') bg-danger
                                     @else bg-secondary
                                     @endif">
                                     {{ ucfirst($order['status']) }}
                                 </span>
                             </td>
+
                             <td>
                                 <button
                                     class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 fw-semibold view-order-btn d-inline-flex align-items-center"
@@ -56,83 +66,171 @@
                                     <i class="bi bi-eye me-1"></i> View
                                 </button>
                             </td>
+
+                            <td>
+                                @if(strtolower($order['status']) == 'delivered')
+
+                                    {{-- SUDAH ADA RATING --}}
+                                    @if(isset($order['rating']) && $order['rating'] > 0)
+                                        <span class="fw-semibold text-warning">
+                                            ⭐ {{ number_format($order['rating'], 1) }}
+                                        </span>
+
+                                    {{-- BELUM RATING --}}
+                                    @else
+                                        <button
+                                            class="btn btn-sm btn-outline-warning rounded-pill rate-btn"
+                                            data-order="{{ $order['id'] }}"
+                                            data-product="{{ $order['items'][0]['product_id'] ?? null }}">
+                                            ⭐ Rate
+                                        </button>
+                                    @endif
+
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </td>
+
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        @endif
+
+
+            {{-- ================================
+                MOBILE VERSION (CARD)
+            ================================= --}}
+            <div class="mobile-order-list d-block d-md-none mt-3">
+
+                @foreach($orders as $order)
+                <div class="order-card">
+
+                    <h5>#{{ $order['id'] }}</h5>
+
+                    <div class="order-row">
+                        <span class="order-label">Date</span>
+                        <span class="order-value">{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</span>
+                    </div>
+
+                    <div class="order-row">
+                        <span class="order-label">Total</span>
+                        <span class="order-value">
+                            Rp {{ number_format($order['total'], 0, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <div class="order-row">
+                        <span class="order-label">Status</span>
+                        <span class="order-value text-capitalize">{{ $order['status'] }}</span>
+                    </div>
+
+                    {{-- BUTTON VIEW --}}
+                    <button
+                        class="btn btn-outline-dark w-100 rounded-pill mt-2 view-order-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#orderDetailModal"
+                        data-id="{{ $order['id'] }}">
+                        View
+                    </button>
+
+                    {{-- BUTTON RATE --}}
+                    @if(strtolower($order['status']) == 'delivered')
+
+                        @if(isset($order['rating']) && $order['rating'] > 0)
+                            <div class="mt-2 fw-semibold text-warning text-center">
+                                ⭐ {{ number_format($order['rating'], 1) }}
+                            </div>
+                        @else
+                            <button
+                                class="btn btn-warning w-100 rounded-pill mt-2 rate-btn"
+                                data-order="{{ $order['id'] }}"
+                                data-product="{{ $order['items'][0]['product_id'] ?? null }}">
+                                ⭐ Rate
+                            </button>
+                        @endif
+
+                    @endif
+
+                </div>
+                @endforeach
+
+            </div>
+
+            @endif {{-- END IF HAS ORDER --}}
+
+        </div>
     </div>
 </div>
 
-{{-- MODAL DETAIL PESANAN --}}
-<div class="modal fade" id="orderDetailModal" tabindex="-1" aria-labelledby="orderDetailModalLabel" aria-hidden="true">
+
+
+{{-- ================================
+    MODAL — ORDER DETAILS
+================================ --}}
+<div class="modal fade" id="orderDetailModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content rounded-4 border-0 shadow">
+
       <div class="modal-header bg-dark text-white rounded-top-4">
-        <h5 class="modal-title" id="orderDetailModalLabel">Order Detail</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title">Order Detail</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body p-4">
-        <div id="orderDetailContent">
-            
-        </div>
+        <div id="orderDetailContent"></div>
       </div>
+
+    </div>
+  </div>
+</div>
+
+
+{{-- ================================
+    MODAL — RATE
+================================ --}}
+<div class="modal fade" id="ratingModal" tabindex="-1">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content rounded-4">
+
+      <div class="modal-header bg-dark text-white rounded-top-4">
+        <h5 class="modal-title">Rate Your Product</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body p-4">
+
+        <form id="ratingForm">
+            <input type="hidden" name="order_id" id="ratingOrderId">
+            <input type="hidden" name="product_id" id="ratingProductId">
+
+            <label class="fw-semibold mb-2">Rating (1 - 5)</label>
+            <select class="form-select mb-3" name="rating" id="ratingValue" required>
+                <option value="">Choose rating</option>
+                <option value="1">⭐ 1</option>
+                <option value="2">⭐ 2</option>
+                <option value="3">⭐ 3</option>
+                <option value="4">⭐ 4</option>
+                <option value="5">⭐ 5</option>
+            </select>
+
+            <label class="fw-semibold mb-2">Comment (optional)</label>
+            <textarea class="form-control mb-3" name="comment" id="ratingComment" rows="3"></textarea>
+
+            <button type="submit" class="btn w-100 text-white" style="background:#C5A572;">
+                Submit Review
+            </button>
+        </form>
+
+      </div>
+
     </div>
   </div>
 </div>
 
 @endsection
 
+
 @push('scripts')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const orderDetailModal = document.getElementById('orderDetailModal');
-    const orderDetailContent = document.getElementById('orderDetailContent');
-
-    // Handle the click event on the "View" button
-    document.querySelectorAll('.view-order-btn').forEach(btn => {
-        btn.addEventListener('click', async function() {
-            const orderId = this.dataset.id;
-            const url = `{{ route('user.orders.show', [':id']) }}`.replace(':id', orderId);
-
-            // Show a loading spinner in the modal
-            orderDetailContent.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-
-            try {
-                // Fetch order details from the server
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const order = await response.json();
-
-                // Format the order items into a list
-                const itemsHtml = order.items && order.items.length > 0
-                    ? order.items.map(item => `
-                        <li>${item.name} — Rp ${Number(item.price).toLocaleString('id-ID')} × ${item.qty}</li>
-                    `).join('')
-                    : '<li class="text-muted">No product details available</li>';
-
-                // Populate the modal with the order details
-                const content = `
-                    <p><strong>Order ID:</strong> #${order.id}</p>
-                    <p><strong>Date:</strong> ${new Date(order.created_at).toLocaleDateString()}</p>
-                    <p><strong>Status:</strong> <span class="text-capitalize">${order.status}</span></p>
-                    <p><strong>Total:</strong> Rp ${Number(order.total).toLocaleString('id-ID')}</p>
-                    <hr>
-                    <h6 class="fw-bold">Product Details:</h6>
-                    <ul>${itemsHtml}</ul>
-                `;
-                orderDetailContent.innerHTML = content;
-
-            } catch (error) {
-                // Show an error message if the fetch fails
-                console.error('Error fetching order details:', error);
-                orderDetailContent.innerHTML = '<p class="text-danger text-center">Failed to load order details. Please try again later.</p>';
-            }
-        });
-    });
-});
-</script>
+    @include('user.order.script')
 @endpush
