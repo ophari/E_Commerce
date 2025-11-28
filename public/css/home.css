@@ -598,13 +598,37 @@ h4.text-center span.text-warning {
 .our-products .col-6:nth-child(4),
 .our-products .col-md-3:nth-child(4) { animation-delay: 0.4s; }
 
+/* =========================================================
+   RATING STARS ORDER REVIEW
+========================================================= */
+    .star-rating i {
+        font-size: 20px;
+        cursor: pointer;
+        color: #ccc;
+        transition: 0.2s;
+    }
 
+    .star-rating {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .rated-stars {
+        display: flex;
+        justify-content: center;
+        gap: 2px;
+    }
 
 /* =========================================================
    MOBILE RESPONSIVE
 ========================================================= */
 
 @media (max-width: 991px) {
+    .star-rating i,
+    .rated-stars i {
+        font-size: 18px;
+    }
 
   .navbar {
     position: fixed;
@@ -871,66 +895,54 @@ h4.text-center span.text-warning {
     }
 
     /* Our Products versi mobile */
-    .our-products .product-card {
-        height: auto !important;
-        border-radius: 12px !important;
+  
+    .our-products .col-6 {
+        padding-left: 6px;
+        padding-right: 6px;
     }
 
-    .our-products .product-card .ratio {
-        height: 140px !important;
-        max-height: 140px !important;
+    /* Tinggi card dibuat lebih compact */
+    .our-product-card {
+        height: 100%;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
     }
 
-    .our-products .product-card img {
-        height: 150px !important;
-        object-fit: cover !important;
+    /* Gambar tidak boleh tinggi banget */
+    .our-product-card .ratio {
+        max-height: 150px; /* Default mobile */
+        overflow: hidden;
     }
 
-    /* Title mobile */
-    .our-products .product-name {
-        font-size: 13px !important;
-        white-space: normal !important;
-        height: auto !important;
-        margin-bottom: 4px !important;
-        text-align: left;
+    /* Nama produk maksimum 2 baris */
+    .product-name {
+        font-size: 0.85rem;
+        height: 2.4em;
+        overflow: hidden;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
-    /* Price mobile */
-    .our-products .price {
-        font-size: 14px !important;
-        text-align: left;
+    /* Harga lebih kecil biar compact */
+    .price {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
     }
 
-    .our-products .product-card .card {
-        border-radius: 12px !important;
+    /* Button tetap sejajar bagian bawah card */
+    .our-product-card .card-body {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
     }
 
-    .our-products .product-card .card-body {
-        padding: 10px !important;
-    }
-
-     /* Button mobile */
-    .our-products .our-product-card .btn {
-        font-size: 13px !important;
-        padding: 6px 14px !important;
-    }
-
-    /* Align card content */
-    .our-products .card-body {
-        padding: 10px !important;
-        text-align: left !important;
-    }
-
-    .our-products .product-card h6 {
-        font-size: 14px !important;
-        white-space: normal !important;
-        height: auto !important;
-        margin-bottom: 4px !important;
-    }
-
-    .our-products .product-card p {
-        font-size: 15px !important;
-        margin-bottom: 0 !important;
+    .our-product-card button {
+        margin-top: auto;
+        padding: 6px 10px !important;
+        font-size: 0.75rem;
     }
 
         /* CARD KHUSUS DI LIST PRODUCT */
@@ -968,5 +980,57 @@ h4.text-center span.text-warning {
     .product-list .product-card p {
         font-size: 14px !important;
         margin-bottom: 0 !important;
+    }
+
+    /* ================================================================
+    ORDER REVIEW MOBILE
+    ================================================================== */
+
+    /* card wrapper */
+    .mobile-order-list {
+        margin-top: -20px;
+    }
+
+    .order-card {
+        display: block;
+        background: #fff;
+        border-radius: 14px;
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+    }
+
+    .order-card h5 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .order-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .order-label {
+        font-weight: 600;
+        color: #666;
+    }
+
+    .order-value {
+        color: #222;
+        font-weight: 500;
+    }
+
+    /* Buttons */
+    .order-card .btn {
+        width: 100%;
+        margin-top: 10px;
+        border-radius: 12px !important;
+        padding: 10px !important;
+        font-weight: 600;
     }
 }

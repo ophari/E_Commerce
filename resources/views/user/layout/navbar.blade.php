@@ -17,6 +17,9 @@
       {{-- Left (Products + Orders) --}}
       <ul class="navbar-nav me-auto">
         <li class="nav-item simple-link">
+          <a class="nav-link text-light" href="{{ route('home') }}">Home</a>
+        </li>
+        <li class="nav-item simple-link">
           <a class="nav-link text-light" href="{{ route('product.list') }}">Products</a>
         </li>
         <li class="nav-item simple-link">
