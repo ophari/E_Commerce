@@ -68,20 +68,27 @@
                             </td>
 
                             <td>
-                                @if(strtolower($order['status']) == 'delivered')
+                                @if(strtolower($order['status']) === 'delivered')
 
-                                    {{-- SUDAH ADA RATING --}}
-                                    @if(isset($order['rating']) && $order['rating'] > 0)
-                                        <span class="fw-semibold text-warning">
-                                            ⭐ {{ number_format($order['rating'], 1) }}
-                                        </span>
+                                    {{-- SUDAH ADA REVIEW --}}
+                                    @if(isset($order['review']) && $order['review'])
+                                        <button
+                                            class="btn btn-sm btn-outline-primary rounded-pill edit-btn"
+                                            data-order="{{ $order['id'] }}"
+                                            data-product="{{ $order['items'][0]['product_id'] }}"
+                                            data-rating="{{ $order['review']['rating'] }}"
+                                            data-comment="{{ $order['review']['comment'] }}"
+                                        >
+                                            ✏️ Edit Review
+                                        </button>
 
-                                    {{-- BELUM RATING --}}
+                                    {{-- BELUM REVIEW --}}
                                     @else
                                         <button
                                             class="btn btn-sm btn-outline-warning rounded-pill rate-btn"
                                             data-order="{{ $order['id'] }}"
-                                            data-product="{{ $order['items'][0]['product_id'] ?? null }}">
+                                            data-product="{{ $order['items'][0]['product_id'] }}"
+                                        >
                                             ⭐ Rate
                                         </button>
                                     @endif
@@ -90,7 +97,6 @@
                                     <span class="text-muted">-</span>
                                 @endif
                             </td>
-
                         </tr>
                         @endforeach
                     </tbody>
@@ -134,18 +140,28 @@
                         View
                     </button>
 
-                    {{-- BUTTON RATE --}}
-                    @if(strtolower($order['status']) == 'delivered')
+                    {{-- BUTTON RATE / EDIT --}}
+                    @if(strtolower($order['status']) === 'delivered')
 
-                        @if(isset($order['rating']) && $order['rating'] > 0)
-                            <div class="mt-2 fw-semibold text-warning text-center">
-                                ⭐ {{ number_format($order['rating'], 1) }}
-                            </div>
+                        {{-- SUDAH ADA REVIEW --}}
+                        @if(isset($order['review']) && $order['review'])
+                            <button
+                                class="btn btn-outline-primary w-100 rounded-pill mt-2 edit-btn"
+                                data-order="{{ $order['id'] }}"
+                                data-product="{{ $order['items'][0]['product_id'] }}"
+                                data-rating="{{ $order['review']['rating'] }}"
+                                data-comment="{{ $order['review']['comment'] }}"
+                            >
+                                ✏️ Edit Review
+                            </button>
+
+                        {{-- BELUM REVIEW --}}
                         @else
                             <button
                                 class="btn btn-warning w-100 rounded-pill mt-2 rate-btn"
                                 data-order="{{ $order['id'] }}"
-                                data-product="{{ $order['items'][0]['product_id'] ?? null }}">
+                                data-product="{{ $order['items'][0]['product_id'] }}"
+                            >
                                 ⭐ Rate
                             </button>
                         @endif
@@ -204,15 +220,18 @@
             <input type="hidden" name="order_id" id="ratingOrderId">
             <input type="hidden" name="product_id" id="ratingProductId">
 
-            <label class="fw-semibold mb-2">Rating (1 - 5)</label>
-            <select class="form-select mb-3" name="rating" id="ratingValue" required>
-                <option value="">Choose rating</option>
-                <option value="1">⭐ 1</option>
-                <option value="2">⭐ 2</option>
-                <option value="3">⭐ 3</option>
-                <option value="4">⭐ 4</option>
-                <option value="5">⭐ 5</option>
-            </select>
+            <div class="mb-3">
+                <label class="fw-semibold mb-2">Rating</label>
+                <div id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+
+                <input type="hidden" name="rating" id="ratingValue">
+            </div>
 
             <label class="fw-semibold mb-2">Comment (optional)</label>
             <textarea class="form-control mb-3" name="comment" id="ratingComment" rows="3"></textarea>
