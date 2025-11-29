@@ -9,23 +9,12 @@
     margin-top: 5px;
     margin-bottom: 2px;
     text-align: center;
-    color: #1a1a1a;
-}
-
-.brand-title .brand-gold {
     color: #C5A572;
-}
-
-.brand-title:hover {
-    color: #C5A572;
-}
-.brand-title:hover .brand-gold {
-    color: #1a1a1a;
 }
 
 .welcome-text {
     font-size: 15px;
-    color: #666;
+    color: #252525;
     letter-spacing: 0.5px;
     margin-bottom: 12px;
     text-align: center;
@@ -220,6 +209,9 @@ input:-webkit-autofill {
    MOBILE VERSION — FINAL FIX
 ================================ */
 @media (max-width: 768px) {
+    .welcome-text {
+        color: #ffffff !important;
+    }
 
     /* Gambar jadi background */
     .auth-body {

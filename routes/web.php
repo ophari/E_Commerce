@@ -102,7 +102,9 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     // Review
     Route::post('/review/{productId}', [ReviewController::class, 'store'])->name('review.store');
     Route::post('/orders/{orderId}/rate/{productId}', [ReviewController::class, 'rate'])->name('orders.rate');
-    Route::post('/review/submit', [ReviewController::class, 'store'])->name('review.submit');
+    Route::post('/review/submit', [ReviewController::class, 'submit'])->name('review.submit');
+
+
 
     // Profil
     Route::get('/profile', fn() => view('user.profile.edit'))->name('profile');
