@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'Watch Store')</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
       <!-- Google Font -->
@@ -35,9 +36,9 @@
         <div class="row align-items-start mb-5 gy-4">
 
             {{-- BRAND --}}
-            <div class="col-lg-4">
-                <h2 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif;">
-                    WATCH<span style="color:#C5A572;">STORE</span>
+            <div class="col-lg-4 ">
+                <h2 class="fw-bold mb-3 " style="font-family: 'Playfair Display', serif;">
+                    WATCHSTORE</span>
                 </h2>
 
                 <p class="text-white-50" style="max-width: 320px;">

@@ -26,7 +26,7 @@
         
         <!-- BRAND -->
         <h2 class="brand-title">
-            WATCH<span class="brand-gold">STORE</span>
+            WATCHSTORE
         </h2>
         <p class="welcome-text">Welcome Back to Elegance</p>
 

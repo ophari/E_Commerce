@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Review;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -118,28 +119,47 @@ class OrderController extends Controller
         }
 
         $userId = Auth::id();
-        $orders = Order::with(['orderItems.product', 'user'])
+
+        $orders = Order::with(['orderItems.product'])
             ->where('user_id', $userId)
             ->latest()
             ->get()
-            ->map(function($order) {
+            ->map(function($order) use ($userId) {
+
+                // review untuk product utama (asumsi order 1 product)
+                $productId = $order->orderItems->first()->product_id ?? null;
+
+                $review = Review::where('user_id', $userId)
+                    ->where('product_id', $productId)
+                    ->first();
+
                 return [
-                    'id' => $order->id,
+                    'id'    => $order->id,
                     'items' => $order->orderItems->map(function($item) {
                         return [
-                            'name' => $item->product->name,
-                            'price' => $item->price,
-                            'qty' => $item->quantity,
+                            'product_id' => $item->product_id,
+                            'name'       => $item->product->name,
+                            'price'      => $item->price,
+                            'qty'        => $item->quantity,
                         ];
                     })->toArray(),
-                    'total' => $order->total_price,
-                    'status' => $order->status,
+
+                    'total'      => $order->total_price,
+                    'status'     => $order->status,
                     'created_at' => $order->created_at->toDateTimeString(),
+
+                    // kirim semua data review ke view
+                    'review' => $review ? [
+                        'rating'  => $review->rating,
+                        'comment' => $review->comment,
+                    ] : null
                 ];
-            })->toArray();
+            })
+            ->toArray();
 
         return view('user.order.index', compact('orders'));
     }
+
 
     public function show($id)
     {
@@ -154,6 +174,7 @@ class OrderController extends Controller
             'total' => $order->total_price,
             'items' => $order->orderItems->map(function ($item) {
                 return [
+                    'product_id' => $item->product_id,
                     'name' => $item->product->name,
                     'price' => $item->price,
                     'qty' => $item->quantity,

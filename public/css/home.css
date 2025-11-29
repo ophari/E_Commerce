@@ -266,43 +266,14 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
 
 .navbar-brand {
   font-family: 'Playfair Display', serif;
-  color: #f7f7f7;
+  color: #C5A572;
   letter-spacing: 1px;
   transition: 0.3s;
 }
 
-.navbar-brand {
-    font-family: 'Playfair Display', serif;
-    color: #f7f7f7;
-    transition: 0.3s;
-}
 
 .navbar-brand:hover {
-  color: #C5A572 !important;
-  transform: translateY(-2px);
-}
-
-.header-brand {
     color: #ffffff !important;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.header-brand .brand-gold {
-    color: #C5A572 !important;
-}
-
-.header-brand:hover {
-    color: #C5A572 !important;
-}
-
-.header-brand:hover .brand-gold {
-    color: #ffffff !important;
-}
-
-
-.navbar-brand:hover {
-    color: #C5A572 !important;
     transform: translateY(-2px);
 }
 
@@ -620,6 +591,18 @@ h4.text-center span.text-warning {
         gap: 2px;
     }
 
+    .star {
+        font-size: 32px;
+        cursor: pointer;
+        color: #ddd;
+        transition: 0.2s;
+    }
+    
+    .star.selected,
+    .star:hover {
+        color: #f7c200;
+    }
+
 /* =========================================================
    MOBILE RESPONSIVE
 ========================================================= */
@@ -821,7 +804,7 @@ h4.text-center span.text-warning {
     }
 
     .product-card .card-body {
-        padding: 10px !important;
+        padding: 5px !important;
     }
 
         .banner-card {
@@ -945,42 +928,102 @@ h4.text-center span.text-warning {
         font-size: 0.75rem;
     }
 
-        /* CARD KHUSUS DI LIST PRODUCT */
-    .product-list .product-card {
-        height: auto !important;
-        border-radius: 14px;
-        overflow: hidden;
+    /* ============================
+    LIST PRODUCT MOBILE CLEAN
+    ============================ */
+    .product-list {
+        padding-left: 4px;
+        padding-right: 4px;
+        margin-top: 10px;
     }
 
-    /* FIX GAMBAR LONJONG */
+    .product-list .col-6 {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    /* CARD LIST — MOBILE */
+    .product-list .product-card {
+        background: #ffffff;
+        border-radius: 14px;
+        overflow: hidden;
+        height: auto !important;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid #eee;
+    }
+
     .product-list .product-card .ratio {
         height: 150px !important;
         max-height: 150px !important;
+        overflow: hidden;
     }
 
     .product-list .product-card img {
         height: 150px !important;
-        object-fit: cover !important;  /* wajib */
-        padding: 0 !important;
+        object-fit: cover !important;
+        width: 100%;
     }
 
-    /* BODY RAPI */
+    /* Body */
     .product-list .product-card .card-body {
         padding: 10px !important;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
     }
 
+    /* Title (maksimal 2 baris) */
     .product-list .product-card h6 {
-        font-size: 14px !important;
-        white-space: nowrap;
+        font-size: 14px;
+        height: 2.6em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
         overflow: hidden;
-        text-overflow: ellipsis;
-        margin-bottom: 4px !important;
+        margin-bottom: 4px;
     }
 
-    .product-list .product-card p {
-        font-size: 14px !important;
-        margin-bottom: 0 !important;
+    /* Brand */
+    .product-list .product-card p.text-muted {
+        margin-bottom: 2px;
+        font-size: 13px;
     }
+
+    /* Price */
+    .product-list .product-card .price {
+        font-size: 13.5px;
+        margin-bottom: 8px;
+    }
+
+    /* Add to Cart Button */
+    .product-list .product-card button {
+        padding: 6px !important;
+        font-size: 12px !important;
+        border-radius: 20px;
+        margin-top: auto;
+    }
+
+    /* Brand Header mobile */
+    .product-list-title {
+        font-size: 17px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+    }
+
+    .product-list-header {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 5px;
+    }
+
+    .product-list-header a {
+        font-size: 13px !important;
+    }
+
 
     /* ================================================================
     ORDER REVIEW MOBILE

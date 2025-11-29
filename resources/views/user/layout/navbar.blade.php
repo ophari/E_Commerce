@@ -3,7 +3,7 @@
 
     {{-- Brand --}}
     <a class="navbar-brand fw-bold text-uppercase header-brand" href="{{ route('home') }}">
-      WATCH<span class="brand-gold">STORE</span>
+      WATCHSTORE</span>
     </a>
 
     {{-- Toggle Button (Mobile) --}}
