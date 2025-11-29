@@ -13,10 +13,10 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'order_id' => 'required',
+            'order_id'   => 'required',
             'product_id' => 'required',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
+            'rating'     => 'required|integer|min:1|max:5',
+            'comment'    => 'nullable|string',
         ]);
 
         // Pastikan order milik user & sudah delivered
@@ -25,7 +25,7 @@ class ReviewController extends Controller
             ->where('status', 'delivered')
             ->firstOrFail();
 
-        // Cek apakah produk ada dalam order
+        // Pastikan produk ada di dalam order
         $hasProduct = $order->orderItems()
             ->where('product_id', $request->product_id)
             ->exists();
@@ -34,19 +34,28 @@ class ReviewController extends Controller
             return response()->json(['error' => 'Invalid product'], 403);
         }
 
-        // Simpan atau update jika sudah pernah review
-        Review::updateOrCreate(
-            [
-                'user_id'   => Auth::id(),
-                'product_id'=> $request->product_id,
-                'order_id'  => $request->order_id
-            ],
-            [
-                'rating'    => $request->rating,
-                'comment'   => $request->comment
-            ]
-        );
+        // Cari review sebelumnya
+        $review = Review::where('user_id', Auth::id())
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if ($review) {
+            // Update / Edit review
+            $review->update([
+                'rating'  => $request->rating,
+                'comment' => $request->comment
+            ]);
+        } else {
+            // Buat review baru
+            Review::create([
+                'user_id'    => Auth::id(),
+                'product_id' => $request->product_id,
+                'rating'     => $request->rating,
+                'comment'    => $request->comment,
+            ]);
+        }
 
         return response()->json(['success' => true]);
     }
+
 }
