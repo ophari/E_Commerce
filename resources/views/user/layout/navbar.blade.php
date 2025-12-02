@@ -22,9 +22,6 @@
         <li class="nav-item simple-link">
           <a class="nav-link text-light" href="{{ route('product.list') }}">Products</a>
         </li>
-        <li class="nav-item simple-link">
-          <a class="nav-link text-light" href="{{ route('user.orders') }}">Orders</a>
-        </li>
       </ul>
 
       {{-- MOBILE ONLY SEPARATOR --}}
@@ -36,6 +33,8 @@
     {{-- =========================
          GUEST (Belum Login)
        ========================= --}}
+    
+
     @guest
         <li class="nav-item d-none d-lg-block me-2">
             <a href="{{ route('login') }}" class="btn btn-sm nav-auth-btn nav-auth-login">
@@ -84,19 +83,27 @@
             <a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown">
                 {{ Auth::user()->name }}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
-                <li>
-                    <a class="dropdown-item text-light" href="{{ route('user.profile.edit') }}">
-                        <i class="bi bi-person-circle me-2"></i> Profile
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider bg-secondary"></li>
-                <li>
-                    <a class="dropdown-item text-light" href="{{ route('logout') }}">
-                        <i class="bi bi-box-arrow-right me-2"></i> Logout
-                    </a>
-                </li>
-            </ul>
+
+        <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
+
+            <li>
+                <a class="dropdown-item text-light d-flex align-items-center" href="{{ route('user.orders') }}">
+                    <i class="bi bi-bag-check me-2 "></i> Orders
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item text-light d-flex align-items-center" href="{{ route('user.profile.edit') }}">
+                    <i class="bi bi-person-circle me-2"></i> Edit Profile
+                </a>
+            </li>
+            <li><hr class="dropdown-divider bg-secondary"></li>
+            <li>
+                <a class="dropdown-item text-light d-flex align-items-center" href="{{ route('logout') }}">
+                    <i class="bi bi-box-arrow-right me-2 "></i> Logout
+                </a>
+            </li>
+        </ul>
+
         </li>
 
         {{-- MOBILE CART --}}
@@ -115,17 +122,16 @@
                 {{ Auth::user()->name }}
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
-                <li><a class="dropdown-item text-light" href="{{ route('user.profile.edit') }}">Profile</a></li>
-                <li><hr class="dropdown-divider bg-secondary"></li>
-                <li><a class="dropdown-item text-light" href="{{ route('logout') }}">Logout</a></li>
-            </ul>
-        </li>
+        <ul class="dropdown-menu dropdown-menu-end bg-dark border-0 shadow">
+
+            <li><a class="dropdown-item text-light d-flex align-items-center" href="{{ route('user.orders') }}"><i class="bi bi-bag-check me-2 "></i> Orders</a></li>
+            <li><a class="dropdown-item text-light d-flex align-items-center" href="{{ route('user.profile.edit') }}"><i class="bi bi-person-circle me-2 "></i> Edit Profile</a></li>
+            <li><hr class="dropdown-divider bg-secondary"></li>
+            <li><a class="dropdown-item text-light d-flex align-items-center" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2 "></i> Logout</a></li></ul></li>
+
+        </ul>
 
     @endauth
-
-</ul>
-
     </div>
   </div>
 </nav>

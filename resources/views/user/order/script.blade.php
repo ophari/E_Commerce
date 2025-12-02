@@ -8,31 +8,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const ratingModalEl   = document.getElementById('ratingModal');
     const detailModalEl   = document.getElementById('orderDetailModal');
 
-
+    // ===============================
+    //  Blur active element (Bootstrap fix)
+    // ===============================
     document.querySelectorAll('.modal').forEach(modal => {
-
         ['show.bs.modal', 'shown.bs.modal', 'hide.bs.modal', 'hidden.bs.modal']
         .forEach(eventName => {
             modal.addEventListener(eventName, () => {
                 setTimeout(() => document.activeElement.blur(), 10);
             });
         });
-
     });
 
 
+    // ===============================
+    // RATE BUTTON
+    // ===============================
     document.querySelectorAll('.rate-btn').forEach(btn => {
         btn.addEventListener('click', function () {
 
-            closeRatingModalIfOpen();
             closeDetailModalIfOpen();
 
             ratingOrderId.value   = this.dataset.order;
             ratingProductId.value = this.dataset.product;
+            document.getElementById('backToProductLink').href = `/product/${this.dataset.product}`;
+
 
             ratingValue.value   = "";
             ratingComment.value = "";
             resetStars();
+
+            document.getElementById('backToProductLink').href = `/product/${this.dataset.product}`;
 
             document.querySelector('#ratingModal .modal-title').textContent = 'Rate Your Product';
 
@@ -41,11 +47,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+    // ===============================
+    // EDIT BUTTON
+    // ===============================
     document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function () {
 
             closeDetailModalIfOpen();
-            closeRatingModalIfOpen();
 
             ratingOrderId.value   = this.dataset.order;
             ratingProductId.value = this.dataset.product;
@@ -54,13 +62,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             highlightStars(this.dataset.rating);
 
-            document.querySelector('#ratingModal .modal-title').textContent = 'Edit Your Review';
-
             new bootstrap.Modal(ratingModalEl).show();
         });
     });
 
 
+    // ===============================
+    // STAR CLICK (Rating UI)
+    // ===============================
     document.querySelectorAll('.star').forEach(star => {
         star.addEventListener('click', function () {
             const rating = this.dataset.value;
@@ -68,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
             highlightStars(rating);
         });
     });
+
 
     function highlightStars(rating) {
         document.querySelectorAll('.star').forEach(star => {
@@ -85,6 +95,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
+
+    // ===============================
+    // SUBMIT REVIEW
+    // ===============================
     document.getElementById('ratingForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -111,6 +125,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+
+    // ===============================
+    // VIEW ORDER DETAIL
+    // ===============================
     document.querySelectorAll('.view-order-btn').forEach(btn => {
         btn.addEventListener('click', async function () {
 
@@ -156,6 +174,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+
+    // ===============================
+    // CLOSE MODALS
+    // ===============================
     function closeRatingModalIfOpen() {
         const modal = bootstrap.Modal.getInstance(ratingModalEl);
         if (modal) modal.hide();

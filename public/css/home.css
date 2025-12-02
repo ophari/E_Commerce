@@ -605,6 +605,29 @@ h4.text-center span.text-warning {
     }
 
 /* =========================================================
+   ORDER REVIEW DESKTOP
+========================================================= */
+
+    .order-card-desktop {
+        border: 1px solid #e5e5e5;
+        transition: 0.25s ease;
+    }
+
+    .order-card-desktop:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .order-card-desktop h5 {
+        color: #1a1a1a;
+    }
+
+    .order-card-desktop img {
+        border-radius: 12px;
+    }
+
+
+/* =========================================================
    MOBILE RESPONSIVE
 ========================================================= */
 
@@ -721,7 +744,19 @@ h4.text-center span.text-warning {
 
     .hero-section { text-align: center; padding: 60px 20px; }
 
-    .hero-image img { max-width: 80%; margin-top: 10px; }
+    .hero-image img { 
+        max-width: 80%; 
+                background:
+            linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.85),   
+                rgba(255, 255, 255, 0.90),
+                rgba(255, 255, 255, 0.70)
+            ),
+            url('/image/bg-hero.jpg') center/cover no-repeat !important;
+
+        filter: brightness(1); 
+        margin-top: 10px; }
 }
 
 @media (max-width: 576px) {
@@ -824,13 +859,13 @@ h4.text-center span.text-warning {
         background:
             linear-gradient(
                 to bottom,
-                rgba(255, 255, 255, 0.85),   /* overlay putih lembut */
+                rgba(255, 255, 255, 0.85),   
                 rgba(255, 255, 255, 0.90),
                 rgba(255, 255, 255, 0.70)
             ),
             url('/image/bg-hero.jpg') center/cover no-repeat !important;
 
-        filter: brightness(1); /* biar tidak terlalu gelap */
+        filter: brightness(1); 
     }
 
 

@@ -15,8 +15,8 @@
                 <div class="text-center py-5 bg-light rounded-4 shadow-sm">
                     <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
                     <a href="{{ route('product.list') }}"
-                    class="btn btn-lg px-4 py-2 rounded-pill"
-                    style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
+                        class="btn btn-lg px-4 py-2 rounded-pill"
+                        style="background-color: #C5A572; color: #1A1A1A; font-weight: 600;">
                         Belanja sekarang
                     </a>
                 </div>
@@ -24,151 +24,227 @@
             @else
 
             {{-- ================================
-                DESKTOP VERSION (TABEL)
+                DESKTOP VERSION (CARD LIST)
             ================================= --}}
-            <div class="table-responsive shadow rounded-4 order-table-wrapper d-none d-md-block">
-                <table class="table table-hover align-middle text-center mb-0">
-                    <thead style="background-color: #1A3C63; color: #fff;">
-                        <tr>
-                            <th scope="col">Order ID</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Rate</th>
-                        </tr>
-                    </thead>
+            <div class="order-list-desktop d-none d-md-block">
 
-                    <tbody>
-                        @foreach($orders as $order)
-                        <tr>
-                            <td class="fw-semibold">#{{ $order['id'] }}</td>
-                            <td>{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</td>
-                            <td class="fw-semibold">Rp {{ number_format($order['total'], 0, ',', '.') }}</td>
+                @foreach ($orders as $order)
+                @php
+                    $item  = $order['items'][0] ?? null;
+                    if (!empty($item['image_url'])) {
+                        $image = asset('image/' . $item['image_url']);
+                    }
+                   
+                    elseif (!empty($item['product']['image_url'])) {
+                        $image = asset('image/' . $item['product']['image_url']);
+                    }
+                  
+                    else {
+                        $image = asset('/image/no-image.png');
+                    }
+                @endphp
 
-                            <td>
-                                <span class="badge px-3 py-2
-                                    @if($order['status']=='pending') bg-warning text-dark
-                                    @elseif($order['status']=='completed') bg-success
-                                    @elseif($order['status']=='cancelled') bg-danger
-                                    @else bg-secondary
-                                    @endif">
-                                    {{ ucfirst($order['status']) }}
-                                </span>
-                            </td>
+                <div class="order-card-desktop shadow-sm bg-white rounded-4 p-3 mb-3 d-flex">
 
-                            <td>
+                @if($item && !empty($item['product_id']))
+                    <a href="{{ route('product.detail', $item['product_id']) }}" 
+                    class="text-decoration-none text-dark d-flex me-3">
+                @else
+                    <div class="d-flex me-3">
+                @endif
+
+                    <img src="{{ $image }}"
+                        class="rounded"
+                        style="width:90px; height:90px; object-fit:cover;">
+
+                @if($item && !empty($item['product_id']))
+                    </a>
+                @else
+                    </div>
+                @endif
+
+                    <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="fw-bold">#{{ $order['id'] }}</h5>
+                            <span class="text-muted">{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</span>
+                        </div>
+
+                        {{-- Nama produk --}}
+                        @if($item && !empty($item['product_id']))
+                            <a href="{{ route('product.detail', $item['product_id']) }}" 
+                            class="text-decoration-none text-dark">
+                                <p class="mb-1 fst-italic fw-semibold">
+                                    {{ $item['name'] ?? 'Produk tidak ditemukan' }}
+                                </p>
+                            </a>
+                        @else
+                            <p class="mb-1 fst-italic fw-semibold text-muted">
+                                {{ $item['name'] ?? 'Produk tidak ditemukan' }}
+                            </p>
+                        @endif
+
+                        <span class="badge px-3 py-2 text-capitalize
+                            @if($order['status']=='pending') bg-warning
+                            @elseif($order['status']=='completed') bg-success
+                            @elseif($order['status']=='delivered') bg-primary
+                            @else bg-secondary
+                            @endif">
+                            {{ $order['status'] }}
+                        </span>
+
+                        <p class="fw-semibold mt-2">
+                            Total: Rp {{ number_format($order['total'],0,',','.') }}
+                        </p>
+                    </div>
+
+                    {{-- BUTTONS --}}
+                    <div class="d-flex flex-column justify-content-center">
+
+                        {{-- Lihat Detail --}}
+                        <button
+                            class="btn btn-outline-dark btn-sm rounded-pill mb-2 view-order-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#orderDetailModal"
+                            data-id="{{ $order['id'] }}">
+                            Lihat Detail
+                        </button>
+
+                        {{-- Rating / Edit --}}
+                        @if(strtolower($order['status']) === 'delivered')
+
+                            @if(isset($order['review']))
                                 <button
-                                    class="btn btn-sm btn-outline-dark rounded-pill px-3 py-1 fw-semibold view-order-btn d-inline-flex align-items-center"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#orderDetailModal"
-                                    data-id="{{ $order['id'] }}">
-                                    <i class="bi bi-eye me-1"></i> View
+                                    class="btn btn-outline-primary btn-sm rounded-pill edit-btn"
+                                    data-order="{{ $order['id'] }}"
+                                    data-product="{{ $item['product_id'] ?? '' }}"
+                                    data-rating="{{ $order['review']['rating'] }}"
+                                    data-comment="{{ $order['review']['comment'] }}">
+                                    ✏️ Edit Review
                                 </button>
-                            </td>
+                            @else
+                                <button
+                                    class="btn btn-warning btn-sm rounded-pill rate-btn"
+                                    data-order="{{ $order['id'] }}"
+                                    data-product="{{ $item['product_id'] ?? '' }}">
+                                    ⭐ Rate
+                                </button>
+                            @endif
 
-                            <td>
-                                @if(strtolower($order['status']) === 'delivered')
+                        @endif
 
-                                    {{-- SUDAH ADA REVIEW --}}
-                                    @if(isset($order['review']) && $order['review'])
-                                        <button
-                                            class="btn btn-sm btn-outline-primary rounded-pill edit-btn"
-                                            data-order="{{ $order['id'] }}"
-                                            data-product="{{ $order['items'][0]['product_id'] }}"
-                                            data-rating="{{ $order['review']['rating'] }}"
-                                            data-comment="{{ $order['review']['comment'] }}"
-                                        >
-                                            ✏️ Edit Review
-                                        </button>
+                    </div>
+                </div>
+                @endforeach
 
-                                    {{-- BELUM REVIEW --}}
-                                    @else
-                                        <button
-                                            class="btn btn-sm btn-outline-warning rounded-pill rate-btn"
-                                            data-order="{{ $order['id'] }}"
-                                            data-product="{{ $order['items'][0]['product_id'] }}"
-                                        >
-                                            ⭐ Rate
-                                        </button>
-                                    @endif
-
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
             </div>
 
 
             {{-- ================================
-                MOBILE VERSION (CARD)
+                MOBILE VERSION
             ================================= --}}
             <div class="mobile-order-list d-block d-md-none mt-3">
 
                 @foreach($orders as $order)
-                <div class="order-card">
+                @php
+                    $item  = $order['items'][0] ?? null;
 
-                    <h5>#{{ $order['id'] }}</h5>
+                    if (!empty($item['image_url'])) {
+                        $image = asset('image/' . $item['image_url']);
+                    } elseif (!empty($item['product']['image_url'])) {
+                        $image = asset('image/' . $item['product']['image_url']);
+                    } else {
+                        $image = asset('/image/no-image.png');
+                    }
+                @endphp
 
-                    <div class="order-row">
-                        <span class="order-label">Date</span>
-                        <span class="order-value">{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</span>
-                    </div>
+                    <div class="order-card">
 
-                    <div class="order-row">
-                        <span class="order-label">Total</span>
-                        <span class="order-value">
-                            Rp {{ number_format($order['total'], 0, ',', '.') }}
-                        </span>
-                    </div>
+                        {{-- PRODUK IMAGE + NAME --}}
+                        @if($item && !empty($item['product_id']))
 
-                    <div class="order-row">
-                        <span class="order-label">Status</span>
-                        <span class="order-value text-capitalize">{{ $order['status'] }}</span>
-                    </div>
+                            {{-- Produk masih ada --}}
+                            <a href="{{ route('product.detail', $item['product_id']) }}"
+                            class="d-flex align-items-center mb-3 text-decoration-none text-dark">
 
-                    {{-- BUTTON VIEW --}}
-                    <button
-                        class="btn btn-outline-dark w-100 rounded-pill mt-2 view-order-btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#orderDetailModal"
-                        data-id="{{ $order['id'] }}">
-                        View
-                    </button>
+                                <img src="{{ $image }}"
+                                    class="rounded me-3"
+                                    style="width:60px; height:60px; object-fit:cover;">
 
-                    {{-- BUTTON RATE / EDIT --}}
-                    @if(strtolower($order['status']) === 'delivered')
+                                <p class="mb-0 fw-semibold">{{ $item['name'] }}</p>
+                            </a>
 
-                        {{-- SUDAH ADA REVIEW --}}
-                        @if(isset($order['review']) && $order['review'])
-                            <button
-                                class="btn btn-outline-primary w-100 rounded-pill mt-2 edit-btn"
-                                data-order="{{ $order['id'] }}"
-                                data-product="{{ $order['items'][0]['product_id'] }}"
-                                data-rating="{{ $order['review']['rating'] }}"
-                                data-comment="{{ $order['review']['comment'] }}"
-                            >
-                                ✏️ Edit Review
-                            </button>
-
-                        {{-- BELUM REVIEW --}}
                         @else
-                            <button
-                                class="btn btn-warning w-100 rounded-pill mt-2 rate-btn"
-                                data-order="{{ $order['id'] }}"
-                                data-product="{{ $order['items'][0]['product_id'] }}"
-                            >
-                                ⭐ Rate
-                            </button>
+
+                            {{-- Produk sudah hilang --}}
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="{{ asset('image/no-image.png') }}"
+                                    class="rounded me-3"
+                                    style="width:60px; height:60px; object-fit:cover;">
+
+                                <p class="mb-0 text-muted">Produk sudah tidak tersedia</p>
+                            </div>
+
                         @endif
 
-                    @endif
 
-                </div>
+                        {{-- ORDER ID --}}
+                        <h5>#{{ $order['id'] }}</h5>
+
+                        <div class="order-row">
+                            <span class="order-label">Date</span>
+                            <span class="order-value">
+                                {{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="order-label">Total</span>
+                            <span class="order-value">
+                                Rp {{ number_format($order['total'],0,',','.') }}
+                            </span>
+                        </div>
+
+                        <div class="order-row">
+                            <span class="order-label">Status</span>
+                            <span class="order-value text-capitalize">{{ $order['status'] }}</span>
+                        </div>
+
+
+                        {{-- BUTTON VIEW --}}
+                        <button
+                            class="btn btn-outline-dark w-100 rounded-pill mt-2 view-order-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#orderDetailModal"
+                            data-id="{{ $order['id'] }}">
+                            View
+                        </button>
+
+
+                        {{-- BUTTON RATE / EDIT --}}
+                        @if(strtolower($order['status']) === 'delivered')
+
+                            @if(isset($order['review']))
+                                <button
+                                    class="btn btn-outline-primary w-100 rounded-pill mt-2 edit-btn"
+                                    data-order="{{ $order['id'] }}"
+                                    data-product="{{ $item['product_id'] ?? '' }}"
+                                    data-rating="{{ $order['review']['rating'] }}"
+                                    data-comment="{{ $order['review']['comment'] }}">
+                                    ✏️ Edit Review
+                                </button>
+                            @else
+                                <button
+                                    class="btn btn-warning w-100 rounded-pill mt-2 rate-btn"
+                                    data-order="{{ $order['id'] }}"
+                                    data-product="{{ $item['product_id'] ?? '' }}">
+                                    ⭐ Rate
+                                </button>
+                            @endif
+
+                        @endif
+
+                    </div>
+
                 @endforeach
 
             </div>
@@ -203,7 +279,7 @@
 
 
 {{-- ================================
-    MODAL — RATE
+    MODAL — RATE (+ Back to product)
 ================================ --}}
 <div class="modal fade" id="ratingModal" tabindex="-1">
   <div class="modal-dialog modal-md modal-dialog-centered">
@@ -238,7 +314,7 @@
 
             <button type="submit" class="btn w-100 text-white" style="background:#C5A572;">
                 Submit Review
-            </button>
+            </button> 
         </form>
 
       </div>
@@ -246,7 +322,6 @@
     </div>
   </div>
 </div>
-
 @endsection
 
 

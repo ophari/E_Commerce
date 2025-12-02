@@ -141,6 +141,7 @@ class OrderController extends Controller
                             'name'       => $item->product->name,
                             'price'      => $item->price,
                             'qty'        => $item->quantity,
+                            'image_url'  => $item->product->image_url,
                         ];
                     })->toArray(),
 
@@ -178,6 +179,7 @@ class OrderController extends Controller
                     'name' => $item->product->name,
                     'price' => $item->price,
                     'qty' => $item->quantity,
+                    'image_url'  => $item->product->image_url,
                 ];
             }),
         ];
