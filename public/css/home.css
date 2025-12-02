@@ -626,12 +626,61 @@ h4.text-center span.text-warning {
         border-radius: 12px;
     }
 
+/* =========================================================
+    HERO LIST PRODUCT
+========================================================= */
+
+    .hero-list-wrapper {
+        margin-bottom: 40px;
+    }
+
+    .hero-list-image {
+        height: 260px;
+    }
+
+    .hero-list-image img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* WHITE CARD UNDER BANNER */
+    .hero-list-card {
+        background: #ffffffee;
+        margin-top: -35px;
+        border: 1px solid #e5e5e5;
+        backdrop-filter: blur(6px);
+    }
+
 
 /* =========================================================
    MOBILE RESPONSIVE
 ========================================================= */
 
 @media (max-width: 991px) {
+
+        .hero-list-text {
+        text-align: center;
+    }
+
+    .hero-list-text h1 {
+        font-size: 2rem !important;
+    }
+
+    .hero-list-text p {
+        margin: 0 auto 15px;
+    }
+
+    .hero-list-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 20px !important;
+    }
+
+    .hero-list-image {
+        height: 200px;
+    }
+
     .star-rating i,
     .rated-stars i {
         font-size: 18px;
@@ -760,6 +809,29 @@ h4.text-center span.text-warning {
 }
 
 @media (max-width: 576px) {
+
+        .hero-list-text {
+        text-align: center;
+    }
+
+    .hero-list-text h1 {
+        font-size: 2rem !important;
+    }
+
+    .hero-list-text p {
+        margin: 0 auto 15px;
+    }
+
+    .hero-list-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 20px !important;
+    }
+
+    .hero-list-image {
+        height: 200px;
+    }
 
     .best-seller-track .product-card {
         flex: 0 0 82% !important;
