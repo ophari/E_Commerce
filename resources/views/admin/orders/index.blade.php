@@ -18,7 +18,37 @@
             </div>
 
             <div class="card-body">
-                <table class="table table-striped" id="table1">
+
+                <form method="GET" class="row g-3 mb-4">
+                    
+                    <div class="col-md-3">
+                        <label>Status</label>
+                        <select name="status" class="form-select">
+                            <option value="">-- All Status --</option>
+                            <option value="pending" {{ request('status')=='pending'?'selected':'' }}>Pending</option>
+                            <option value="processing" {{ request('status')=='processing'?'selected':'' }}>Processing</option>
+                            <option value="shipped" {{ request('status')=='shipped'?'selected':'' }}>Shipped</option>
+                            <option value="delivered" {{ request('status')=='delivered'?'selected':'' }}>Delivered</option>
+                            <option value="cancelled" {{ request('status')=='cancelled'?'selected':'' }}>Cancelled</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Date From</label>
+                        <input type="date" name="date_from" class="form-control" value="{{ request('date_from') }}">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Date To</label>
+                        <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
+                    </div>
+
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </form>
+
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Order ID</th>
@@ -29,50 +59,48 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                        <tbody>
-                            @forelse ($orders as $order)
-                                <tr>
-                                    <td>{{ $order->order_number }}</td>
 
-                                    <!-- Nama User -->
-                                    <td>{{ $order->user->name ?? 'Unknown User' }}</td>
+                    <tbody>
+                        @forelse ($orders as $order)
+                            <tr>
+                                <td>{{ $order->order_number }}</td>
+                                <td>{{ $order->user->name ?? 'Unknown User' }}</td>
 
-                                    <!-- Status Badge -->
-                                    <td>
-                                        @php
-                                            $badge = match($order->status) {
-                                                'pending' => 'bg-warning',
-                                                'processing' => 'bg-info',
-                                                'shipped' => 'bg-success',
-                                                'delivered' => 'bg-primary',
-                                                'cancelled' => 'bg-danger',
-                                                default => 'bg-secondary'
-                                            };
-                                        @endphp
-                                        <span class="badge {{ $badge }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
-                                    </td>
+                                <td>
+                                    @php
+                                        $badge = match($order->status) {
+                                            'pending' => 'bg-warning',
+                                            'processing' => 'bg-info',
+                                            'shipped' => 'bg-success',
+                                            'delivered' => 'bg-primary',
+                                            'cancelled' => 'bg-danger',
+                                            default => 'bg-secondary'
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $badge }}">{{ ucfirst($order->status) }}</span>
+                                </td>
 
-                                    <td>${{ number_format($order->total_price, 2) }}</td>
-                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                <td>{{ $order->created_at->format('Y-m-d') }}</td>
 
-                                    <td>
-                                        <a href="{{ route('admin.orders.show', $order->id) }}" 
-                                        class="btn btn-primary btn-sm">
-                                            View
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="text-center text-muted">
-                                        No orders found.
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
+                                <td>
+                                    <a href="{{ route('admin.orders.show', $order->id) }}"
+                                        class="btn btn-primary btn-sm">View</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center text-muted">No orders found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                 </table>
+
+                {{-- PAGINATION --}}
+                <div class="mt-3">
+                    {{ $orders->links() }}
+                </div>
+
             </div>
 
         </div>

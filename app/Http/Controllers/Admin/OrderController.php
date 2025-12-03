@@ -8,29 +8,28 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->latest()->get();
+        $query = Order::with('user')->latest();
+
+        // Filter by status
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter date range
+        if ($request->date_from) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->date_to) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Pagination
+        $orders = $query->paginate(10)->withQueryString();
+
         return view('admin.orders.index', compact('orders'));
     }
 
-    public function show(Order $order)
-    {
-        $order->load('orderItems.product', 'user');
-        return view('admin.orders.show', compact('order'));
-    }
-
-    public function updateStatus(Request $request, Order $order)
-    {
-        $request->validate([
-            'status' => 'required|in:pending,processing,shipped,delivered',
-        ]);
-
-        $order->update([
-            'status' => $request->status,
-        ]);
-
-        return back()->with('success', "Status order #{$order->id} diubah menjadi {$request->status}.");
-    }
 }
 
