@@ -75,7 +75,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
     // Reviews
     Route::prefix('reviews')->name('reviews.')->group(function () {
         Route::get('/', [AdminReviewController::class, 'index'])->name('index');
+        Route::post('/bulk-delete', [AdminReviewController::class, 'bulkDelete'])->name('bulkDelete');
+        Route::delete('/{review}', [AdminReviewController::class, 'destroy'])->name('destroy');
     });
+
+
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
