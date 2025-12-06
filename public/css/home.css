@@ -234,7 +234,7 @@ body { -ms-overflow-style: none; scrollbar-width: none; }
     gap: 16px;
 }
 
-.rating { color: #FFD700; margin-bottom: 6px; }
+.rating { color: #000; margin-bottom: 6px; }
 
 .price { font-weight: 700; color: #000; }
 

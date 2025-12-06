@@ -41,7 +41,15 @@ class HomeController extends Controller
             }
         }
 
-        $bestSellers = Product::with('brand')->take(8)->get();
+        $bestSellers = Product::with('brand')
+            ->withAvg('reviews', 'rating')
+            ->orderByDesc('reviews_avg_rating')
+            ->take(9)
+            ->get()
+            ->map(function ($product) {
+                $product->avg_rating = number_format($product->reviews_avg_rating ?? 0, 1); 
+                return $product;
+            });
 
         $ourProducts = Product::latest()->take(8)->get();
 

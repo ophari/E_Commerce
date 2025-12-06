@@ -85,7 +85,7 @@
                     <div>
                         <h4 class="fw-bold mb-2 text-white">Best Deal</h4>
                         <p class="mb-3 text-white">Jowel Watch for Men</p>
-                        <a href="#" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
+                        <a href="{{ route('product.list') }}" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
                     </div>
                     <img src="{{ asset('image/pmo1.jpg') }}" class="img-fluid rounded-3" style="max-width:180px;">
                 </div>
@@ -96,7 +96,7 @@
                     <div>
                         <h4 class="fw-bold mb-2 text-white">Rich Watch</h4>
                         <p class="mb-3 text-white">Make a better life. Make a rich life.</p>
-                        <a href="#" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
+                        <a href="{{ route('product.list') }}" class="btn btn-outline-light btn-sm px-3">Shop Now</a>
                     </div>
                     <img src="{{ asset('image/pmo2.jpg') }}" class="img-fluid rounded-3" style="max-width:180px;">
                 </div>
@@ -142,7 +142,10 @@
                                     </div>
 
                                     <div class="card-body text-center">
-                                        <div class="rating">⭐⭐⭐⭐⭐</div>
+                                        <div class="rating d-flex justify-content-center align-items-center gap-1">
+                                          <span class="text-warning" style="font-size: 1.2rem;">★</span>
+                                          <span class="fw-semibold">{{ $product->avg_rating }}</span>
+                                      </div>
 
                                         <h6 class="mb-0 text-dark">{{ $product->name }}</h6>
 
