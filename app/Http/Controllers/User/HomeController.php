@@ -5,61 +5,40 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Brand;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::with('brand')->get()->map(function($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'brand' => $product->brand ? $product->brand->name : 'Unknown',
-                'price' => $product->price,
-                'image' => $product->image_url,
-            ];
-        });
-
+        // Semua brand
         $brands = Brand::all();
 
-        // Get products grouped by brand
-        $productsByBrand = [];
-        foreach ($brands as $brand) {
-            $products = Product::where('brand_id', $brand->id)->take(4)->get()->map(function($product) {
-                return [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'image' => $product->image_url,
-                ];
-            });
-            if ($products->count() > 0) {
-                $productsByBrand[] = [
-                    'brand' => $brand,
-                    'products' => $products,
-                ];
-            }
-        }
-
+        // Best sellers → berdasarkan rating tertinggi
         $bestSellers = Product::with('brand')
             ->withAvg('reviews', 'rating')
             ->orderByDesc('reviews_avg_rating')
             ->take(9)
             ->get()
             ->map(function ($product) {
-                $product->avg_rating = number_format($product->reviews_avg_rating ?? 0, 1); 
+                $product->avg_rating = number_format($product->reviews_avg_rating ?? 0, 1);
                 return $product;
             });
 
+        // Produk terbaru
         $ourProducts = Product::latest()->take(8)->get();
+
+        // Review pengguna (ambil 6 terbaru)
+        $reviews = Review::with('user')
+            ->latest()
+            ->take(6)
+            ->get();
 
         return view('user.pages.home', [
             'brands' => $brands,
             'bestSellers' => $bestSellers,
-            'ourProducts' => $ourProducts
+            'ourProducts' => $ourProducts,
+            'reviews' => $reviews
         ]);
-
-
-        return view('user.pages.home', compact('brands', 'productsByBrand', 'products', 'bestSellers'));
     }
 }

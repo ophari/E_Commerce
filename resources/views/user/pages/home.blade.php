@@ -170,31 +170,40 @@
     </div>
 </section>
 
-  {{-- ABOUT SECTION (digabung dari about.blade.php) --}}
+  {{-- ABOUT SECTION (mobile center, desktop left) --}}
   <section class="about-section fade-up container py-5">
     <div class="row align-items-center">
-      <div class="col-md-6 mb-4 mb-md-0">
+      
+      <div class="col-md-6 mb-4 mb-md-0 text-center">
         <img src="{{ asset('image/about-img.jpg') }}"
-             class="img-fluid rounded-4 shadow-sm"
-             alt="Luxury Watches">
+            class="img-fluid rounded-4 shadow-sm"
+            alt="Luxury Watches">
       </div>
-      <div class="col-md-6">
+
+      <div class="col-md-6 text-center text-md-start">
         <h2 class="fw-bold text-dark mb-3">About Our Store</h2>
+
         <p class="text-muted">
           Waktu adalah hal paling berharga yang kita miliki dan di <strong>WATCHSTORE</strong>,
           kami percaya setiap detik layak untuk dirayakan. Koleksi kami menampilkan jam tangan terbaik
           dari merek ternama seperti Rolex, Casio, dan Omega, yang memadukan presisi, keahlian,
           serta desain yang tak lekang oleh waktu.
         </p>
+
         <p class="text-muted">
           Di era digital saat ini, jam tangan bukan hanya alat penunjuk waktu tetapi juga cerminan
           dari gaya hidup, kedisiplinan, dan jati diri Anda. Baik Anda mencari keanggunan, ketahanan,
           maupun fungsi pintar, kami siap membantu Anda menemukan pasangan yang sempurna.
         </p>
-        <a href="{{ route('product.list') }}" class="btn btn-dark mt-3 px-4 py-2">Explore Collection</a>
+
+        <a href="{{ route('product.list') }}" class="btn btn-dark mt-3 px-4 py-2">
+          Explore Collection
+        </a>
       </div>
+
     </div>
   </section>
+
 
   <section class="bg-light py-5 fade-up text-center">
     <div class="container">
@@ -207,13 +216,13 @@
   </section>
 
     {{-- OUR PRODUCT SECTION --}}
-  <section class="container my-5 fade-up">
-      <div class="d-flex justify-content-between align-items-center mb-4">
+  <section class="container my-5">
+      <div class="d-flex justify-content-between align-items-center fade-up mb-4">
           <h3 class="fw-bold text-dark">Our Products</h3>
           <a href="{{ route('product.list') }}" class="btn btn-outline-dark btn-sm px-3">See All</a>
       </div>
 
-      <div class="row g-4 our-products">
+      <div class="row g-4 our-products fade-up">
           @foreach ($ourProducts as $product)
           <div class="col-6 col-md-3">
 
@@ -250,83 +259,57 @@
       </div>
   </section>
 
-    {{-- FAQ SECTION --}}
-  <section class="container fade-up py-5">
-    <div class="text-center mb-5">
-      <h3 class="fw-bold text-dark">Frequently Asked Questions</h3>
-      <p class="text-muted">Temukan jawaban dari pertanyaan umum tentang pembelian di Watch Store.</p>
+<!-- ================= REVIEW SECTION ================= -->
+<section class="py-5 ">
+    <div class="container">
+
+        <h3 class="fw-bold text-center text-dark mb-4">
+            Customer Reviews
+        </h3>
+
+        <!-- Wrapper scroll horizontal -->
+        <div class="d-flex overflow-auto gap-4 pb-3 pt-2">
+
+            @forelse ($reviews as $review)
+                <!-- Card Review -->
+                <div class="card border-0 shadow-sm rounded-4 p-4"
+                     style="min-width: 300px;">
+
+                    <!-- Profile -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-dark text-white fw-bold d-flex 
+                                    align-items-center justify-content-center"
+                             style="width: 50px; height: 50px; font-size: 18px;">
+                            {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                        </div>
+
+                        <div class="ms-3">
+                            <h6 class="fw-semibold text-dark mb-0">{{ $review->user->name }}</h6>
+                            <small class="text-muted">
+                                {{ $review->created_at->diffForHumans() }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="d-flex align-items-center mb-1">
+                        <span class="fw-bold">{{ $review->rating }}</span>
+                        <i class="bi bi-star-fill black ms-1"></i>
+                    </div>
+
+                    <!-- Comment -->
+                    <p class="text-muted mb-0" style="line-height: 1.5;">
+                        {{ $review->comment }}
+                    </p>
+                </div>
+
+            @empty
+                <p class="text-center text-muted">Belum ada review.</p>
+            @endforelse
+
+        </div>
+
     </div>
-
-    <div class="accordion shadow-sm" id="faqAccordion">
-
-      {{-- Pertanyaan 1 --}}
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
-            Bagaimana cara membeli produk di Watch Store?
-          </button>
-        </h2>
-        <div id="faqCollapseOne" class="accordion-collapse collapse show"
-             aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Pilih produk yang kamu suka, klik tombol <strong>“Shop Now”</strong> atau buka halaman detail produk.
-            Setelah itu, tambahkan ke keranjang dan lanjutkan ke proses checkout untuk menyelesaikan pembayaran.
-          </div>
-        </div>
-      </div>
-
-      {{-- Pertanyaan 2 --}}
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
-            Metode pembayaran apa saja yang tersedia?
-          </button>
-        </h2>
-        <div id="faqCollapseTwo" class="accordion-collapse collapse"
-             aria-labelledby="faqHeadingTwo" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Kami mendukung berbagai metode pembayaran seperti <strong>transfer bank, e-wallet (OVO, GoPay, DANA),</strong>
-            serta <strong>kartu kredit/debit</strong> melalui sistem pembayaran yang aman.
-          </div>
-        </div>
-      </div>
-
-      {{-- Pertanyaan 3 --}}
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingThree">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
-            Berapa lama pengiriman produk?
-          </button>
-        </h2>
-        <div id="faqCollapseThree" class="accordion-collapse collapse"
-             aria-labelledby="faqHeadingThree" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Pengiriman biasanya memakan waktu <strong>2–5 hari kerja</strong> tergantung lokasi kamu.
-            Kami akan mengirimkan nomor resi agar kamu bisa melacak pesanan secara real-time.
-          </div>
-        </div>
-      </div>
-
-      {{-- Pertanyaan 4 --}}
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="faqHeadingFour">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
-            Apakah semua produk dijamin orisinal?
-          </button>
-        </h2>
-        <div id="faqCollapseFour" class="accordion-collapse collapse"
-             aria-labelledby="faqHeadingFour" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Ya! Semua produk yang dijual di <strong>Watch Store</strong> adalah 100% orisinal,
-            bergaransi resmi, dan dikurasi langsung dari brand ternama dunia.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+</section>
 </div>
 @endsection
