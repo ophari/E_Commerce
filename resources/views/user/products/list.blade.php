@@ -96,7 +96,7 @@
                             <a href="{{ route('product.detail', $product->id) }}" 
                             class="text-decoration-none text-dark">
 
-                                <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
+                                <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden product-card-hover">
 
                                     <!-- IMAGE -->
                                     <div class="ratio ratio-1x1 bg-light">
