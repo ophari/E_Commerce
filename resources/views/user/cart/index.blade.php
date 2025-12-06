@@ -4,7 +4,8 @@
 
 @section('content')
 <div class="container py-4">
-    <h3 class="text-dark mb-4">Keranjang Belanja</h3>
+    <h3 class="text-dark mb-4 text-center mt-4 fw-bold">Keranjang Belanja</h3>
+    <hr class="mx-auto" style="width: 80px; height: 3px; background-color: #C5A572; opacity: 1;">
 
     @if(!isset($cartData) || count($cartData) === 0)
     <div class="container text-center my-5 fade-up">
@@ -81,9 +82,10 @@
 </div>
 
 {{-- REKOMENDASI PRODUK --}}
-<div class="container text-center my-5">
-    <h4 class="fw-bold text-dark mb-3">Rekomendasi Untuk Kamu</h4>
-    <p class="text-muted mb-4">Produk terbaik pilihan kami, mungkin cocok untuk kamu ✨</p>
+<div class="container text-center mobile-center my-5">
+    <h3>Rekomendasi Untuk Kamu</h3>
+    <p>Produk terbaik pilihan kami, mungkin cocok untuk kamu</p>
+
 
     <div class="row g-4">
         @foreach($recommendedProducts->take(6) as $product)
