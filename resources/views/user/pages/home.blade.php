@@ -21,7 +21,7 @@
                     Desain Abadi<br>Dibuat untuk Anda
                 </h1>
 
-                <h6 class="text-uppercase fw-semibold mb-3 bg-dark px-4 py-2 rounded text-center d-inline-block" style="color:#C5A572; letter-spacing:1px;">
+                <h6 class="text-uppercase fw-semibold mb-3 bg-dark px-4 py-2 rounded text-center d-inline-block" style="color:#ffffff; letter-spacing:1px;">
                   Jam Tangan Berkualitas Terbaik
                 </h6>
 
