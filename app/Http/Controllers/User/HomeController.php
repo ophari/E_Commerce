@@ -30,7 +30,8 @@ class HomeController extends Controller
 
         // Review pengguna (ambil 6 terbaru)
         $reviews = Review::with('user')
-            ->latest()
+            ->whereIn('rating', [4, 5])
+            ->inRandomOrder()
             ->take(6)
             ->get();
 
