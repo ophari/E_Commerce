@@ -69,5 +69,51 @@
         @endforeach
     </div>
     @endif
+
+    <!-- REVIEW SECTION -->
+    <hr class="my-5">
+
+    <h3 class="fw-bold text-dark text-center mb-4">Customer Reviews</h3>
+
+    @if($averageRating)
+        <div class="text-center mb-4">
+            <h4 class="fw-semibold">
+                ⭐ {{ number_format($averageRating, 1) }} / 5.0
+            </h4>
+            <p class="text-muted">Berdasarkan {{ $reviews->count() }} ulasan</p>
+        </div>
+    @endif
+
+    <div class="row g-4">
+        @forelse($reviews as $review)
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                    
+                    <!-- Profile -->
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" 
+                            style="width: 45px; height: 45px; font-size: 18px;">
+                            {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                        </div>
+                        <div class="ms-3">
+                            <h6 class="fw-semibold mb-0">{{ $review->user->name }}</h6>
+                            <small class="text-muted">{{ $review->created_at->diffForHumans() }}</small>
+                        </div>
+                    </div>
+
+                    <!-- Rating (WHITE STARS) -->
+                    <div class="mb-2 d-flex align-items-center gap-2">
+                        <span style="color: #111111; font-size: 18px;">★</span>
+                        <span class="fw-semibold text-dark">{{ number_format($review->rating, 1) }}</span>
+                    </div>
+
+                    <!-- Comment -->
+                    <p class="text-muted mb-0">{{ $review->comment }}</p>
+                </div>
+            </div>
+        @empty
+            <p class="text-center text-muted">Belum ada review untuk produk ini.</p>
+        @endforelse
+    </div>
 </div>
 @endsection
