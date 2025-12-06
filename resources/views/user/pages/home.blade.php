@@ -17,13 +17,13 @@
 
             <!-- Kiri -->
             <div class="col-lg-12 fade-up col-md-8 hero-section mb-4 mb-lg-0">
-                <h6 class="text-uppercase fw-semibold mb-2" style="color:#ad833f; letter-spacing:1px;">
-                    Jam Tangan Berkualitas Terbaik
-                </h6>
-
                 <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
                     Desain Abadi<br>Dibuat untuk Anda
                 </h1>
+
+                <h6 class="text-uppercase fw-semibold mb-3 bg-dark px-4 py-2 rounded text-center d-inline-block" style="color:#C5A572; letter-spacing:1px;">
+                  Jam Tangan Berkualitas Terbaik
+                </h6>
 
                 <p class="lead mb-4 text-black" style="max-width: 400px; font-family:'Playfair Display', poppins;">
                     Temukan koleksi jam tangan premium yang memadukan 
