@@ -23,16 +23,29 @@ class ProductController extends Controller
     }
 
     public function show($id)
-        {
-            $product = Product::with('brand')->findOrFail($id);
+    {
+        $product = Product::with('brand')->findOrFail($id);
 
-            $related = Product::where('brand_id', $product->brand_id)
+        $reviews = \App\Models\Review::with('user')
+            ->where('product_id', $id)
+            ->latest()
+            ->get();
+
+        $averageRating = \App\Models\Review::where('product_id', $id)
+            ->avg('rating');
+
+        $related = Product::where('brand_id', $product->brand_id)
                             ->where('id', '!=', $product->id)
                             ->take(4)
                             ->get();
 
-            return view('user.products.detail', compact('product', 'related'));
-        }
+        return view('user.products.detail', compact(
+            'product',
+            'related',
+            'reviews',
+            'averageRating'
+        ));
+    }
 
         public function search(Request $request)
         {
