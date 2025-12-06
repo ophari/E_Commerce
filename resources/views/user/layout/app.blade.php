@@ -37,7 +37,7 @@
 
             {{-- BRAND --}}
             <div class="col-lg-4 ">
-                <h2 class="fw-bold mb-3 " style="font-family: 'Playfair Display', serif;">
+                <h2 class="fw-bold mb-3 " style="color: #C5A572; font-family: 'Playfair Display', serif;">
                     WATCHSTORE</span>
                 </h2>
 
