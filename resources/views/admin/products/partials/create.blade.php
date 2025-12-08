@@ -86,9 +86,16 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Product Image</label>
-              <input type="file" name="image_url" class="form-control" accept="image/*" required>
+              <label class="form-label">Product Image (Upload)</label>
+              <input type="file" name="image_url" class="form-control" accept="image/*" id="image_upload_input">
               @error('image_url')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Or Image URL (External)</label>
+              <input type="url" name="image_url_text" class="form-control" placeholder="https://example.com/image.jpg" id="image_url_text_input">
+              <small class="text-muted">Leave empty if uploading a file.</small>
+              @error('image_url_text')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
           </div>
 
@@ -146,6 +153,34 @@
         function validateStep(n) {
             // Basic validation for current step
             let isValid = true;
+            
+            // Special validation for Step 3 (Image)
+            if (n === 2) {
+                 const fileVal = $('#image_upload_input').val();
+                 const urlVal = $('#image_url_text_input').val();
+                 
+                 if (!fileVal && !urlVal) {
+                     $('#image_upload_input').addClass('is-invalid');
+                     $('#image_url_text_input').addClass('is-invalid');
+                     isValid = false;
+                 } else {
+                     $('#image_upload_input').removeClass('is-invalid');
+                     $('#image_url_text_input').removeClass('is-invalid');
+                 }
+                 
+                 // Validate other required fields in step 3 if any (description is not strictly required by logic but check anyway)
+                 $(steps[n]).find('textarea[required]').each(function() {
+                    if (!$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        isValid = false;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                 });
+                 
+                 return isValid;
+            }
+
             $(steps[n]).find('input[required], select[required], textarea[required]').each(function() {
                 if (!$(this).val()) {
                     $(this).addClass('is-invalid');

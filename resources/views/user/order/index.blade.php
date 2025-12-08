@@ -31,17 +31,8 @@
                 @foreach ($orders as $order)
                 @php
                     $item  = $order['items'][0] ?? null;
-                    if (!empty($item['image_url'])) {
-                        $image = asset('image/' . $item['image_url']);
-                    }
-                   
-                    elseif (!empty($item['product']['image_url'])) {
-                        $image = asset('image/' . $item['product']['image_url']);
-                    }
-                  
-                    else {
-                        $image = asset('/image/no-image.png');
-                    }
+                    // Simplify image logic for external URLs
+                    $image = $item['image_url'] ?? $item['product']['image_url'] ?? asset('/image/no-image.png');
                 @endphp
 
                 <div class="order-card-desktop shadow-sm bg-white rounded-4 p-3 mb-3 d-flex">
@@ -147,14 +138,8 @@
                 @foreach($orders as $order)
                 @php
                     $item  = $order['items'][0] ?? null;
-
-                    if (!empty($item['image_url'])) {
-                        $image = asset('image/' . $item['image_url']);
-                    } elseif (!empty($item['product']['image_url'])) {
-                        $image = asset('image/' . $item['product']['image_url']);
-                    } else {
-                        $image = asset('/image/no-image.png');
-                    }
+                    // Simplify image logic for external URLs
+                    $image = $item['image_url'] ?? $item['product']['image_url'] ?? asset('/image/no-image.png');
                 @endphp
 
                     <div class="order-card">

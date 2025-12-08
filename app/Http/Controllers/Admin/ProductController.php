@@ -73,7 +73,8 @@ class ProductController extends Controller
             'type' => 'required|in:analog,digital,smartwatch',
             'price' => 'required|numeric',
             'description' => 'required',
-            'image_url' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url_text' => 'nullable|url',
             'stock' => 'required|integer|min:0',
         ]);
 
@@ -82,7 +83,14 @@ class ProductController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $validatedData['image_url'] = $profileImage;
+        } elseif ($request->filled('image_url_text')) {
+             $validatedData['image_url'] = $request->input('image_url_text');
+        } else {
+            return back()->withErrors(['image_url' => 'Please provide an image file or a valid URL.']);
         }
+
+        // Remove the helper field
+        unset($validatedData['image_url_text']);
 
         Product::create($validatedData);
 
@@ -119,7 +127,8 @@ class ProductController extends Controller
             'type' => 'required|in:analog,digital,smartwatch',
             'price' => 'required|numeric',
             'description' => 'required',
-            'image_url' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_url_text' => 'nullable|url',
             'stock' => 'required|integer|min:0',
         ]);
 
@@ -128,11 +137,14 @@ class ProductController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $validatedData['image_url'] = $profileImage;
+        } elseif ($request->filled('image_url_text')) {
+            $validatedData['image_url'] = $request->input('image_url_text');
         } else {
-            // If no new image is uploaded, remove 'image' from validatedData
-            // to prevent trying to update a non-existent 'image' column
+            // Keep existing image if no new input
             unset($validatedData['image_url']);
         }
+        
+        unset($validatedData['image_url_text']);
 
         $product->update($validatedData);
 

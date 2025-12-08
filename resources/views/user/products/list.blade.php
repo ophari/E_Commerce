@@ -96,17 +96,11 @@
                             <a href="{{ route('product.detail', $product->id) }}" 
                             class="text-decoration-none text-dark">
 
-                                <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden product-card-hover">
-
-                                    <!-- IMAGE -->
-                                    <div class="ratio ratio-1x1 bg-light">
-                                        <img src="{{ asset('image/' . $product->image_url) }}"
-                                            class="object-fit-cover w-100 h-100"
-                                            alt="{{ $product->name }}">
-                                    </div>
-
-                                    <!-- BODY -->
-                                    <div class="card-body p-3 text-center">
+          <div class="product-card card h-100 border-0 shadow-sm">
+            <div class="ratio ratio-1x1 bg-light">
+              <img src="{{ $product->image_url }}" class="object-fit-cover w-100 h-100">
+            </div>
+            <div class="card-body text-center d-flex flex-column">
 
                                         <!-- NAME -->
                                         <h6 class="fw-semibold text-dark text-truncate mb-1">

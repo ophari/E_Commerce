@@ -50,7 +50,7 @@ class OrderController extends Controller
                 'name' => $item->product->name,
                 'price' => $item->product->price,
                 'qty' => $item->quantity,
-                'image' => asset('image/' . $item->product->image_url),
+                'image' => $item->product->image_url,
             ];
         })->toArray();
 
@@ -108,6 +108,33 @@ class OrderController extends Controller
 
         // Clear cart
         $cartModel->cartItems()->delete();
+
+        // Cek metode pembayaran
+        if ($request->payment === 'bank') {
+            // Konfigurasi Midtrans
+            \Midtrans\Config::$serverKey = config('services.midtrans.server_key');
+            \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => 'ORDER-' . $order->id . '-' . time(),
+                    'gross_amount' => (int) $order->total_price,
+                ],
+                'customer_details' => [
+                    'first_name' => Auth::user()->name,
+                    'email' => Auth::user()->email,
+                ],
+            ];
+
+            try {
+                $snapToken = \Midtrans\Snap::getSnapToken($params);
+                return view('user.checkout.payment', compact('snapToken', 'order'));
+            } catch (\Exception $e) {
+                return redirect()->route('user.orders')->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('user.orders')->with('success','Order berhasil dibuat.');
     }

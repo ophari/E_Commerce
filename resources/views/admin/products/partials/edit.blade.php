@@ -93,12 +93,18 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="image" class="form-label">Product Image</label>
+                    <label for="image" class="form-label">Product Image (Upload)</label>
                     <input type="file" name="image_url" id="image" class="form-control">
                     <div class="mt-2">
                         <small class="text-muted">Current Image:</small>
-                        <img src="/image/{{ $product->image_url }}" width="100px" class="rounded ms-2">
+                        <img src="{{ $product->image_url }}" width="100px" class="rounded ms-2" style="object-fit:cover; height:100px;">
                     </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="image_url_text" class="form-label">Or Image URL (External)</label>
+                    <input type="url" name="image_url_text" id="image_url_text" class="form-control" placeholder="https://example.com/image.jpg">
+                    <small class="text-muted">Fill this to replace image with an external URL.</small>
                 </div>
             </div>
             <div class="card-footer text-end">

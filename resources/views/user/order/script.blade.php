@@ -31,14 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             ratingOrderId.value   = this.dataset.order;
             ratingProductId.value = this.dataset.product;
-            document.getElementById('backToProductLink').href = `/product/${this.dataset.product}`;
 
 
             ratingValue.value   = "";
             ratingComment.value = "";
             resetStars();
-
-            document.getElementById('backToProductLink').href = `/product/${this.dataset.product}`;
 
             document.querySelector('#ratingModal .modal-title').textContent = 'Rate Your Product';
 

@@ -93,7 +93,7 @@
                 <div class="card border-0 shadow-sm h-100">
 
                     <div class="ratio ratio-1x1 bg-light">
-                        <img src="{{ asset('image/' . $product->image_url) }}"
+                        <img src="{{ $product->image_url }}"
                              class="object-fit-cover w-100 h-100 rounded-top">
                     </div>
 

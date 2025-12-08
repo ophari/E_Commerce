@@ -4,14 +4,13 @@
 
 @section('content')
 <div class="container py-5">
-    <div class="row g-5 align-items-center">
-        <!-- Gambar Produk -->
-        <div class="col-md-6 text-center">
-            <div class="border rounded-4 shadow-sm overflow-hidden">
-                <img src="{{ asset('image/' . $product->image_url) }}" 
-                     class="img-fluid w-100" 
+    <div class="row align-items-center">
+        {{-- Gambar Produk --}}
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="ratio ratio-1x1 bg-white rounded-4 shadow-sm overflow-hidden">
+                <img src="{{ $product->image_url }}" 
                      alt="{{ $product->name }}" 
-                     style="max-height: 450px; object-fit: cover;">
+                     class="object-fit-contain w-100 h-100">
             </div>
         </div>
 

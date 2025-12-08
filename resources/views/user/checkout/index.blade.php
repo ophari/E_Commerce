@@ -17,13 +17,7 @@
         <label class="form-label">Alamat</label>
         <textarea name="address" class="form-control" rows="3" required></textarea>
       </div>
-      <div class="mb-3">
-        <label class="form-label">Metode Pembayaran</label>
-        <select name="payment" class="form-select">
-          <option value="cod">COD</option>
-          <option value="bank">Transfer Bank</option>
-        </select>
-      </div>
+      <input type="hidden" name="payment" value="bank">
       <button class="btn btn-primary">Konfirmasi Pesanan</button>
     </form>
   </div>

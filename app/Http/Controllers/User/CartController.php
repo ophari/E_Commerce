@@ -34,7 +34,7 @@ class CartController extends Controller
                 'name' => $item->product->name,
                 'price' => $item->product->price,
                 'qty' => $item->quantity,
-                'image' => asset('image/' . $item->product->image_url),
+                'image' => $item->product->image_url,
             ];
         })->toArray();
 

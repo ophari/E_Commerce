@@ -28,4 +28,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function getImageUrlAttribute($value)
+    {
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+        return asset('image/' . $value);
+    }
 }
