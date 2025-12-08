@@ -32,5 +32,8 @@ class UserSeeder extends Seeder
                 'role' => 'user',
             ]
         );
+
+        // Generate random users
+        User::factory(10)->create();
     }
 }
