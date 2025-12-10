@@ -15,7 +15,7 @@ return new class extends Migration
              $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('total_price', 10, 2)->default(0);
-            $table->enum('status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('status', ['unpaid', 'paid', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending');
             $table->text('shipping_address')->nullable();
             $table->timestamps();
         });

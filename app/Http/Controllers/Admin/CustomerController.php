@@ -10,70 +10,69 @@ class CustomerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::query()->withCount('orders');
+        $query = User::query()
+            ->where('role', 'user')
+            ->withCount('orders');
 
-        // ========== SEARCH ==========
+        // Search
         if ($request->search) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', "%{$request->search}%")
-                  ->orWhere('email', 'like', "%{$request->search}%");
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         }
 
-        // ========== FILTER ==========
-        if ($request->filter === '30') {
+        // Filter durasi
+        if ($request->filter == '30') {
             $query->where('created_at', '>=', now()->subDays(30));
-        } elseif ($request->filter === '90') {
+        }
+        if ($request->filter == '90') {
             $query->where('created_at', '>=', now()->subDays(90));
         }
 
-        $customers = $query->get();
+        $customers = $query->paginate(10)->withQueryString();
 
         return view('admin.customers.index', compact('customers'));
     }
 
-    public function show(\App\Models\User $customer)
+    public function show($id)
     {
-        $customer->load('orders');
+        $customer = User::with(['orders' => function ($q) {
+            $q->with('orderItems.product')->latest();
+        }])->findOrFail($id);
 
         return view('admin.customers.show', compact('customer'));
     }
 
-
+    // Bulk delete
     public function bulkDelete(Request $request)
     {
-        User::whereIn('id', $request->ids)->delete();
+        $ids = explode(',', $request->ids);
+        User::whereIn('id', $ids)->delete();
 
-        return back()->with('success', 'Selected customers deleted.');
+        return redirect()->back()->with('success', 'Selected customers deleted.');
     }
 
+    // Bulk export
     public function bulkExport(Request $request)
     {
-        $customers = User::whereIn('id', $request->ids)->get();
+        $ids = explode(',', $request->ids);
+        $customers = User::whereIn('id', $ids)->get();
 
-        $csv = "Name,Email,Phone,Orders\n";
+        return response()->streamDownload(function () use ($customers) {
+            $file = fopen('php://output', 'w');
 
-        foreach ($customers as $c) {
-            $csv .= "{$c->name},{$c->email},{$c->phone}," . $c->orders()->count() . "\n";
-        }
+            fputcsv($file, ['Name', 'Email', 'Phone']);
 
-        return response($csv)
-            ->header('Content-Type', 'text/csv')
-            ->header('Content-Disposition', 'attachment; filename="customers.csv"');
-    }
+            foreach ($customers as $customer) {
+                fputcsv($file, [
+                    $customer->name,
+                    $customer->email,
+                    $customer->phone ?? '-'
+                ]);
+            }
 
-    public function exportCsv()
-    {
-        $customers = User::withCount('orders')->get();
-        $csv = "\xEF\xBB\xBF";
-        $csv = "Name,Email,Phone,Orders\n";
-
-        foreach ($customers as $c) {
-            $csv .= "{$c->name},{$c->email},{$c->phone}," . $c->orders_count . "\n";
-        }
-
-        return response($csv)
-            ->header('Content-Type', 'text/csv')
-            ->header('Content-Disposition', 'attachment; filename="all_customers.csv"');
+            fclose($file);
+        }, 'customers.csv');
     }
 }

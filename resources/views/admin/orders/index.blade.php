@@ -26,6 +26,8 @@
                         <select name="status" class="form-select">
                             <option value="">-- All Status --</option>
                             <option value="pending" {{ request('status')=='pending'?'selected':'' }}>Pending</option>
+                            <option value="unpaid" {{ request('status')=='unpaid'?'selected':'' }}>Unpaid</option>
+                            <option value="paid" {{ request('status')=='paid'?'selected':'' }}>Paid</option>
                             <option value="processing" {{ request('status')=='processing'?'selected':'' }}>Processing</option>
                             <option value="shipped" {{ request('status')=='shipped'?'selected':'' }}>Shipped</option>
                             <option value="delivered" {{ request('status')=='delivered'?'selected':'' }}>Delivered</option>
@@ -67,16 +69,18 @@
                                 <td>{{ $order->user->name ?? 'Unknown User' }}</td>
 
                                 <td>
-                                    @php
-                                        $badge = match($order->status) {
-                                            'pending' => 'bg-warning',
-                                            'processing' => 'bg-info',
-                                            'shipped' => 'bg-success',
-                                            'delivered' => 'bg-primary',
-                                            'cancelled' => 'bg-danger',
-                                            default => 'bg-secondary'
-                                        };
-                                    @endphp
+                                @php
+                                    $badge = match($order->status) {
+                                        'pending'   => 'bg-warning',
+                                        'unpaid'    => 'bg-danger',
+                                        'paid'      => 'bg-success',
+                                        'processing'=> 'bg-info',
+                                        'shipped'   => 'bg-primary',
+                                        'delivered' => 'bg-success',
+                                        'cancelled' => 'bg-secondary',
+                                        default     => 'bg-dark'
+                                    };
+                                @endphp
                                     <span class="badge {{ $badge }}">{{ ucfirst($order->status) }}</span>
                                 </td>
 

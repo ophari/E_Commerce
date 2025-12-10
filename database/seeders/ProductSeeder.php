@@ -2,35 +2,38 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
-use App\Models\Brand; // Make sure Brand model is imported for the factory
+use App\Models\Brand;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        // Disable foreign key checks to allow truncation
-        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        // Hapus data lama tanpa melanggar foreign key
+        Product::query()->delete();
 
-        // Clear existing products to avoid duplicates when re-running the seeder
-        Product::truncate();
+        $brands = [
+            'Rolex'   => Brand::where('name', 'Rolex')->first()->id,
+            'Omega'   => Brand::where('name', 'Omega')->first()->id,
+            'Seiko'   => Brand::where('name', 'Seiko')->first()->id,
+            'Casio'   => Brand::where('name', 'Casio')->first()->id,
+            'Citizen' => Brand::where('name', 'Citizen')->first()->id,
+        ];
 
-        // Re-enable foreign key checks
-        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
-
-        // Create some brands if they don't exist, as product factory depends on them
-        if (Brand::count() === 0) {
-            Brand::factory()->create(['name' => 'Seiko']);
-            Brand::factory()->create(['name' => 'Casio']);
-            Brand::factory()->create(['name' => 'Citizen']);
-            Brand::factory()->create(['name' => 'Rolex']); // Adding a few more for variety
-            Brand::factory()->create(['name' => 'Omega']);
+        forEach ($brands as $brandName => $brandId) {
+            for ($i = 1; $i <= 10; $i++) {
+                Product::create([
+                    'brand_id'   => $brandId,
+                    'name'       => "$brandName Watch Model $i",
+                    'model'      => "$brandName-$i",
+                    'type'       => 'analog',
+                    'price'      => 1,
+                    'description'=> "$brandName Watch Model $i adalah jam tangan analog berkualitas tinggi.",
+                    'image_url'  => "https://example.com/images/{$brandName}_{$i}.jpg",
+                    'stock'      => rand(5, 50),
+                ]);
+            }
         }
-        
-        // Use the ProductFactory to create 20 new products
-        // The factory already handles brand_id, name, model, type, price, description, image_url, and stock.
-        Product::factory()->count(20)->create();
     }
 }
