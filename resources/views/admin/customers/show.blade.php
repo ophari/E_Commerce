@@ -77,21 +77,6 @@
                                                 class="btn btn-sm btn-outline-secondary">
                                                     View
                                                 </a>
-
-                                                {{-- Ubah status langsung dari sini --}}
-                                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" 
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <select name="status" 
-                                                            class="form-select form-select-sm"
-                                                            onchange="this.form.submit()">
-                                                        <option value="pending"    {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                                        <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                                        <option value="shipped"    {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                                        <option value="delivered"  {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-                                                    </select>
-                                                </form>
                                             </td>
                                         </tr>
                                     @empty

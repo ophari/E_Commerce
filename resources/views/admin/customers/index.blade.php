@@ -8,62 +8,69 @@
                 <h3>All Customers</h3>
                 <p class="text-subtitle text-muted">A list of all customers.</p>
             </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All Customers</li>
-                    </ol>
-                </nav>
-            </div>
         </div>
     </div>
+
     <section class="section">
         <div class="card">
+
             <div class="card-header">
                 <h4 class="card-title">Customers</h4>
-                <div class="mt-3">
-                    <div class="d-flex justify-content-between">
-                        <form method="GET" action="{{ route('admin.customers.index') }}" class="w-50">
-                            <div class="input-group w-100">
-                                <input type="text" 
-                                    name="search" 
-                                    class="form-control" 
-                                    placeholder="Search for customers..." 
-                                    value="{{ request('search') }}">
-                                <button class="btn btn-primary" type="submit">Search</button>
-                            </div>
-                        </form>
-                        <div class="d-flex gap-2">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-light-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Filter
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter' => '30']) }}">Last 30 days</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter' => '90']) }}">Last 90 days</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('admin.customers.index') }}">All time</a></li>
-                                </ul>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-light-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Bulk Actions
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item bulk-delete" href="#">Delete Selected</a></li>
-                                    <li><a class="dropdown-item bulk-export" href="#">Export Selected</a></li>
-                                </ul>
-                            </div>
-                            <button href="{{ route('admin.customers.export.csv') }}" type="button" class="btn btn-primary">Export CSV</button>
+
+                <div class="mt-3 d-flex justify-content-between">
+
+                    {{-- Search --}}
+                    <form method="GET" action="{{ route('admin.customers.index') }}" class="w-50">
+                        <div class="input-group w-100">
+                            <input type="text" name="search" class="form-control"
+                                   placeholder="Search customers..."
+                                   value="{{ request('search') }}">
+                            <button class="btn btn-primary">Search</button>
                         </div>
+                    </form>
+
+                    {{-- Buttons --}}
+                    <div class="d-flex gap-2">
+
+                        {{-- Filter --}}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-light-primary dropdown-toggle" 
+                                    data-bs-toggle="dropdown">
+                                Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter'=>'30']) }}">Last 30 days</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.customers.index', ['filter'=>'90']) }}">Last 90 days</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.customers.index') }}">All time</a></li>
+                            </ul>
+                        </div>
+
+                        {{-- Bulk --}}
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-light-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown">
+                                Bulk Actions
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item bulk-delete" href="#">Delete Selected</a></li>
+                                <li><a class="dropdown-item bulk-export" href="#">Export Selected</a></li>
+                            </ul>
+                        </div>
+
+                        {{-- Export All --}}
+                        <a href="{{ route('admin.customers.export.csv') }}" class="btn btn-primary">
+                            Export CSV
+                        </a>
                     </div>
                 </div>
             </div>
+
+            {{-- TABLE --}}
             <div class="card-body">
-                <table class="table table-striped" id="table1">
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></th>
+                            <th><input id="select-all" class="form-check-input" type="checkbox"></th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Phone</th>
@@ -71,50 +78,53 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                        <tbody>
-                            @foreach ($customers as $customer)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" 
-                                            value="{{ $customer->id }}" 
-                                            class="form-check-input select-customer">
-                                    </td>
 
-                                    <td>{{ $customer->name }}</td>
-                                    <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->phone ?? '-' }}</td>
+                    <tbody>
+                        @foreach ($customers as $customer)
+                            <tr>
+                                <td><input type="checkbox" value="{{ $customer->id }}" class="form-check-input select-customer"></td>
+                                <td>{{ $customer->name }}</td>
+                                <td>{{ $customer->email }}</td>
+                                <td>{{ $customer->phone ?? '-' }}</td>
+                                <td>{{ $customer->orders_count }}</td>
 
-                                    <td>{{ $customer->orders_count }}</td>
-
-                                    <td>
-                                        <a href="{{ route('admin.customers.show', $customer->id) }}" 
-                                        class="btn btn-sm btn-primary">
-                                            View
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                                <td>
+                                    <a href="{{ route('admin.customers.show', $customer->id) }}" 
+                                       class="btn btn-primary btn-sm">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
+
+                {{-- Hidden form for bulk --}}
+                <form id="bulk-form" method="POST">
+                    @csrf
+                    <input type="hidden" name="ids" id="bulk-ids">
+                </form>
             </div>
+
         </div>
     </section>
 </div>
 
+{{-- JS --}}
 <script>
 document.getElementById('select-all').addEventListener('click', function () {
-    let check = this.checked;
-    document.querySelectorAll('.select-customer').forEach(c => c.checked = check);
+    document.querySelectorAll('.select-customer')
+            .forEach(c => c.checked = this.checked);
 });
 
 function getSelectedIds() {
-    return [...document.querySelectorAll('.select-customer:checked')].map(e => e.value);
+    return [...document.querySelectorAll('.select-customer:checked')]
+        .map(e => e.value);
 }
 
-// Bulk Delete
 document.querySelector('.bulk-delete').addEventListener('click', function () {
     let ids = getSelectedIds();
-    if (ids.length === 0) return alert('No customer selected.');
+    if (ids.length === 0) return alert('No customers selected.');
 
     document.getElementById('bulk-ids').value = ids;
     let form = document.getElementById('bulk-form');
@@ -122,10 +132,9 @@ document.querySelector('.bulk-delete').addEventListener('click', function () {
     form.submit();
 });
 
-// Bulk Export
 document.querySelector('.bulk-export').addEventListener('click', function () {
     let ids = getSelectedIds();
-    if (ids.length === 0) return alert('No customer selected.');
+    if (ids.length === 0) return alert('No customers selected.');
 
     document.getElementById('bulk-ids').value = ids;
     let form = document.getElementById('bulk-form');

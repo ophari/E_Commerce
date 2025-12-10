@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <!-- SEARCH / FILTER CARD UNDER IMAGE -->
+    <!-- SEARCH / FILTER CARD -->
     <div class="hero-list-card shadow-sm p-4 rounded-4 d-flex justify-content-around gap-4 flex-wrap">
         
         <div class="d-flex align-items-center gap-3">
@@ -46,7 +46,9 @@
             <i class="bi bi-watch fs-4 text-dark"></i>
             <div>
                 <p class="mb-0 small text-muted">Brand</p>
-                <strong class="small">Semua Brand</strong>
+                <strong class="small">
+                    {{ request('brand') ? $brands->firstWhere('id', request('brand'))->name : 'Semua Brand' }}
+                </strong>
             </div>
         </div>
 
@@ -62,84 +64,147 @@
 
 <div id="product-section"></div>
 
+
+<!-- ===================================== -->
+<!--        BAGIAN LIST PRODUK            -->
+<!-- ===================================== -->
+
 <div class="container py-5" style="margin-top: 130px;">
-    <!-- Header -->
+
+    <!-- HEADER -->
     <div class="text-center mb-5 position-relative">
-        <h2 class="fw-bold text-dark">All Products</h2>
-        <p class="text-muted">Temukan jam tangan premium dari berbagai merek ternama.</p>
+        <h2 class="fw-bold text-dark">
+            {{ request('brand') ? $brands->firstWhere('id', request('brand'))->name : 'All Products' }}
+        </h2>
+
+        <p class="text-muted">
+            {{ request('brand') 
+                ? 'Semua produk dari brand ini.' 
+                : 'Temukan jam tangan premium dari berbagai merek.' }}
+        </p>
+
         <hr class="mx-auto" style="width: 80px; height: 3px; background-color: #C5A572; opacity: 1;">
     </div>
 
-    <!-- Product by Brand Section -->
-    @foreach($brands as $brand)
+
+
+    <!-- IF BRAND DIPILIH → FULL PRODUK -->
+    @if(request('brand'))
         @php
-            $brandProducts = $products->where('brand_id', $brand->id);
+            $brandId = request('brand');
+            $brand = $brands->firstWhere('id', $brandId);
+            $brandProducts = $products->where('brand_id', $brandId);
         @endphp
 
-        @if($brandProducts->count() > 0)
-            <div class="mb-5">
-                <!-- Brand Header -->
-                <div class="d-flex justify-content-between align-items-center mb-3 product-list-header">
-                    <h4 class="product-list-title text-dark">
-                        <i class="bi bi-gem text-warning me-2"></i> {{ $brand->name }}
-                    </h4>
-                    <a href="{{ route('product.list', ['brand' => $brand->id]) }}" class="text-decoration-none small text-muted">
-                        Lihat semua →
-                    </a>
-                </div>
+        <div class="row g-4">
+            @forelse($brandProducts as $product)
+                <div class="col-6 col-md-4 col-lg-3">
 
-                <!-- Grid Produk -->
-                <div class="row g-4">
-                    @foreach($brandProducts->take(4) as $product)
-                        <div class="col-6 col-md-4 col-lg-3">
+                    <a href="{{ route('product.detail', $product->id) }}" class="text-decoration-none text-dark">
 
-                            <a href="{{ route('product.detail', $product->id) }}" 
-                            class="text-decoration-none text-dark">
+                        <div class="product-card card h-100 border-0 shadow-sm">
+                            <div class="ratio ratio-1x1 bg-light">
+                                <img src="{{ $product->image_url }}" class="object-fit-cover w-100 h-100">
+                            </div>
+                            <div class="card-body text-center d-flex flex-column">
 
-          <div class="product-card card h-100 border-0 shadow-sm">
-            <div class="ratio ratio-1x1 bg-light">
-              <img src="{{ $product->image_url }}" class="object-fit-cover w-100 h-100">
-            </div>
-            <div class="card-body text-center d-flex flex-column">
+                                <h6 class="fw-semibold text-dark text-truncate mb-1">
+                                    {{ $product->name }}
+                                </h6>
 
-                                        <!-- NAME -->
-                                        <h6 class="fw-semibold text-dark text-truncate mb-1">
-                                            {{ $product->name }}
-                                        </h6>
+                                <p class="fw-bold text-dark mb-3">
+                                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                                </p>
 
-                                        <!-- PRICE -->
-                                        <p class="fw-bold text-dark mb-3">
-                                            Rp {{ number_format($product->price, 0, ',', '.') }}
-                                        </p>
+                                <form action="{{ route('user.cart.add') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $product->id }}">
 
-                                        <!-- ADD TO CART -->
-                                        <form action="{{ route('user.cart.add') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                    <button type="submit" 
+                                        class="btn btn-dark btn-sm w-100 rounded-pill fw-semibold">
+                                        <i class="bi bi-cart me-1"></i> Add to Cart
+                                    </button>
+                                </form>
 
-                                            <button type="submit" 
-                                                class="btn btn-dark btn-sm w-100 rounded-pill fw-semibold">
-                                                <i class="bi bi-cart me-1"></i> Add to Cart
-                                            </button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </a>
-
+                            </div>
                         </div>
-                    @endforeach
-                </div>
-            </div>
-            <hr class="my-4" style="opacity: 0.15;">
-        @endif
-    @endforeach
+                    </a>
 
-    @if($brands->every(fn($brand) => $products->where('brand_id', $brand->id)->isEmpty()))
-        <div class="text-center py-5">
-            <h5 class="text-muted">Belum ada produk yang tersedia.</h5>
+                </div>
+            @empty
+                <div class="text-center py-5">
+                    <h5 class="text-muted">Belum ada produk pada brand ini.</h5>
+                </div>
+            @endforelse
         </div>
+
+    @else
+    <!-- HOME LIST MODE → 4 PRODUK PER BRAND + LINK LIHAT SEMUA -->
+        @foreach($brands as $brand)
+            @php
+                $brandProducts = $products->where('brand_id', $brand->id);
+            @endphp
+
+            @if($brandProducts->count() > 0)
+                <div class="mb-5">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3 product-list-header">
+                        <h4 class="product-list-title text-dark">
+                            <i class="bi bi-gem text-warning me-2"></i> {{ $brand->name }}
+                        </h4>
+
+                        <a href="{{ route('product.list', ['brand' => $brand->id]) }}" 
+                           class="text-decoration-none small text-muted">
+                            Lihat semua →
+                        </a>
+                    </div>
+
+                    <div class="row g-4">
+                        @foreach($brandProducts->take(4) as $product)
+                            <div class="col-6 col-md-4 col-lg-3">
+
+                                <a href="{{ route('product.detail', $product->id) }}" 
+                                   class="text-decoration-none text-dark">
+
+                                    <div class="product-card card h-100 border-0 shadow-sm">
+                                        <div class="ratio ratio-1x1 bg-light">
+                                            <img src="{{ $product->image_url }}" class="object-fit-cover w-100 h-100">
+                                        </div>
+                                        <div class="card-body text-center d-flex flex-column">
+
+                                            <h6 class="fw-semibold text-dark text-truncate mb-1">
+                                                {{ $product->name }}
+                                            </h6>
+
+                                            <p class="fw-bold text-dark mb-3">
+                                                Rp {{ number_format($product->price) }}
+                                            </p>
+
+                                            <form action="{{ route('user.cart.add') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $product->id }}">
+
+                                                <button type="submit" 
+                                                    class="btn btn-dark btn-sm w-100 rounded-pill fw-semibold">
+                                                    <i class="bi bi-cart me-1"></i> Add to Cart
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+
+                                </a>
+
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <hr class="my-4" style="opacity: 0.15;">
+            @endif
+        @endforeach
     @endif
+
 </div>
 
 @endsection

@@ -89,9 +89,10 @@ class OrderController extends Controller
         $order = Order::create([
             'user_id' => $userId,
             'total_price' => $total,
-            'status' => 'pending',
+            'status' => 'unpaid',
             'shipping_address' => $request->post('address', ''),
         ]);
+
 
         // Simpan order items and update stock
         foreach ($cartItems as $cartItem) {
@@ -213,4 +214,20 @@ class OrderController extends Controller
 
         return response()->json($orderData);
     }
+
+    public function delete($id)
+    {
+        $order = Order::where('id', $id)
+                    ->where('user_id', Auth::id())
+                    ->firstOrFail();
+
+        if (!in_array($order->status, ['unpaid', 'cancelled'])) {
+            return back()->with('error', 'Pesanan tidak bisa dihapus.');
+        }
+
+        $order->delete();
+
+        return back()->with('success', 'Pesanan berhasil dihapus.');
+    }
+
 }

@@ -24,12 +24,11 @@ use App\Http\Controllers\Admin\BrandController;
 // ======================================
 // ROUTE AWAL / LOGIN
 // ======================================
- Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
- // Produk
-Route::get('/products', [ProductController::class, 'index'])->name('product.list');
+// Produk
+Route::get('/products', [ProductController::class, 'list'])->name('product.list');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
-
 
 // ==== AUTH ====
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -39,10 +38,12 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+
 // ======================================
-// ADMIN ROUTES
+// ADMIN ROUTES (PERBAIKAN UTAMA DI SINI)
 // ======================================
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache'])->group(function () {
+
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Products
@@ -59,16 +60,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
         Route::patch('/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus');
     });
 
-    // Customers
+    // Customers (FIXED)
     Route::prefix('customers')->name('customers.')->group(function () {
         Route::get('/', [CustomerController::class, 'index'])->name('index');
-        Route::get('{customer}', [CustomerController::class, 'show'])->name('show');
+        Route::get('/{customer}', [CustomerController::class, 'show'])->name('show');
 
-        // Bulk actions
         Route::post('/bulk-delete', [CustomerController::class, 'bulkDelete'])->name('bulk.delete');
         Route::post('/bulk-export', [CustomerController::class, 'bulkExport'])->name('bulk.export');
 
-        // Export all
         Route::get('/export/csv', [CustomerController::class, 'exportCsv'])->name('export.csv');
     });
 
@@ -79,10 +78,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin', 'no-cache']
         Route::delete('/{review}', [AdminReviewController::class, 'destroy'])->name('destroy');
     });
 
-
-
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
 });
+
 
 // ======================================
 // USER ROUTES
@@ -100,6 +99,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     // Checkout & Order
     Route::match(['GET', 'POST'], '/checkout/{productId?}', [OrderController::class, 'checkout'])->name('checkout');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
     // Confirm Order
     Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
@@ -109,11 +109,25 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     Route::post('/orders/{orderId}/rate/{productId}', [ReviewController::class, 'rate'])->name('orders.rate');
     Route::post('/review/submit', [ReviewController::class, 'submit'])->name('review.submit');
 
-
-
     // Profil
     Route::get('/profile', fn() => view('user.profile.edit'))->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.delete');
+    Route::delete('/profile/delete-account', [ProfileController::class, 'deleteAccount'])->name('profile.delete');
+
+    // Produk
+    Route::get('/products', [ProductController::class, 'list'])->name('product.list');
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
+    Route::get('/search', [ProductController::class, 'search'])->name('product.search');
+
 });
+
+
+// ======================================
+// PAYMENT ROUTES
+// ======================================
+Route::post('/midtrans/callback', [\App\Http\Controllers\Payment\MidtranscallbackController::class, 'callback'])->name('midtrans.callback');
+Route::post('/payment/pay', [\App\Http\Controllers\Payment\MidtransCallbackController::class, 'pay'])->name('payment.pay');
+
+// Delete Order
+Route::delete('/orders/delete/{id}', [OrderController::class, 'delete'])->name('order.delete');

@@ -71,7 +71,7 @@
 
             <div class="mb-3">
               <label class="form-label">Stock</label>
-              <input type="number" name="stock" class="form-control" value="{{ old('stock') }}" required>
+              <input type="number" name="stock" class="form-control" value="{{ old('stock') }}" required min="0" oninput="this.value = Math.max(0, this.value)">
               @error('stock')<div class="text-danger invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
           </div>

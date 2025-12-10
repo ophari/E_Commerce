@@ -77,7 +77,6 @@
     <form action="{{ route('admin.products.bulkDestroy') }}" method="POST" id="bulk-delete-form">
         @csrf
         @method('DELETE')
-    </form>
     
         <div class="card shadow-sm">
             <div class="card-body">
@@ -99,6 +98,7 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
+                        </form>
                     <tbody>
                         @forelse ($products as $product)
                             <tr>
@@ -140,6 +140,7 @@
             {!! $products->links() !!}
         </div>
     </div>
+
 </div>
 
 {{-- Create Modal --}}
@@ -202,6 +203,8 @@
             }
         });
     });
+
+    
 </script>
 @include('admin.products.partials.delete')
 @endpush
