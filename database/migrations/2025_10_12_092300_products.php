@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name', 150);
             $table->string('model', 100)->nullable();
             $table->enum('type', ['analog', 'digital', 'smartwatch']);
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 15, 2);
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
             $table->integer('stock')->default(0);

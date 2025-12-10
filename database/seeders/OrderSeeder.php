@@ -14,6 +14,28 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Order::factory(5)->has(OrderItem::factory()->count(3))->create();
+        $users = \App\Models\User::all();
+        $products = \App\Models\Product::all();
+
+        if ($users->isEmpty() || $products->isEmpty()) {
+            return;
+        }
+
+        // Create orders for up to 10 random users
+        foreach ($users->random(min(10, $users->count())) as $user) {
+            $order = Order::factory()->create([
+                'user_id' => $user->id,
+            ]);
+
+            // Add 1-4 random products to the order
+            foreach ($products->random(min(4, $products->count())) as $product) {
+                OrderItem::factory()->create([
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'quantity' => rand(1, 2),
+                    'price' => $product->price, // Use actual product price
+                ]);
+            }
+        }
     }
 }

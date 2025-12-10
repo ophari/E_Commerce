@@ -14,6 +14,27 @@ class CartSeeder extends Seeder
      */
     public function run(): void
     {
-        Cart::factory(3)->has(CartItem::factory()->count(3))->create();
+        $users = \App\Models\User::all();
+        $products = \App\Models\Product::all();
+
+        if ($users->isEmpty() || $products->isEmpty()) {
+            return;
+        }
+
+        // Create carts for up to 10 random users
+        foreach ($users->random(min(10, $users->count())) as $user) {
+            $cart = Cart::factory()->create([
+                'user_id' => $user->id,
+            ]);
+
+            // Add 1-3 random products to the cart
+            foreach ($products->random(min(3, $products->count())) as $product) {
+                CartItem::factory()->create([
+                    'cart_id' => $cart->id,
+                    'product_id' => $product->id,
+                    'quantity' => rand(1, 3),
+                ]);
+            }
+        }
     }
 }
