@@ -74,22 +74,62 @@
         </div>
         <hr>
 
-        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
-            @csrf
-            @method('PATCH')
+        <div class="row px-3 pb-3">
+            {{-- BAGIAN UPDATE STATUS --}}
+            <div class="col-md-6">
+                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
 
-            <label class="form-label">Update Status</label>
-            <select name="status" class="form-select" required>
-                <option value="pending" {{ $order->status=='pending'?'selected':'' }}>Pending</option>
-                <option value="paid" {{ $order->status=='paid'?'selected':'' }}>Paid</option>
-                <option value="processing" {{ $order->status=='processing'?'selected':'' }}>Processing</option>
-                <option value="shipped" {{ $order->status=='shipped'?'selected':'' }}>Shipped</option>
-                <option value="delivered" {{ $order->status=='delivered'?'selected':'' }}>Delivered</option>
-                <option value="cancelled" {{ $order->status=='cancelled'?'selected':'' }}>Cancelled</option>
-            </select>
+                    <label class="form-label"><strong>Update Status</strong></label>
+                    <select name="status" class="form-select" required>
+                        <option value="pending" {{ $order->status=='pending'?'selected':'' }}>Pending</option>
+                        <option value="paid" {{ $order->status=='paid'?'selected':'' }}>Paid</option>
+                        <option value="processing" {{ $order->status=='processing'?'selected':'' }}>Processing</option>
+                        <option value="shipped" {{ $order->status=='shipped'?'selected':'' }}>Shipped</option>
+                        <option value="delivered" {{ $order->status=='delivered'?'selected':'' }}>Delivered</option>
+                        <option value="cancelled" {{ $order->status=='cancelled'?'selected':'' }}>Cancelled</option>
+                    </select>
 
-            <button class="btn btn-primary mt-2">Update</button>
-        </form>
+                    <button class="btn btn-primary mt-2">Update</button>
+                </form>
+            </div>
+
+            {{-- BAGIAN TOTAL PEMBAYARAN --}}
+            <div class="col-md-6">
+                <div class="p-3">
+                    
+                    <h5 class="mb-2">Total Pembayaran</h5>
+
+                    @if (in_array($order->status, ['pending', 'unpaid']))
+                        <span class="badge bg-secondary">Belum Dibayar</span>
+                    @else
+                        {{-- BREAKDOWN UNTUK STATUS PAID --}}
+                        <div class="mt-2" style="border-radius: 8px;">
+                            <p class="mb-1 d-flex justify-content-between">
+                                <span>Subtotal</span>
+                                <span>Rp {{ number_format($order->subtotal ?? $order->total_price, 0, ',', '.') }}</span>
+                            </p>
+
+                            @if($order->shipping_cost)
+                                <p class="mb-1 d-flex justify-content-between">
+                                    <span>Shipping</span>
+                                    <span>Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                                </p>
+                            @endif
+
+                            <hr>
+
+                            <p class="mt-1 d-flex justify-content-between" style="font-size: 1.2rem; font-weight: 700;">
+                                <span>Total Paid</span>
+                                <span>Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
+                            </p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 @endsection
