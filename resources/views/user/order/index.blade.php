@@ -8,9 +8,19 @@
         <div class="container">
             <h2 class="text-center text-dark fw-bold mb-4">Riwayat Pesanan</h2>
 
-            {{-- ================================
-                JIKA BELUM ADA PESANAN
-            ================================= --}}
+            @if(session('success'))
+                <div class="alert alert-success rounded-3 py-3 text-center fw-semibold">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger rounded-3 py-3 text-center fw-semibold">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            {{-- JIKA BELUM ADA PESANAN --}}
             @if(empty($orders))
                 <div class="text-center py-5 bg-light rounded-4 shadow-sm">
                     <p class="text-muted mb-3 fs-5">Kamu belum memesan apapun.</p>
@@ -20,14 +30,10 @@
                         Belanja sekarang
                     </a>
                 </div>
-
             @else
 
-            {{-- ================================
-                DESKTOP VERSION
-            ================================= --}}
+            {{-- DESKTOP VERSION --}}
             <div class="order-list-desktop d-none d-md-block">
-
                 @foreach ($orders as $order)
                 @php
                     $item  = $order['items'][0] ?? null;
@@ -44,7 +50,7 @@
                         <div class="d-flex me-3">
                     @endif
 
-                        <img src="{{ $image }}" class="rounded" style="width:90px; height:90px; object-fit:cover;">
+                            <img src="{{ $image }}" class="rounded" style="width:90px; height:90px; object-fit:cover;">
 
                     @if($item && !empty($item['product_id']))
                         </a>
@@ -55,7 +61,7 @@
                     {{-- ORDER INFO --}}
                     <div class="flex-grow-1">
                         <div class="d-flex justify-content-between">
-                            <h5 class="fw-bold">#{{ $order['id'] }}</h5>
+                            <h5 class="fw-bold">#{{ $order['invoice_number'] }}</h5>
                             <span class="text-muted">{{ \Carbon\Carbon::parse($order['created_at'])->format('d M Y') }}</span>
                         </div>
 
@@ -89,11 +95,12 @@
                     <div class="d-flex flex-column justify-content-center">
 
                         {{-- BAYAR SEKARANG --}}
-                        @if(in_array($status, ['unpaid']))
+                        @if(in_array($status, ['unpaid', 'pending']))
                             <form action="{{ route('payment.pay') }}" method="POST" class="mb-2">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order['id'] }}">
-                                <button class="btn btn-success btn-sm rounded-pill">
+                                <button class="btn btn-success btn-sm rounded-pill"
+                                    @if(in_array($status, ['paid', 'cancelled'])) disabled @endif>
                                     Bayar Sekarang
                                 </button>
                             </form>
@@ -105,7 +112,7 @@
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-danger btn-sm rounded-pill"
-                                onclick="return confirm('Yakin ingin menghapus pesanan ini?')">
+                                onclick="return confirm('Yakin ingin menghapus dan ngebatalin pesanan ini?')">
                                 Hapus Pesanan
                             </button>
                         </form>
@@ -145,15 +152,10 @@
 
                 </div>
                 @endforeach
-
             </div>
 
-
-            {{-- ================================
-                MOBILE VERSION
-            ================================= --}}
+            {{-- MOBILE VERSION --}}
             <div class="mobile-order-list d-block d-md-none mt-3">
-
                 @foreach($orders as $order)
                 @php
                     $item  = $order['items'][0] ?? null;
@@ -178,7 +180,7 @@
                     @endif
 
                     {{-- ORDER INFO --}}
-                    <h5>#{{ $order['id'] }}</h5>
+                    <h5>#{{ $order['invoice_number'] }}</h5>
 
                     <div class="order-row">
                         <span class="order-label">Date</span>
@@ -204,15 +206,16 @@
                         View
                     </button>
 
-                    {{-- BAYAR --}}
+                    {{-- BAYAR SEKARANG --}}
                     @if(in_array($status, ['unpaid', 'pending']))
-                        <form action="{{ route('payment.pay') }}" method="POST" class="mt-2">
-                            @csrf
-                            <input type="hidden" name="order_id" value="{{ $order['id'] }}">
-                            <button class="btn btn-success w-100 rounded-pill">
-                                Bayar Sekarang
-                            </button>
-                        </form>
+                    <form action="{{ route('payment.pay') }}" method="POST" class="mb-2">
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order['id'] }}">
+                        <button class="btn btn-success btn-sm rounded-pill w-100"
+                            @if(in_array($status, ['paid', 'cancelled'])) disabled @endif>
+                            Bayar Sekarang
+                        </button>
+                    </form>
                     @endif
 
                     {{-- HAPUS --}}
@@ -249,20 +252,15 @@
                     @endif
 
                 </div>
-
                 @endforeach
-
             </div>
 
             @endif
-
         </div>
     </div>
 </div>
 
-{{-- ================================
-    MODAL — ORDER DETAILS
-================================ --}}
+{{-- MODAL — ORDER DETAILS --}}
 <div class="modal fade" id="orderDetailModal" tabindex="-1">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content rounded-4 border-0 shadow">
@@ -280,10 +278,7 @@
   </div>
 </div>
 
-
-{{-- ================================
-    MODAL — RATE (+ Back to product)
-================================ --}}
+{{-- MODAL — RATE --}}
 <div class="modal fade" id="ratingModal" tabindex="-1">
   <div class="modal-dialog modal-md modal-dialog-centered">
     <div class="modal-content rounded-4">
@@ -294,7 +289,6 @@
       </div>
 
       <div class="modal-body p-4">
-
         <form id="ratingForm">
             <input type="hidden" name="order_id" id="ratingOrderId">
             <input type="hidden" name="product_id" id="ratingProductId">
@@ -319,7 +313,6 @@
                 Submit Review
             </button> 
         </form>
-
       </div>
 
     </div>
@@ -328,5 +321,6 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @include('user.order.script')
 @endpush
