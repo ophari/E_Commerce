@@ -1,4 +1,37 @@
 <script>
+
+    // UPDATE QTY FUNCTION
+    function updateQty(button, change) {
+        const form = button.closest('.cart-update-form');
+        const qtyDisplay = form.querySelector('.qty-display');
+        const qtyHidden = form.querySelector('.qty-hidden');
+        const btnMinus = form.querySelector('.btn-minus');
+
+        let qty = parseInt(qtyDisplay.value) + change;
+
+        if (qty < 1) qty = 1;
+
+        qtyDisplay.value = qty;
+        qtyHidden.value = qty;
+
+        if (qty <= 1) {
+            btnMinus.disabled = true;
+        } else {
+            btnMinus.disabled = false;
+        }
+
+        // AUTO SUBMIT
+        form.submit();
+    }
+
+    // Event listeners untuk plus & minus
+    document.querySelectorAll('.btn-plus').forEach(btn => {
+        btn.addEventListener('click', () => updateQty(btn, +1));
+    });
+    document.querySelectorAll('.btn-minus').forEach(btn => {
+        btn.addEventListener('click', () => updateQty(btn, -1));
+    });
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* ==========================
@@ -80,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateDotsWindow();
     }
-
 
     /* ==========================
        Mobile swipe auto sync
