@@ -83,11 +83,10 @@
                 </div>
 
                 {{-- Tombol --}}
-                <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="d-flex justify-content-between mt-4 gap-2">
 
-                    {{-- Tombol Hapus Akun --}}
                     <button type="button"
-                        class="btn btn-outline-danger rounded-3 px-3"
+                        class="btn btn-outline-danger flex-grow-1 rounded-pill fw-bold py-2"
                         data-bs-toggle="modal"
                         data-bs-target="#confirmDeleteModal">
                         Hapus Akun
@@ -95,9 +94,10 @@
 
                     {{-- Tombol Simpan --}}
                     <button type="submit"
-                        class="btn btn-primary btn-lg px-4 rounded-3 shadow-sm fw-semibold">
+                        class="btn btn-primary flex-grow-1 rounded-pill fw-bold py-2">
                         Simpan Perubahan
                     </button>
+
                 </div>
 
             </form>

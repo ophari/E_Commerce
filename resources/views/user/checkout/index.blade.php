@@ -3,39 +3,77 @@
 @section('title','Checkout')
 
 @section('content')
-<div class="container py-4">
-    <h3 class="text-dark mb-4">Checkout</h3>
-<div class="row">
-  <div class="col-md-6">
-    <form action="{{ route('user.order.confirm') }}" method="POST">
-      @csrf
-      <div class="mb-3">
-        <label class="form-label">Nama</label>
-        <input type="text" name="name" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Alamat</label>
-        <textarea name="address" class="form-control" rows="3" required></textarea>
-      </div>
-      <input type="hidden" name="payment" value="bank">
-      <button class="btn btn-primary">Konfirmasi Pesanan</button>
-    </form>
-  </div>
+<div class="container py-5">
+    <h3 class="mb-4 fw-bold text-dark">Checkout</h3>
+    <div class="row g-4">
 
-  <div class="col-md-6">
-    <h5>Ringkasan Pesanan</h5>
-    @foreach($cart as $key => $item)
-      <div class="d-flex mb-2 align-items-center">
-        <img src="{{ $item['image'] }}" alt="" style="height:60px;width:60px;object-fit:cover" class="me-2">
-        <div class="flex-grow-1">
-          <div>{{ $item['name'] }}</div>
-          <small>Qty: {{ $item['qty'] }}</small>
+        {{-- Form Checkout --}}
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 fw-bold">Informasi Pengiriman</h5>
+                    <form action="{{ route('user.order.confirm') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nama</label>
+                            <input type="text" name="name" class="form-control form-control-lg" placeholder="Masukkan nama lengkap" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Alamat</label>
+                            <textarea name="address" class="form-control form-control-lg" rows="4" placeholder="Masukkan alamat lengkap" required></textarea>
+                        </div>
+                        <input type="hidden" name="payment" value="bank">
+                        <button class="btn btn-success btn-lg w-100 fw-bold">Konfirmasi Pesanan</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div>Rp{{ number_format($item['price'] * $item['qty'],0,',','.') }}</div>
-      </div>
-      <hr>
-    @endforeach
-    <div class="fw-bold">Total: Rp{{ number_format($total,0,',','.') }}</div>
-  </div>
+
+        {{-- Ringkasan Pesanan --}}
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 fw-bold">Ringkasan Pesanan</h5>
+                    @foreach($cart as $item)
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{{ $item['image'] }}" alt="" class="me-3 rounded" style="width:60px; height:60px; object-fit:cover;">
+                            <div class="flex-grow-1">
+                                <div class="fw-semibold">{{ $item['name'] }}</div>
+                                <small class="text-muted">Qty: {{ $item['qty'] }}</small>
+                            </div>
+                            <div class="fw-bold">Rp{{ number_format($item['price'] * $item['qty'],0,',','.') }}</div>
+                        </div>
+                        <hr>
+                    @endforeach
+                    <div class="d-flex justify-content-between mt-3 fw-bold fs-5">
+                        <span>Total</span>
+                        <span>Rp{{ number_format($total,0,',','.') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+{{-- Optional Custom CSS --}}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        border-radius: 12px;
+    }
+    .btn-success {
+        background-color: #C5A572;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-success:hover {
+        background-color: #ac8f61;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.2rem rgba(167, 144, 40, 0.25);
+    }
+</style>
 @endsection
