@@ -55,7 +55,7 @@ class MidtransCallbackController extends Controller
 
         } elseif (in_array($transaction, ['deny', 'expire'])) {
 
-            $order->status = 'unpaid';
+            $order->status = 'cancelled';
 
         } elseif ($transaction == 'cancel') {
 
@@ -96,7 +96,7 @@ class MidtransCallbackController extends Controller
 
         $params = [
             'transaction_details' => [
-                'order_id' => 'ORDER-' . $order->id . '-' . time(),
+                'order_id' => $order->invoice_number,
                 'gross_amount' => (int) $order->total_price,
             ],
             'customer_details' => [
@@ -138,7 +138,7 @@ class MidtransCallbackController extends Controller
 
         $params = [
             'transaction_details' => [
-                'order_id' => 'ORDER-' . $order->id . '-' . time(),
+                'order_id' => $order->invoice_number,
                 'gross_amount' => (int) $order->total_price,
             ],
             'customer_details' => [

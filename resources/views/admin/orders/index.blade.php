@@ -84,7 +84,14 @@
                                     <span class="badge {{ $badge }}">{{ ucfirst($order->status) }}</span>
                                 </td>
 
-                                <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                <td>
+                                    @if ($order->status === 'pending' || $order->status === 'unpaid')
+                                        <span class="badge bg-secondary">Belum Dibayar</span>
+                                    @else
+                                        Rp {{ number_format($order->total_price, 0, ',', '.') }}
+                                    @endif
+                                </td>
+
                                 <td>{{ $order->created_at->format('Y-m-d') }}</td>
 
                                 <td>
