@@ -74,77 +74,49 @@ class OrderController extends Controller
         return view('user.checkout.index', compact('cart', 'total'));
     }
 
-    /**
-     * Confirm checkout → simpan order → redirect ke Midtrans
-     */
     public function confirm(Request $request)
     {
-        $userId = Auth::id();
-        $cartModel = Cart::where('user_id', $userId)->first();
-
-        if (!$cartModel) {
-            return back()->with('error', 'Keranjang kosong.');
-        }
-
-        $cartItems = $cartModel->cartItems()->with('product')->get();
+        $user = Auth::user();
+        $cart = Cart::where('user_id', $user->id)->firstOrFail();
+        $cartItems = $cart->cartItems()->with('product')->get();
 
         if ($cartItems->isEmpty()) {
-            return back()->with('error', 'Keranjang kosong.');
+            return redirect()->route('user.cart')->with('error', 'Keranjang kosong.');
         }
 
-        // Pastikan stok cukup
-        foreach ($cartItems as $item) {
-            if ($item->quantity > $item->product->stock) {
-                return back()->with('error', "Stok {$item->product->name} tidak mencukupi.");
-            }
-        }
+        // Hitung total
+        $total = $cartItems->sum(fn ($i) => $i->product->price * $i->quantity);
 
-        $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
+        // JANGAN bikin order baru kalau masih ada unpaid
+        $existing = Order::where('user_id', $user->id)
+            ->whereIn('status', ['unpaid', 'pending'])
+            ->first();
 
-        /**
-         * Buat order baru jika masih belum ada order unpaid
-         */
-        $order = Order::firstOrCreate(
-            [
-                'user_id' => $userId,
-                'status'  => 'unpaid',
-            ],
-            [
-                'total_price'      => $total,
-                'shipping_address' => $request->post('address', ''),
-                'invoice_number'   => 'INV-' . time() . '-' . $userId,
-            ]
-        );
-
-        /**
-         * Jika order baru dibuat → simpan order items & kurangi stok
-         */
-        if ($order->wasRecentlyCreated) {
-            foreach ($cartItems as $item) {
-                OrderItem::create([
-                    'order_id'   => $order->id,
-                    'product_id' => $item->product_id,
-                    'quantity'   => $item->quantity,
-                    'price'      => $item->product->price,
-                ]);
-
-                // Kurangi stok
-                $item->product->decrement('stock', $item->quantity);
-            }
-
-            // Hapus item dari cart
-            $cartModel->cartItems()->delete();
-        }
-
-        // Hanya unpaid/pending boleh lanjut pembayaran
-        if (!in_array($order->status, ['unpaid', 'pending'])) {
+        if ($existing) {
             return redirect()->route('user.orders')
-                ->with('error', 'Order sudah dibayar atau sedang diproses.');
+                ->with('error', 'Masih ada pesanan yang belum dibayar.');
         }
 
-        /**
-         * MIDTRANS CONFIG
-         */
+        // BUAT ORDER DULU
+        $order = Order::create([
+            'user_id'          => $user->id,
+            'invoice_number'   => 'INV-' . time() . '-' . $user->id,
+            'total_price'      => $total,
+            'shipping_address' => $request->address,
+            'status'           => 'unpaid',
+        ]);
+
+        // BUAT ORDER ITEMS
+        foreach ($cartItems as $item) {
+            OrderItem::create([
+                'order_id'   => $order->id,
+                'product_id' => $item->product_id,
+                'quantity'   => $item->quantity,
+                'price'      => $item->product->price,
+            ]);
+        }
+
+        // MIDTRANS
         \Midtrans\Config::$serverKey    = config('services.midtrans.server_key');
         \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
         \Midtrans\Config::$isSanitized  = true;
@@ -156,26 +128,14 @@ class OrderController extends Controller
                 'gross_amount' => (int) $order->total_price,
             ],
             'customer_details' => [
-                'first_name'   => Auth::user()->name,
-                'email'        => Auth::user()->email,
+                'first_name' => $user->name,
+                'email'      => $user->email,
             ],
         ];
 
-        try {
-            // Generate Snap Token
-            $snapToken = \Midtrans\Snap::getSnapToken($params);
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
 
-            // Update status menjadi pending
-            if ($order->status === 'unpaid') {
-                $order->update(['status' => 'pending']);
-            }
-
-            return view('user.checkout.payment', compact('snapToken', 'order'));
-
-        } catch (\Exception $e) {
-            return redirect()->route('user.orders')
-                ->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
-        }
+        return view('user.checkout.payment', compact('snapToken', 'order'));
     }
 
     /**

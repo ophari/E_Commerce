@@ -24,6 +24,10 @@
                         </div>
                         <input type="hidden" name="payment" value="bank">
                         <button class="btn btn-success btn-lg w-100 fw-bold">Konfirmasi Pesanan</button>
+                        
+                        <button type="button" class="btn btn-outline-secondary btn-lg w-100 mt-2 fw-bold" onclick="window.location.href='{{ route('user.cart') }}'">
+                            Batalkan Pesanan
+                        </button>
                     </form>
                 </div>
             </div>

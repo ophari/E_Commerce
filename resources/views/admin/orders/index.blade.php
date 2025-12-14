@@ -50,61 +50,36 @@
                     </div>
                 </form>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th>Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @forelse ($orders as $order)
-                            <tr>
-                                <td>{{ $order->order_number }}</td>
-                                <td>{{ $order->user->name ?? 'Unknown User' }}</td>
-
-                                <td>
-                                @php
-                                    $badge = match($order->status) {
-                                        'pending'   => 'bg-warning',
-                                        'unpaid'    => 'bg-danger',
-                                        'paid'      => 'bg-success',
-                                        'processing'=> 'bg-info',
-                                        'shipped'   => 'bg-primary',
-                                        'delivered' => 'bg-success',
-                                        'cancelled' => 'bg-secondary',
-                                        default     => 'bg-dark'
-                                    };
-                                @endphp
-                                    <span class="badge {{ $badge }}">{{ ucfirst($order->status) }}</span>
-                                </td>
-
-                                <td>
-                                    @if ($order->status === 'pending' || $order->status === 'unpaid')
-                                        <span class="badge bg-secondary">Belum Dibayar</span>
-                                    @else
-                                        Rp {{ number_format($order->total_price, 0, ',', '.') }}
-                                    @endif
-                                </td>
-
-                                <td>{{ $order->created_at->format('Y-m-d') }}</td>
-
-                                <td>
-                                    <a href="{{ route('admin.orders.show', $order->id) }}"
-                                        class="btn btn-primary btn-sm">View</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">No orders found.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
+                <table class="table">
+                <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>User</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($orders as $order)
+                <tr>
+                    <td>#{{ $order->invoice_number }}</td>
+                    <td>{{ $order->user->name }}</td>
+                    <td>Rp {{ number_format($order->total_price,0,',','.') }}</td>
+                    <td>
+                        <span class="badge bg-dark text-capitalize">
+                            {{ $order->status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ route('admin.orders.show',$order->id) }}"
+                        class="btn btn-sm btn-primary">
+                        Detail
+                        </a>
+                    </td>
+                </tr>
+                @endforeach
+                </tbody>
                 </table>
 
                 {{-- PAGINATION --}}

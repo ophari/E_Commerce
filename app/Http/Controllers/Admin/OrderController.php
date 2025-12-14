@@ -12,7 +12,7 @@ class OrderController extends Controller
     {
         $query = Order::with('user')->latest();
 
-        // 🔍 Filter status (semua status baru termasuk paid & unpaid)
+        // 🔍 Filter status (semua status baru termauk paid & unpaid) 
         if ($request->status && in_array($request->status, [
             'pending', 'unpaid', 'paid', 'processing', 'shipped', 'delivered', 'cancelled'
         ])) {
@@ -37,25 +37,33 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
+        $order = Order::with(['user', 'orderItems.product'])
+            ->findOrFail($id);
 
-        return view('admin.orders.show', compact('order'));
+        return view('admin.order.show', compact('order'));
     }
 
-    public function updateStatus(Request $request, $orderId)
+    public function updateStatus(Request $request, $id)
     {
-        $order = Order::findOrFail($orderId);
+        $order = Order::findOrFail($id);
 
-        // Validasi input status
-        $request->validate([
-            'status' => 'required|in:pending,unpaid,paid,processing,shipped,delivered,cancelled'
-        ]);
+        $allowed = [
+            'paid'       => ['processing'],
+            'processing' => ['shipped'],
+            'shipped'    => ['delivered'],
+        ];
 
-        // Update status
-        $order->status = $request->status;
-        $order->save();
+        $current = $order->status;
+        $next    = $request->status;
 
-        return redirect()->back()->with('success', 'Order status updated successfully.');
+        if (!isset($allowed[$current]) || !in_array($next, $allowed[$current])) {
+            return back()->with('error', 'Perubahan status tidak valid.');
+        }
+
+        $order->update(['status' => $next]);
+
+        return back()->with('success', 'Status pesanan diperbarui.');
     }
 }
+
 
