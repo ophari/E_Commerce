@@ -95,7 +95,7 @@
                     <div class="d-flex flex-column justify-content-center">
 
                         {{-- BAYAR SEKARANG --}}
-                        @if(in_array($status, ['unpaid', 'pending']))
+                        @if(in_array($status, ['unpaid']))
                             <form action="{{ route('payment.pay') }}" method="POST" class="mb-2">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order['id'] }}">
