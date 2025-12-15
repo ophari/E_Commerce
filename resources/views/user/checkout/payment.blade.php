@@ -43,8 +43,8 @@
   document.getElementById('pay-button').onclick = function(){
     snap.pay('{{ $snapToken }}', {
       onSuccess: function(result){
-        window.location.href = "{{ route('user.orders') }}";
-        alert('Pembayaran Berhasil!');
+        window.location.href = "{{ route('user.orders.check', $order->id) }}";
+        // Alert not needed because controller will flash message
       },
       onPending: function(result){
         window.location.href = "{{ route('user.orders') }}";

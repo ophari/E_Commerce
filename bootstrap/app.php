@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'user' => \App\Http\Middleware\UserMiddleware::class,
             'no-cache' => \App\Http\Middleware\NoCacheMiddleware::class,
         ]);
+        
+        $middleware->validateCsrfTokens(except: [
+            '/payment/midtrans/callback',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

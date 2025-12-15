@@ -86,17 +86,11 @@ class MidtransCallbackController extends Controller
         \Midtrans\Config::$isSanitized  = true;
         \Midtrans\Config::$is3ds        = true;
 
-        // Hack: Cap amount for Sandbox testing to avoid QRIS limits
-        $grossAmount = (int) $order->total_price;
-        if (!config('services.midtrans.is_production') && $grossAmount > 1000000) {
-            $grossAmount = 1000000;
-        }
-
         $params = [
             'transaction_details' => [
                 // Tambah timestamp agar selalu unik
                 'order_id'     => $order->invoice_number,
-                'gross_amount' => $grossAmount,
+                'gross_amount' => (int) $order->total_price,
             ],
             'customer_details' => [
                 'first_name'   => Auth::user()->name,

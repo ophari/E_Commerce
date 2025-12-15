@@ -96,14 +96,18 @@
 
                         {{-- BAYAR SEKARANG --}}
                         @if(in_array($status, ['unpaid']))
-                            <form action="{{ route('payment.pay') }}" method="POST" class="mb-2">
+                            <form action="{{ route('payment.pay') }}" method="POST" class="mb-1">
                                 @csrf
                                 <input type="hidden" name="order_id" value="{{ $order['id'] }}">
-                                <button class="btn btn-success btn-sm rounded-pill"
+                                <button class="btn btn-success btn-sm rounded-pill mb-1"
                                     @if(in_array($status, ['paid', 'cancelled'])) disabled @endif>
                                     Bayar Sekarang
                                 </button>
                             </form>
+
+                            <a href="{{ route('user.orders.check', $order['id']) }}" class="btn btn-info btn-sm rounded-pill text-white mb-2">
+                                Check Status
+                            </a>
                         @endif
 
                         {{-- HAPUS --}}
@@ -208,7 +212,7 @@
 
                     {{-- BAYAR SEKARANG --}}
                     @if(in_array($status, ['unpaid', 'pending']))
-                    <form action="{{ route('payment.pay') }}" method="POST" class="mb-2">
+                    <form action="{{ route('payment.pay') }}" method="POST" class="mb-1">
                         @csrf
                         <input type="hidden" name="order_id" value="{{ $order['id'] }}">
                         <button class="btn btn-success btn-sm rounded-pill w-100"
@@ -216,6 +220,10 @@
                             Bayar Sekarang
                         </button>
                     </form>
+                    
+                    <a href="{{ route('user.orders.check', $order['id']) }}" class="btn btn-info btn-sm rounded-pill w-100 text-white mb-2">
+                        Check Status
+                    </a>
                     @endif
 
                     {{-- HAPUS --}}

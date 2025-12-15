@@ -103,6 +103,7 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
     // Confirm Order
     Route::post('/order/confirm', [OrderController::class, 'confirm'])->name('order.confirm');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+    Route::get('/orders/{id}/check', [OrderController::class, 'checkStatus'])->name('orders.check');
 
     // Review
     Route::post('/review/{productId}', [ReviewController::class, 'store'])->name('review.store');

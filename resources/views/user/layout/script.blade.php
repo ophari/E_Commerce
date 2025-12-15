@@ -300,3 +300,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
+{{-- SWEETALERT2 SESSION HANDLER --}}
+<script type="module">
+    @if(session('success'))
+        if(window.Toast) {
+            window.Toast.fire({
+                icon: 'success',
+                title: "{{ session('success') }}"
+            });
+        }
+    @endif
+
+    @if(session('error'))
+        if(window.Toast) {
+            window.Toast.fire({
+                icon: 'error',
+                title: "{{ session('error') }}"
+            });
+        }
+    @endif
+
+    @if(session('warning'))
+        if(window.Toast) {
+            window.Toast.fire({
+                icon: 'warning',
+                title: "{{ session('warning') }}"
+            });
+        }
+    @endif
+
+    @if(session('info'))
+        if(window.Toast) {
+            window.Toast.fire({
+                icon: 'info',
+                title: "{{ session('info') }}"
+            });
+        }
+    @endif
+</script>

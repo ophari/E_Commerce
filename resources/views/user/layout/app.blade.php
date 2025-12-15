@@ -12,18 +12,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/home.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    @vite(['resources/js/app.js'])
 </head>
 <body class="bg-light">
 @include('user.layout.navbar')
 
 <main class="py-4">
-  
-    @if(session('success'))
-      <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-      <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
 
     @yield('content')
 
