@@ -87,16 +87,6 @@ class OrderController extends Controller
         // Hitung total
         $total = $cartItems->sum(fn ($i) => $i->product->price * $i->quantity);
 
-        // JANGAN bikin order baru kalau masih ada unpaid
-        $existing = Order::where('user_id', $user->id)
-            ->whereIn('status', ['unpaid', 'pending'])
-            ->first();
-
-        if ($existing) {
-            return redirect()->route('user.orders')
-                ->with('error', 'Masih ada pesanan yang belum dibayar.');
-        }
-
         // BUAT ORDER DULU
         $order = Order::create([
             'user_id'          => $user->id,
@@ -122,10 +112,16 @@ class OrderController extends Controller
         \Midtrans\Config::$isSanitized  = true;
         \Midtrans\Config::$is3ds        = true;
 
+        // Hack: Cap amount for Sandbox testing to avoid QRIS limits
+        $grossAmount = (int) $order->total_price;
+        if (!config('services.midtrans.is_production') && $grossAmount > 1000000) {
+            $grossAmount = 1000000;
+        }
+
         $params = [
             'transaction_details' => [
                 'order_id'     => $order->invoice_number,
-                'gross_amount' => (int) $order->total_price,
+                'gross_amount' => $grossAmount,
             ],
             'customer_details' => [
                 'first_name' => $user->name,

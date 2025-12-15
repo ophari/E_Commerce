@@ -126,8 +126,8 @@ Route::prefix('user')->name('user.')->middleware(['auth', 'user', 'no-cache'])->
 // ======================================
 // PAYMENT ROUTES
 // ======================================
-Route::post('/payment/midtrans/callback', [\App\Http\Controllers\Payment\MidtranscallbackController::class, 'callback'])->name('midtrans.callback');
-Route::post('/payment/pay', [\App\Http\Controllers\Payment\MidtranscallbackController::class, 'pay'])->name('payment.pay');
+Route::post('/payment/midtrans/callback', [\App\Http\Controllers\Payment\MidtransCallbackController::class, 'callback'])->name('midtrans.callback');
+Route::post('/payment/pay', [\App\Http\Controllers\Payment\MidtransCallbackController::class, 'pay'])->name('payment.pay');
 
 // Delete Order
 Route::delete('/orders/delete/{id}', [OrderController::class, 'delete'])->name('order.delete');

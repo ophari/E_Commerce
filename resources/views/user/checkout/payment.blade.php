@@ -13,7 +13,7 @@
 
                     {{-- TOTAL DIAMBIL DARI SESSION --}}
                     <h2 class="fw-bold mb-4" style="color: #C5A572;">
-                        Rp{{ number_format(session('checkout.total'), 0, ',', '.') }}
+                        Rp{{ number_format($order->total_price, 0, ',', '.') }}
                     </h2>
 
                     <button
