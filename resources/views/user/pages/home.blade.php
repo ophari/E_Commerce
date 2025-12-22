@@ -170,41 +170,6 @@
     </div>
 </section>
 
-  {{-- ABOUT SECTION (mobile center, desktop left) --}}
-  <section class="about-section fade-up container py-5">
-    <div class="row align-items-center">
-      
-      <div class="col-md-6 mb-4 mb-md-0 text-center">
-        <img src="{{ asset('image/about-img.jpg') }}"
-            class="img-fluid rounded-4 shadow-sm"
-            alt="Luxury Watches">
-      </div>
-
-      <div class="col-md-6 text-center text-md-start">
-        <h2 class="fw-bold text-dark mb-3">About Our Store</h2>
-
-        <p class="text-muted">
-          Waktu adalah hal paling berharga yang kita miliki dan di <strong>WATCHSTORE</strong>,
-          kami percaya setiap detik layak untuk dirayakan. Koleksi kami menampilkan jam tangan terbaik
-          dari merek ternama seperti Rolex, Casio, dan Omega, yang memadukan presisi, keahlian,
-          serta desain yang tak lekang oleh waktu.
-        </p>
-
-        <p class="text-muted">
-          Di era digital saat ini, jam tangan bukan hanya alat penunjuk waktu tetapi juga cerminan
-          dari gaya hidup, kedisiplinan, dan jati diri Anda. Baik Anda mencari keanggunan, ketahanan,
-          maupun fungsi pintar, kami siap membantu Anda menemukan pasangan yang sempurna.
-        </p>
-
-        <a href="{{ route('product.list') }}" class="btn btn-dark mt-3 px-4 py-2">
-          Explore Collection
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-
   <section class="bg-light py-5 fade-up text-center">
     <div class="container">
       <h3 class="fw-bold mb-3">Why Watches Still Matter</h3>

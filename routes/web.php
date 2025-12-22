@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\User\AboutController;
 
 
 // ======================================
@@ -29,6 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Produk
 Route::get('/products', [ProductController::class, 'list'])->name('product.list');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.detail');
+Route::get('/about-us', [AboutController::class, 'index'])->name('about');
 
 // ==== AUTH ====
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
