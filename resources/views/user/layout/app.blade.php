@@ -113,5 +113,53 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 @stack('scripts')
 @include('user.layout.script')
+
+<script>
+    /* ==========================
+       NAVBAR SCROLL BEHAVIOR
+    ========================== */
+    const navbar = document.querySelector(".navbar");
+    const toggler = document.querySelector(".navbar-toggler");
+
+    let lastScroll = window.pageYOffset;
+    let menuOpen = false;
+
+    navbar.classList.remove("nav-hidden");
+    navbar.classList.add("nav-visible");
+
+    if (toggler) {
+        toggler.addEventListener("click", () => {
+            menuOpen = !menuOpen;
+
+            if (menuOpen) {
+                navbar.classList.add("nav-visible", "nav-locked");
+            } else {
+                navbar.classList.remove("nav-locked");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", () => {
+        if (menuOpen) return;
+
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll <= 5) {
+            navbar.classList.add("nav-visible");
+            navbar.classList.remove("nav-hidden");
+            return;
+        }
+
+        if (currentScroll > lastScroll) {
+            navbar.classList.remove("nav-visible");
+            navbar.classList.add("nav-hidden");
+        } else {
+            navbar.classList.remove("nav-hidden");
+            navbar.classList.add("nav-visible");
+        }
+
+        lastScroll = currentScroll; 
+    });
+</script>
 </body>
 </html>
