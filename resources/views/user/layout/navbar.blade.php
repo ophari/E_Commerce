@@ -22,6 +22,9 @@
         <li class="nav-item simple-link">
           <a class="nav-link text-light" href="{{ route('product.list') }}">Products</a>
         </li>
+        <li class="nav-item simple-link">
+            <a class="nav-link text-light" href="{{ route('about')}}">About</a>
+        </li>
       </ul>
 
       {{-- MOBILE ONLY SEPARATOR --}}
