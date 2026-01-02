@@ -8,9 +8,10 @@
 
 {{-- ================= HERO ABOUT (FIXED BACKGROUND) ================= --}}
 <div class="hero-bg-fixed hero-zoom"></div>
+<div class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-75"></div>
 
 <div class="hero-wrapper d-flex align-items-center">
-    <div class="container position-relative text-center text-white" style="z-index:2;">
+    <div class="container position-relative text-center text-dark" style="z-index:2;">
         <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
             About Us
         </h1>
@@ -19,7 +20,6 @@
         </p>
     </div>
 </div>
-
 
 {{-- ================= ABOUT COMPANY ================= --}}
 <section class="about-section fade-up container py-5">
