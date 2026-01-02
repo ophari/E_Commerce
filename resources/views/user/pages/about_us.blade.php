@@ -12,7 +12,7 @@
 
 <div class="hero-wrapper d-flex align-items-center">
     <div class="container position-relative text-center text-dark" style="z-index:2;">
-        <h1 class="fw-bold display-5 mb-3" style="font-family:'Playfair Display', serif;">
+        <h1 class="fw-bold display-5 mb-3">
             About Us
         </h1>
         <p class="lead mx-auto" style="max-width: 600px;">
