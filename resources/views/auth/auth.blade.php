@@ -122,6 +122,23 @@
     </div>
 </div>
 
+<script>
+    window.firebaseConfig = {
+        apiKey: "{{ config('firebase.api_key') }}",
+        authDomain: "{{ config('firebase.auth_domain') }}",
+        projectId: "{{ config('firebase.project_id') }}",
+        storageBucket: "{{ config('firebase.storage_bucket') }}",
+        messagingSenderId: "{{ config('firebase.messaging_sender_id') }}",
+        appId: "{{ config('firebase.app_id') }}"
+    };
+    window.appConfig = {
+        routes: {
+            firebaseLogin: "{{ route('firebase.login') }}",
+            home: "{{ route('home') }}"
+        },
+        csrfToken: "{{ csrf_token() }}"
+    };
+</script>
 <script src="{{ asset('js/auth.js') }}"></script>
 
 @if(isset($mode) && $mode === 'register')

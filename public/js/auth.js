@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-        const loginBtn = document.getElementById("btn-login");
+    const loginBtn = document.getElementById("btn-login");
     const registerBtn = document.getElementById("btn-register");
 
     const loginPanel = document.querySelector(".login-panel");
@@ -32,18 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('btn-register').click();
     });
 
-        // Your web app's Firebase configuration
-          const firebaseConfig = {
-          apiKey: "{{ config('firebase.api_key') }}",
-          authDomain: "{{ config('firebase.auth_domain') }}",
-          projectId: "{{ config('firebase.project_id') }}",
-          storageBucket: "{{ config('firebase.storage_bucket') }}",
-          messagingSenderId: "{{ config('firebase.messaging_sender_id') }}",
-          appId: "{{ config('firebase.app_id') }}"
-      };
+    // Your web app's Firebase configuration
+    // Config is injected via window.firebaseConfig from the Blade view
 
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);    const auth = firebase.auth();
+    // Initialize Firebase
+    if (window.firebaseConfig) {
+        firebase.initializeApp(window.firebaseConfig);
+    } else {
+        console.error("Firebase config not found!");
+    }
+    const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
 
     // Handle Google Login
@@ -59,11 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Get the ID token to send to your backend
                 user.getIdToken().then((idToken) => {
                     // Send the token to your backend
-                    fetch('{{ route("firebase.login") }}', {
+                    fetch(window.appConfig.routes.firebaseLogin, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            'X-CSRF-TOKEN': window.appConfig.csrfToken
                         },
                         body: JSON.stringify({
                             idToken: idToken
@@ -71,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }).then(response => {
                         if (response.ok) {
                             // Redirect to the appropriate dashboard
-                            window.location.replace('{{ route("home") }}'); // Default to user home
+                            window.location.replace(window.appConfig.routes.home); // Default to user home
                         } else {
                             // Handle errors
                             console.error('Firebase login failed.');
